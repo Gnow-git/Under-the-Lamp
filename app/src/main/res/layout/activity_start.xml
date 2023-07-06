@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".intro.StartActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:ci_drawable="@drawable/radius"
+        app:ci_drawable_unselected="@drawable/radius_unselect"
+        app:ci_height="7dp"
+        app:ci_margin="4dp"
+        app:ci_width="7dp"
+        android:layout_marginBottom="210dp"
+        android:layout_gravity="bottom"/>
+
+        <Button
+            android:id="@+id/intro_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:background="#F18E1D"
+            android:text="시작하기"
+            android:visibility="invisible"
+            android:textColor="@color/white"
+            android:layout_marginBottom="30dp"/>
+    </FrameLayout>
+</LinearLayout>

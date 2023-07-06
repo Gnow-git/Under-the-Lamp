@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "911728663651",
+    "project_id": "under-the-lamp",
+    "storage_bucket": "under-the-lamp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911728663651:android:004b54a83b4de67d96ac56",
+        "android_client_info": {
+          "package_name": "com.example.underthelamp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "911728663651-4k0uj4fbv1oe0fsjei3bfrrk05hjpfr3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.underthelamp",
+            "certificate_hash": "be2492cf1ab1d0f6a971cfaa5d756db7fdd14263"
+          }
+        },
+        {
+          "client_id": "911728663651-bt5g8sl1176m35bl4h8nai6dh0lom2kj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRTo5sWqIg4SOdkhYUCnS5FhtYfmYLqLY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "911728663651-bt5g8sl1176m35bl4h8nai6dh0lom2kj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
