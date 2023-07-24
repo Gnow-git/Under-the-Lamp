@@ -28,7 +28,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     NavigationBarView.OnItemSelectedListener {
+<<<<<<< HEAD
     // Navigation 기능 설정
+=======
+>>>>>>> 103bf9d4a590bbbfbae97ccae759033df2874eb9
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         //setToolbarDefault()
         when(item.itemId){
@@ -114,7 +117,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         default_upload.setOnClickListener{
 
+<<<<<<< HEAD
             if(isOpen){ // floating button이 열려 있을 경우 실행
+=======
+            if(isOpen){
+>>>>>>> 103bf9d4a590bbbfbae97ccae759033df2874eb9
                 image_upload.startAnimation(fabClose)
                 camera_upload.startAnimation(fabClose)
                 file_upload.startAnimation(fabClose)
@@ -123,7 +130,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 isOpen = false
             }
 
+<<<<<<< HEAD
             else{   // floating button이 닫혀 있을 경우 실행
+=======
+            else{
+>>>>>>> 103bf9d4a590bbbfbae97ccae759033df2874eb9
                 image_upload.startAnimation(fabOpen)
                 camera_upload.startAnimation(fabOpen)
                 file_upload.startAnimation(fabOpen)
@@ -135,8 +146,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 isOpen = true
 
+<<<<<<< HEAD
                 // floating 의 image(첫번째) 버튼을 눌렀을 경우
                 image_upload.setOnClickListener{
+=======
+                // floating 의 image 버튼을 눌렀을 경우
+                image_upload.setOnClickListener{
+                    Toast.makeText(this, "image버튼을 클릭하셨습니다", Toast.LENGTH_SHORT).show()
+>>>>>>> 103bf9d4a590bbbfbae97ccae759033df2874eb9
                     if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                         startActivity(Intent(this,AddPhotoActivity::class.java))
                     }
