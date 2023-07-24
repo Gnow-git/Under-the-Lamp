@@ -7,14 +7,11 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.underthelamp.community.CommunityFragment
 import com.example.underthelamp.navigation.*
-import com.example.underthelamp.navigation.util.FcmPush
-import com.example.underthelamp.search.SearchActivity
 import com.example.underthelamp.search.SearchFragment
 import com.google.android.gms.tasks.Task
 import com.google.android.material.navigation.NavigationBarView
@@ -38,19 +35,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 return true
             }
             R.id.action_search ->{
-//                startActivity(Intent(this, SearchActivity::class.java))
-//                return true
                 var searchFragment = SearchFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, searchFragment).commit()
                 return true
             }
-            /*R.id.action_search ->{
-                var gridFragment = GridFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.main_content, gridFragment).commit()
-                return true
-            }*/
             R.id.action_community-> {
                 // 커뮤니티
+                var communityFragment = CommunityFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.main_content, communityFragment).commit()
+                return true
             }
             R.id.action_board -> {
                 // 게시글
@@ -77,10 +70,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return false
 
     }
-//    fun setToolbarDefault(){
-//        toolbar_username.visibility = View.GONE
-//        toolbar_btn_back.visibility = View.GONE
-//    }
     fun registerPushToken(){
         FirebaseMessaging.getInstance().token.addOnCompleteListener {
             task ->

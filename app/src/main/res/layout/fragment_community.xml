@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="691dp">
+
+    <TextView
+        android:id="@+id/communityTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:text="빛나는 공간"
+        android:fontFamily="@font/pretendard_regular"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="255dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="649dp"/>
+
+    <TextView
+        android:id="@+id/communitySubTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사람들과 이야기를 공유하는 공간"
+        android:fontFamily="@font/pretendard_regular"
+        android:textColor="@color/fontColor"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/communityTitle"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="626dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="187dp"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="118dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginBottom="581dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/communitySubTitle">
+
+        <TextView
+            android:id="@+id/allWriting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/pretendard_regular"
+            android:text="전체글"
+            android:textColor="@color/fontColor"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/popularWriting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/pretendard_regular"
+            android:text="인기글"
+            android:textColor="@color/fontColor"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/noticeWriting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/pretendard_regular"
+            android:text="공지"
+            android:textColor="@color/fontColor"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/bookMark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/pretendard_regular"
+            android:text="즐겨찾기"
+            android:textColor="@color/fontColor"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
