@@ -91,35 +91,5 @@ class AddPhotoActivity : AppCompatActivity() {
 
             finish()
         }
-<<<<<<< HEAD
-=======
-        // Callback method
-/*        storageRef?.putFile(photoUri!!)?.addOnSuccessListener {
-            storageRef.downloadUrl.addOnSuccessListener { uri ->
-                var contentDTO = ContentDTO()
-
-                // Insert downloadUrl of image
-                contentDTO.imageUrl = uri.toString()
-
-                // Insert uid of user
-                contentDTO.uid = auth?.currentUser?.uid
-
-                // Insert userId
-                contentDTO.userId = auth?.currentUser?.email
-
-                // Insert explain of content
-                contentDTO.explain = addphoto_edit_explain.text.toString()
-
-                // Insert timestamp
-                contentDTO.timestamp = System.currentTimeMillis()
-
-                firestore?.collection("images")?.document()?.set(contentDTO)
-
-                setResult(Activity.RESULT_OK)   // 정상적으로 닫힘
-
-                finish()
-            }
-        }*/
->>>>>>> 103bf9d4a590bbbfbae97ccae759033df2874eb9
     }
 }
