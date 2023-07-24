@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/detailviewitem_profile_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="28dp"
+            android:background="@drawable/radius" />
+
+        <TextView
+            android:id="@+id/detailviewitem_profile_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="17dp"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@id/detailviewitem_profile_image"
+            android:text="name"
+            android:textColor="@color/splashBackground" />
+
+        <ImageView
+            android:id="@+id/detail_menu"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="19.65dp"
+            android:layout_marginRight="28dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/detail"
+            android:backgroundTint="@color/defaultColor" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/detailviewitem_imageview_content"
+        android:scaleType="fitXY"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_gravity="center"
+        />
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="28dp">
+        <ImageButton
+            android:id="@+id/favorite_btn"
+            android:background="@drawable/heart_line"
+            android:backgroundTint="@color/defaultColor"
+            android:layout_width="24dp"
+            android:layout_height="24dp"/>
+        <ImageButton
+            android:id="@+id/comment_btn"
+            android:background="@drawable/comment"
+            android:backgroundTint="@color/defaultColor"
+            android:layout_marginLeft="8.33dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/detailviewitem_favoritecounter_textview"
+        android:text="@string/Like"
+        android:layout_marginLeft="28dp"
+        android:fontFamily="@font/pretendard_regular"
+        android:textSize="12sp"
+        android:textColor="@color/fontColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp">
+
+    <TextView
+        android:id="@+id/comment_user"
+        android:layout_marginRight="8dp"
+        android:text="\@lalala_365"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/fontColor"
+        android:fontFamily="@font/pretendard_semibold"/>
+    <TextView
+        android:id="@+id/comment"
+        android:layout_marginRight="8dp"
+        android:text="Oh! Love this"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/fontColor" />
+    </LinearLayout>
+
+</LinearLayout>

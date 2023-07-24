@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.28" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/purpose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.49" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/experience"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.69" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.91" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="87dp"
+        android:layout_height="87dp"
+        app:layout_constraintBottom_toTopOf="@+id/category"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.699"
+        app:srcCompat="@drawable/ic_category" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gyeonggibatang_bold"
+        android:padding="5dp"
+        android:text="당신의  카테고리"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/purpose"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.01"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/category"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/cate_arts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/purpose"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.039"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/category"
+        app:layout_constraintVertical_bias="0.40"
+        app:srcCompat="@drawable/art_un" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanumbarungothic"
+        android:text="미술"
+        android:textColor="#6f7173"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/purpose"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.064"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toBottomOf="@+id/cate_arts"
+        app:layout_constraintVertical_bias="0.18" />
+
+    <ImageView
+        android:id="@+id/cate_public_music"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/purpose"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.28"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/category"
+        app:layout_constraintVertical_bias="0.42"
+        app:srcCompat="@drawable/public_music_un" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="대중음악"
+        android:textColor="#6f7173"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/purpose"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.275"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toBottomOf="@+id/cate_public_music"
+        app:layout_constraintVertical_bias="0.15" />
+
+    <ImageView
+        android:id="@+id/cate_music"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/purpose"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/category"
+        app:layout_constraintVertical_bias="0.42"
+        app:srcCompat="@drawable/music_un" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanumbarungothic"
+        android:text="음악"
+        android:textColor="#6f7173"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/purpose"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toBottomOf="@+id/cate_music"
+        app:layout_constraintVertical_bias="0.182" />
+
+    <ImageView
+        android:id="@+id/cate_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/purpose"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.739"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/category"
+        app:layout_constraintVertical_bias="0.4"
+        app:srcCompat="@drawable/play_un" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanumbarungothic"
+        android:text="연극"
+        android:textColor="#6f7173"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/purpose"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.724"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toBottomOf="@+id/cate_play"
+        app:layout_constraintVertical_bias="0.212" />
+
+    <ImageView
+        android:id="@+id/cate_literature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/purpose"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.944"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/category"
+        app:layout_constraintVertical_bias="0.399"
+        app:srcCompat="@drawable/literature_un" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/nanumbarungothic"
+        android:text="문학"
+        android:textColor="#6f7173"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/purpose"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toBottomOf="@+id/cate_literature"
+        app:layout_constraintVertical_bias="0.24" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:fontFamily="@font/gyeonggibatang_bold"
+        android:text="당신의 목적"
+        android:textColor="@color/colorNavIcon"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/experience"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/purpose"
+        app:layout_constraintVertical_bias="0.025" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_round"
+        android:fontFamily="@font/nanumbarungothic"
+        android:text="공모전"
+        android:textColor="#6f7173"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/experience"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.01"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/purpose"
+        app:layout_constraintVertical_bias="0.37" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_round"
+        android:fontFamily="@font/nanumbarungothic"
+        android:text="실무활용"
+        android:textColor="#6f7173"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/experience"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.309"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/purpose"
+        app:layout_constraintVertical_bias="0.37" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_round"
+        android:fontFamily="@font/nanumbarungothic"
+        android:text="자기개발"
+        android:textColor="#6f7173"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/experience"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.654"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/purpose"
+        app:layout_constraintVertical_bias="0.37" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_round"
+        android:fontFamily="@font/nanumbarungothic"
+        android:text="면접준비"
+        android:textColor="#6f7173"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/experience"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/purpose"
+        app:layout_constraintVertical_bias="0.37" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="90dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_round"
+        android:fontFamily="@font/nanumbarungothic"
+        android:text="포트폴리오"
+        android:textColor="#6f7173"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/experience"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.01"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/purpose"
+        app:layout_constraintVertical_bias="0.62" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="90dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_round"
+        android:fontFamily="@font/nanumbarungothic"
+        android:text="컨텐츠 제작"
+        android:textColor="#6f7173"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/experience"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.425"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/purpose"
+        app:layout_constraintVertical_bias="0.62" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="85dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_round"
+        android:fontFamily="@font/nanumbarungothic"
+        android:text="학업 과제"
+        android:textColor="#6f7173"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/experience"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.82"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/purpose"
+        app:layout_constraintVertical_bias="0.62" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gyeonggibatang_bold"
+        android:text="당신의 경험"
+        android:textColor="@color/colorNavIcon"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.018"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/experience"
+        app:layout_constraintVertical_bias="0.029" />
+
+    <Button
+        android:id="@+id/button8"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_round"
+        android:fontFamily="@font/nanumbarungothic"
+        android:text="전무"
+        android:textColor="#6f7173"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/bottom"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.011"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/experience"
+        app:layout_constraintVertical_bias="0.337" />
+
+    <Button
+        android:id="@+id/button9"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_round"
+        android:fontFamily="@font/nanumbarungothic"
+        android:text="입문자"
+        android:textColor="#6f7173"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/bottom"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.295"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/experience"
+        app:layout_constraintVertical_bias="0.337" />
+
+    <Button
+        android:id="@+id/button10"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_round"
+        android:fontFamily="@font/nanumbarungothic"
+        android:text="중급자"
+        android:textColor="#6f7173"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/bottom"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.575"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/experience"
+        app:layout_constraintVertical_bias="0.337" />
+
+    <Button
+        android:id="@+id/button11"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_round"
+        android:fontFamily="@font/nanumbarungothic"
+        android:text="전공자"
+        android:textColor="#6f7173"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/bottom"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.011"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/experience"
+        app:layout_constraintVertical_bias="0.56" />
+
+    <Button
+        android:id="@+id/button12"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_round"
+        android:fontFamily="@font/nanumbarungothic"
+        android:text="실무경험"
+        android:textColor="#6f7173"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/bottom"
+        app:layout_constraintEnd_toStartOf="@+id/end"
+        app:layout_constraintHorizontal_bias="0.31"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toTopOf="@+id/experience"
+        app:layout_constraintVertical_bias="0.56" />
+
+    <ImageView
+        android:id="@+id/next"
+        android:layout_width="57dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.937"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/experience"
+        app:layout_constraintVertical_bias="0.834"
+        app:srcCompat="@drawable/ic_baseline_arrow_forward_24" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
