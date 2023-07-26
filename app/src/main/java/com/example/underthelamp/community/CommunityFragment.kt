@@ -26,7 +26,6 @@ class CommunityFragment : Fragment() {
     var firestore : FirebaseFirestore? = null
     var uid : String? = null
 
-    lateinit var binding : FragmentCommunityBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = LayoutInflater.from(activity).inflate(R.layout.fragment_community, container, false)
         firestore = FirebaseFirestore.getInstance()

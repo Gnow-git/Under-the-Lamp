@@ -42,7 +42,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/community_timestamp"
+                        android:id="@+id/community_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
