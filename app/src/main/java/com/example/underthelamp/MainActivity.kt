@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import com.example.underthelamp.community.CommunityFragment
 import com.example.underthelamp.navigation.*
 import com.example.underthelamp.search.SearchFragment
+import com.example.underthelamp.upload.UploadFragment
 import com.google.android.gms.tasks.Task
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.navigation.NavigationView
@@ -127,7 +128,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 // floating 의 image(첫번째) 버튼을 눌렀을 경우
                 image_upload.setOnClickListener{
                     if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                        startActivity(Intent(this,AddPhotoActivity::class.java))
+                        //startActivity(Intent(this,AddPhotoActivity::class.java))
+                        var uploadFragment = UploadFragment()
+                        supportFragmentManager.beginTransaction().replace(R.id.main_content, uploadFragment).commit()
                     }
                 }
             }
