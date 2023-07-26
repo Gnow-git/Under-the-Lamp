@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="342dp"
+    android:layout_height="113dp"
+    android:layout_gravity="center_horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/textLinear"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/titleLinear"
+                android:layout_width="223dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/community_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:ems="12"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:maxLines="1"
+                    android:text="커뮤니티 제목"
+                    android:textColor="@color/splashBackground"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/community_timestamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="00분전"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/fontColor"
+                    android:textSize="9sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/community_text"
+                android:layout_width="183dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/pretendard_regular"
+                android:text="커뮤니티 내용"
+                android:textColor="@color/splashBackground"
+                android:textSize="11sp"
+                android:maxLines="2"
+                android:ellipsize="end" />
+
+            <LinearLayout
+                android:id="@+id/communityHashtagLinear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/communityhashtag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/communityImage"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"
+            android:background="@drawable/community_image" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
