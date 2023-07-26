@@ -103,8 +103,8 @@
             android:textSize="18sp" />
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/framelayout"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/community_recyclerview"
         android:layout_width="330dp"
         android:layout_height="550dp"
         android:layout_marginStart="29.5dp"
