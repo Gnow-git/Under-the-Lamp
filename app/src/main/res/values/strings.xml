@@ -66,5 +66,7 @@
     <!-- Commmunity -->
     <string name="hint_community_title">제목</string>
     <string name="hint_community_content">내용</string>
+    <string name="upload">업로드</string>
+    <string name="cancle">취소</string>
 
 </resources>

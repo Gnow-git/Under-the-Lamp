@@ -56,12 +56,13 @@
     <EditText
         android:id="@+id/community_content_edit"
         android:layout_width="334dp"
-        android:layout_height="wrap_content"
+        android:layout_height="400dp"
         android:layout_below="@+id/community_title"
         android:layout_marginStart="28dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="28dp"
-        android:layout_marginBottom="538dp"
+        android:layout_marginBottom="188dp"
+        android:paddingStart="5dp"
         android:fontFamily="@font/pretendard_regular"
         android:gravity="top"
         android:hint="@string/hint_community_content"
@@ -70,8 +71,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/community_title_edit"
-        android:background="@color/transparent"
-        />
+        android:background="@color/transparent" />
 
     <ImageView
         android:id="@+id/addPhotoImage"
@@ -88,7 +88,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/uploadBtn"
+        android:id="@+id/addPhotoBtn"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_toRightOf="@+id/addPhotoImage"
@@ -100,5 +100,34 @@
         app:layout_constraintEnd_toEndOf="@+id/addPhotoImage"
         app:layout_constraintStart_toStartOf="@+id/addPhotoImage"
         app:layout_constraintTop_toTopOf="@+id/addPhotoImage" />
+
+    <Button
+        android:id="@+id/uploadBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/upload"
+        android:fontFamily="@font/pretendard_regular"
+        android:textColor="@color/selectColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.615"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/community_content_edit"
+        app:layout_constraintVertical_bias="0.0"
+        android:background="@drawable/search_category_round" />
+
+    <Button
+        android:id="@+id/cancelBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancle"
+        android:fontFamily="@font/pretendard_regular"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.907"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/community_content_edit"
+        app:layout_constraintVertical_bias="0.0"
+        android:background="@drawable/search_category_round" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
