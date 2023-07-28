@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="691dp"
+    tools:context=".community.WritingFragment">
+
+    <TextView
+        android:id="@+id/community_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendard_semibold"
+        android:text="커뮤니티"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="11dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="280dp"
+        android:layout_marginBottom="649dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/community_title_edit"
+        android:layout_width="334dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/community_title"
+        android:gravity="top"
+        android:hint="@string/hint_community_title"
+        android:fontFamily="@font/pretendard_regular"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/community_title"
+        android:layout_marginTop="33dp"
+        android:layout_marginBottom="601dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="28dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="37.51dp"
+        android:layout_marginBottom="605.51dp"
+        android:background="@drawable/cross"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/community_title" />
+
+    <EditText
+        android:id="@+id/community_content_edit"
+        android:layout_width="334dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/community_title"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="538dp"
+        android:fontFamily="@font/pretendard_regular"
+        android:gravity="top"
+        android:hint="@string/hint_community_content"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/community_title_edit"
+        android:background="@color/transparent"
+        />
+
+    <ImageView
+        android:id="@+id/addPhotoImage"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:layout_below="@id/community_title"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="257dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/add_photo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/uploadBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@+id/addPhotoImage"
+        android:background="@drawable/float_default"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:theme="@style/ButtonStyle"
+        app:layout_constraintBottom_toBottomOf="@+id/addPhotoImage"
+        app:layout_constraintEnd_toEndOf="@+id/addPhotoImage"
+        app:layout_constraintStart_toStartOf="@+id/addPhotoImage"
+        app:layout_constraintTop_toTopOf="@+id/addPhotoImage" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

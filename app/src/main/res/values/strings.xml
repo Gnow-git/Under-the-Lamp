@@ -63,4 +63,8 @@
     <string name="Like">Like 145,220</string>
     <string name="Comment"></string>
 
+    <!-- Commmunity -->
+    <string name="hint_community_title">제목</string>
+    <string name="hint_community_content">내용</string>
+
 </resources>

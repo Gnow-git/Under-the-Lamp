@@ -26,4 +26,6 @@
     <color name="fontColor">#767676</color>
     <color name="selectColor">#FABE00</color>
 
+    <color name="transparent">#00000000</color>
+
 </resources>
