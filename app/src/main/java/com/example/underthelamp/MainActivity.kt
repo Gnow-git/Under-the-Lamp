@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //                default_upload.startAnimation(fabRClockwise)
 //
 //                isOpen = false
-                closeFab()
+                closeFab()  // floating button 닫는 함수
             }
 
             else{   // floating button이 닫혀 있을 경우 실행
