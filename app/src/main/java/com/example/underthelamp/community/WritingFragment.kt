@@ -1,5 +1,6 @@
 package com.example.underthelamp.community
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -55,7 +56,7 @@ class WritingFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == PICK_IMAGE_FROM_ALBUM) {
-            if(resultCode == PICK_IMAGE_FROM_ALBUM) {
+            if(resultCode == Activity.RESULT_OK) {
                 photoUri = data?.data
                 addPhotoImage.setImageURI(photoUri)
 
@@ -63,13 +64,18 @@ class WritingFragment : Fragment() {
             } else {
                 // finish
                 activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
+
+                // 업로드 안될 경우 이동
+                // 업로드 후 fragment 변경
+                var communityFragment = CommunityFragment()
+                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content, communityFragment)?.commit()
             }
         }
     }
 
     fun communityUpload() {
         var timestamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        var imageFileName = "COMMUNITY_IMAGE_" + timestamp + "_.png"    // 이미지 파일의 중복 방지
+        var imageFileName = "CommunityImage" + timestamp + "_.png"    // 이미지 파일의 중복 방지
 
         var storageRef = storage?.reference?.child("communityImages")?.child(imageFileName)
 
