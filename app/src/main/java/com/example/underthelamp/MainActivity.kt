@@ -153,6 +153,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 image_upload.setOnClickListener{
                     if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                         //startActivity(Intent(this,AddPhotoActivity::class.java))
+                        closeFab()
                         if(fragment_position == 0){
                             var uploadFragment = UploadFragment()
                             supportFragmentManager.beginTransaction().replace(R.id.main_content, uploadFragment).commit()
