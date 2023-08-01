@@ -40,7 +40,7 @@ class WritingFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
-        binding.uploadBtn.setOnClickListener(){
+        binding.uploadBtn.setOnClickListener{
             // 게시글 업로드
             openImagePicker()   // 사진을 불러 오는 함수
         }

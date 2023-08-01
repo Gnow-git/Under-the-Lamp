@@ -38,7 +38,7 @@ class AddPhotoActivity : AppCompatActivity() {
         startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_ALBUM)
 
         // add image upload event
-        addphoto_btn_upload.setOnClickListener() {
+        addphoto_btn_upload.setOnClickListener {
             contentUpload()
         }
     }

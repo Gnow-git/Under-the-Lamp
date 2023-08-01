@@ -1,6 +1,7 @@
 package com.example.underthelamp.community
 
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_community.view.community_recyclerview
 import kotlinx.android.synthetic.main.fragment_detail.view.detailviewfragment_recyclerview
+import kotlinx.android.synthetic.main.item_community.view.communityForm
 import kotlinx.android.synthetic.main.item_community.view.communityItem_image
 import kotlinx.android.synthetic.main.item_community.view.community_text
 import kotlinx.android.synthetic.main.item_community.view.community_title
@@ -77,9 +79,24 @@ class CommunityFragment : Fragment() {
 
             // 작성한 게시물의 내용 불러오기
             viewHolder.community_text.text = communityDTOs!![position].community_content
+            
             // Image 불러오기
             Glide.with(holder.itemView.context).load(communityDTOs!![position].imageUrl).into(viewHolder.communityItem_image)
 
+            // 커뮤니티의 게시글을 누를 경우
+            viewHolder.communityForm.setOnClickListener { v ->
+
+                val communityDetailFragment = CommunityDetailFragment()
+                val args = Bundle()
+                args.putString("communityUid", communityUidList[position])
+                args.putString("destinationUid", communityDTOs[position].uid)
+                communityDetailFragment.arguments = args
+
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.main_content, communityDetailFragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
         }
     }
 }
