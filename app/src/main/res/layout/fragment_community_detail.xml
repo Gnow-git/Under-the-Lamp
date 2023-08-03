@@ -3,44 +3,177 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="691dp">
+
+    <TextView
+        android:id="@+id/community_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="전체글 >"
+        android:textSize="14sp"
+        android:fontFamily="@font/pretendard_regular"
+        android:textColor="@color/selectColor"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="665dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="314dp"/>
+
+    <TextView
+        android:id="@+id/detail_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="공모전 함께"
+        android:fontFamily="@font/pretendard_semibold"
+        android:textColor="@color/community_detail_font"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/community_menu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="637dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="273dp"/>
+
+    <LinearLayout
+        android:id="@+id/detail_info"
+        android:layout_width="339dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginBottom="613dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_title">
+
+        <TextView
+            android:id="@+id/detail_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="11dp"
+            android:fontFamily="@font/pretendard_regular"
+            android:text="\@h_00_ng"
+            android:textColor="@color/community_detail_info"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/detail_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="11dp"
+            android:fontFamily="@font/pretendard_regular"
+            android:text="0000.00.00"
+            android:textColor="@color/community_detail_info"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/detail_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="11dp"
+            android:fontFamily="@font/pretendard_regular"
+            android:text="0분전"
+            android:textColor="@color/community_detail_info"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="339dp"
+        android:layout_height="1dp"
+        android:background="@color/line"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="85dp"
+        android:layout_marginBottom="606dp"/>
+
+    <TextView
+        android:id="@+id/detail_community"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:text="커뮤니티 내용"
+        android:fontFamily="@font/pretendard_regular"
+        android:textSize="12sp"
+        android:textColor="@color/community_detail_font"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="105dp"
+        android:layout_marginBottom="469dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="28dp"/>
+
+    <ImageView
+        android:id="@+id/detail_image"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/add_photo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="245dp"
+        android:layout_marginBottom="334dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/detail_hashtag"
+        android:layout_width="match_parent"
+        android:layout_height="14dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginTop="380dp"
+        android:layout_marginBottom="300dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/community_comment_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="150dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="19dp"
+        app:layout_constraintBottom_toTopOf="@+id/comment_btn_send"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/comment_edit_message"
-        android:layout_width="300dp"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="40dp"
         android:layout_toLeftOf="@+id/comment_btn_send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/comment_btn_send"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/community_comment_recyclerview"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/community_comment_recyclerview" />
 
     <Button
         android:id="@+id/comment_btn_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_margin="10dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="50dp"
         android:text="@string/send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/community_comment_recyclerview"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toEndOf="@+id/comment_edit_message"
+        app:layout_constraintTop_toBottomOf="@+id/community_comment_recyclerview" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -97,7 +97,7 @@
             android:id="@+id/line"
             android:layout_width="331dp"
             android:layout_height="1dp"
-            android:background="#4D767676"/>
+            android:background="@color/line"/>
 
     </LinearLayout>
 
