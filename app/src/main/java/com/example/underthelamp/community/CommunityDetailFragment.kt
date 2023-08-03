@@ -17,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_comment.comment_edit_message
-import kotlinx.android.synthetic.main.fragment_community_detail.community_comment_recyclerview
 import kotlinx.android.synthetic.main.item_community_comment.view.commentviewitem_textview_comment
 import kotlinx.android.synthetic.main.item_community_comment.view.commentviewitem_textview_profile
 
@@ -81,7 +80,7 @@ class CommunityDetailFragment : Fragment() {
 
         init {
             FirebaseFirestore.getInstance()
-                .collection("images")
+                .collection("community")
                 .document(communityUid!!)
                 .collection("comments")
                 .orderBy("timestamp")
