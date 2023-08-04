@@ -19,8 +19,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="0dp"
         android:layout_marginStart="28dp"
-        android:layout_marginEnd="314dp"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
     <TextView
         android:id="@+id/detail_title"
@@ -91,7 +91,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <View
-        android:layout_width="339dp"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/line"
         app:layout_constraintTop_toTopOf="parent"
@@ -99,7 +99,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="85dp"
-        android:layout_marginBottom="606dp"/>
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="28dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/detail_community"
@@ -121,7 +124,7 @@
 
     <ImageView
         android:id="@+id/detail_image"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/add_photo"
         app:layout_constraintTop_toTopOf="parent"
@@ -129,7 +132,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="245dp"
-        app:layout_constraintVertical_bias="0.0" />
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="28dp"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/detail_hashtag"
@@ -155,7 +161,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
     <EditText
         android:id="@+id/comment_edit_message"
@@ -176,7 +183,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginStart="23dp"
-        android:layout_marginEnd="22dp"
+        android:layout_marginEnd="28dp"
         android:layout_marginBottom="50dp"
         android:text="@string/send"
         app:layout_constraintBottom_toBottomOf="parent"

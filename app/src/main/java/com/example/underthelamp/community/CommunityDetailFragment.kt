@@ -12,11 +12,9 @@ import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentCommunityDetailBinding
 import com.example.underthelamp.navigation.model.AlarmDTO
 import com.example.underthelamp.navigation.model.CommunityDTO
-import com.example.underthelamp.navigation.model.ContentDTO
 import com.example.underthelamp.navigation.util.FcmPush
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_comment.comment_edit_message
 import kotlinx.android.synthetic.main.fragment_community_detail.view.detail_date
@@ -38,7 +36,6 @@ class CommunityDetailFragment : Fragment() {
     var uid : String? = null
     var communityUid : String? = null
     var destinationUid : String? = null
-    private var communityDTOs: List<CommunityDTO>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentCommunityDetailBinding.inflate(inflater, container, false)
@@ -58,6 +55,7 @@ class CommunityDetailFragment : Fragment() {
                 ?.addOnSuccessListener { documentSnapshot ->
                     if (documentSnapshot != null) {
                         val communityDTO = documentSnapshot.toObject(CommunityDTO::class.java)
+
                         /** 게시물 제목 */
                         binding.detailTitle.text = communityDTO?.community_title
 
@@ -65,10 +63,12 @@ class CommunityDetailFragment : Fragment() {
                         binding.detailUser.text = communityDTO?.userId
 
                         /** 작성 날짜 */
-                        //binding.detailDate.text = communityDTO?.timestamp
+                        val timestamp = communityDTO?.timestamp
+                        val date = timestampToDate(timestamp)
+                        binding.detailDate.text = formatDate(date)
 
-                        /** 작성 시간 */
-                        //binding.detailTime.text = communityDTO?.timestamp
+                        /** 작성 된 시간 */
+                        binding.detailTime.text = formatTimeAgo(timestamp)
 
                         /** 게시물 내용 */
                         binding.detailCommunity.text = communityDTO?.community_content
@@ -157,8 +157,6 @@ class CommunityDetailFragment : Fragment() {
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             var view = (holder as CustomViewHolder).itemView
-           // val timestamp = communityDTOs!![position].timestamp // 날짜 출력을 위한 상수 설정
-            //val formattedDate = formatDate(timestamp)   // 날짜 변환
 
             // 댓글 불러 오기
             view.commentviewitem_textview_comment.text = comments[position].comment
@@ -167,13 +165,32 @@ class CommunityDetailFragment : Fragment() {
 
     }
 
-    /** 날짜 변경을 위한 함수 */
-    private fun formatDate(timestamp: Long?): String {
-        if (timestamp == null) return "0000.00.00"  // 값이 없을 경우
+    fun timestampToDate(timestamp: Long?): Date {
+        return Date(timestamp!!)
+    }
 
-        val date = Date(timestamp)
-        val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-        return dateFormat.format(date)
+    fun formatDate(date: Date): String {
+        val format = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+        return format.format(date)
+    }
+
+    fun formatTime(date: Date): String {
+        val format = SimpleDateFormat("HH:mm", Locale.getDefault())
+        return format.format(date)
+    }
+
+    fun formatTimeAgo(timestamp: Long?): String {
+        val currentTime = System.currentTimeMillis()
+        val diff = currentTime - timestamp!!
+
+        val minutes = diff / (1000 * 60)
+        val hours = diff / (1000 * 60 * 60)
+
+        return when {
+            minutes < 60 -> "$minutes 분 전"
+            hours < 24 -> "$hours 시간 전"
+            else -> formatTime(Date(timestamp))
+        }
     }
 
 }
