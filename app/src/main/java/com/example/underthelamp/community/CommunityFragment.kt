@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_community.view.community_recyclerview
 import kotlinx.android.synthetic.main.fragment_detail.view.detailviewfragment_recyclerview
-import kotlinx.android.synthetic.main.item_community.view.communityForm
+import kotlinx.android.synthetic.main.item_community.view.community_form
 import kotlinx.android.synthetic.main.item_community.view.communityItem_image
 import kotlinx.android.synthetic.main.item_community.view.community_text
 import kotlinx.android.synthetic.main.item_community.view.community_title
@@ -67,9 +67,7 @@ class CommunityFragment : Fragment() {
             return communityDTOs.size
         }
 
-        /**
-         * 유저의 게시글을 불러와 보여주는 ViewHolder
-         */
+        /** 유저의 게시글을 불러와 보여주는 ViewHolder */
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
             var viewHolder = (holder as CustomViewHolder).itemView
@@ -84,7 +82,7 @@ class CommunityFragment : Fragment() {
             Glide.with(holder.itemView.context).load(communityDTOs!![position].imageUrl).into(viewHolder.communityItem_image)
 
             // 커뮤니티의 게시글을 누를 경우
-            viewHolder.communityForm.setOnClickListener { v ->
+            viewHolder.community_form.setOnClickListener { v ->
 
                 val communityDetailFragment = CommunityDetailFragment()
                 val args = Bundle()

@@ -19,12 +19,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="28dp"
-        android:layout_marginEnd="255dp"
         android:layout_marginTop="0dp"
-        android:layout_marginBottom="649dp"/>
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
     <TextView
-        android:id="@+id/communitySubTitle"
+        android:id="@+id/community_sub_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="사람들과 이야기를 공유하는 공간"
@@ -36,72 +36,77 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/communityTitle"
         android:layout_marginTop="1dp"
-        android:layout_marginBottom="626dp"
         android:layout_marginStart="28dp"
-        android:layout_marginEnd="187dp"
-        />
-
-    <LinearLayout
-        android:id="@+id/tabWriting"
-        android:layout_width="wrap_content"
-        android:layout_height="34dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginEnd="118dp"
-        android:layout_marginTop="11dp"
-        android:layout_marginBottom="581dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/communitySubTitle">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/allWriting"
+            android:id="@+id/all_writing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
             android:fontFamily="@font/pretendard_regular"
             android:text="전체글"
             android:textColor="@color/fontColor"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/community_sub_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="11dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0"/>
 
         <TextView
-            android:id="@+id/popularWriting"
+            android:id="@+id/popular_writing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
             android:fontFamily="@font/pretendard_regular"
             android:text="인기글"
             android:textColor="@color/fontColor"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/community_sub_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/all_writing"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="11dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0"  />
 
         <TextView
-            android:id="@+id/noticeWriting"
+            android:id="@+id/notice_writing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
             android:fontFamily="@font/pretendard_regular"
             android:text="공지"
             android:textColor="@color/fontColor"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/community_sub_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/popular_writing"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="11dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0"  />
 
         <TextView
-            android:id="@+id/bookMark"
+            android:id="@+id/book_mark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
             android:fontFamily="@font/pretendard_regular"
             android:text="즐겨찾기"
             android:textColor="@color/fontColor"
-            android:textSize="18sp" />
-    </LinearLayout>
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/community_sub_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/notice_writing"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="11dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0"  />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/community_recyclerview"
@@ -111,8 +116,8 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="29.5dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/all_writing"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabWriting" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
