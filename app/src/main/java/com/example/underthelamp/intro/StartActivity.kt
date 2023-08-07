@@ -44,11 +44,11 @@ class StartActivity : AppCompatActivity() {
 
         override fun getItem(position: Int): Fragment {
 
-            return when (position) {
+            return when (position) {    // 빈 이미지 == 0
                 0 -> {
-                    IntroFragment.newInstance(0, "당신이 당신답게\n 빛날 수 있도록")
+                    IntroFragment.newInstance(R.raw.intro, "당신이 당신답게\n 빛날 수 있도록")
                 }
-                1 -> IntroFragment.newInstance(0, "예술가-기획자\n 중개 서비스")  // 빈 이미지로 0
+                1 -> IntroFragment.newInstance(0, "예술가-기획자\n 중개 서비스")
                 2 -> IntroFragment.newInstance(0, "자신을 표현하고,")
                 3 -> IntroFragment.newInstance(0, "다양한 분야의\n 사람을 만나보세요")
                 4 -> {
