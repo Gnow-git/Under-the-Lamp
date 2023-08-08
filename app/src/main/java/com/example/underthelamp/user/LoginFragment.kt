@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.example.underthelamp.MainActivity
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentLoginBinding
+import com.example.underthelamp.navigation.model.UserDTO
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -52,22 +53,10 @@ class LoginFragment : Fragment() {
             var password = passwordEdit.text.toString()
             // 그냥 클릭시 오류 뜨는거 수정해야함
                 login(email, password)
-            
-        }
-
-        // 회원가입 버튼 이벤트
-        binding.signUpBtn.setOnClickListener {
-            //startActivity(Intent(activity, SignUpActivity::class.java))
-            val signUpFragment = SignUpFragment()
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.fragmentFrame, signUpFragment)
-                addToBackStack(null)
-                commit()
-            }
         }
 
         // google 로그인
-        binding.googleSignInButton.setOnClickListener {
+        binding.googleBtn.setOnClickListener {
             googleLogin()
         }
 
@@ -102,6 +91,10 @@ class LoginFragment : Fragment() {
                 startActivity(intent)
                 Toast.makeText(activity, "로그인 성공", Toast.LENGTH_SHORT).show()
                 activity?.finish()
+            } else if(task.exception?.message?.contains("no user record") == true){
+                // 계정이 없는 경우 회원가입 수행
+                signUp(email, password)
+
             } else if (task.exception?.message.isNullOrEmpty()) {
                 Toast.makeText(activity, task.exception?.message, Toast.LENGTH_LONG).show()
             } else {
@@ -110,6 +103,28 @@ class LoginFragment : Fragment() {
                 Log.d("Login", "Error: ${task.exception}")
             }
         }
+    }
+
+    private fun signUp(email: String, password: String) {
+        mAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // 회원가입 성공시
+                    addUserToDatabase(email, mAuth.currentUser?.uid!!)
+                    val intent: Intent = Intent(activity, MainActivity::class.java)
+                    startActivity(intent)
+                    Toast.makeText(activity, "회원가입 및 로그인 성공", Toast.LENGTH_SHORT).show()
+                    activity?.finish()
+                } else {
+                    // 회원가입 실패시
+                    Toast.makeText(activity, "회원가입 실패", Toast.LENGTH_SHORT).show()
+                    Log.d("SignUp", "Error: ${task.exception}")
+                }
+            }
+    }
+
+    private fun addUserToDatabase(email: String, uId: String){
+        userinfo.document(uId).set(UserDTO(uId, email))
     }
 
     fun googleLogin() {
@@ -125,6 +140,7 @@ class LoginFragment : Fragment() {
                 var account = result!!.signInAccount
                 // Second step
                 firebaseAuthWithGoogle(account)
+                Toast.makeText(activity, "구글 로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
             }
         }
     }

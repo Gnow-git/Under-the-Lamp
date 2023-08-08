@@ -20,6 +20,8 @@
     <color name="colorEmailSignIn">#009688</color>
     <color name="colorEmailSignInPressed">#004D40</color>
 
+    <color name="colorGoogleLogin">#E04F44</color>
+
     <color name="splashBackground">#000011</color>
     <color name="blankColor">#D9D9D9</color>
     <color name="defaultColor">#999999</color>

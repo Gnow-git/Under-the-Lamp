@@ -1,42 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/splashBackground">
+
+    <ImageView
+        android:id="@+id/login_icon"
+        android:layout_width="90.64dp"
+        android:layout_height="95dp"
+        app:srcCompat="@drawable/splash_icon"
+        tools:layout_editor_absoluteX="119dp"
+        tools:layout_editor_absoluteY="181dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="193dp"
+        app:layout_constraintVertical_bias="0.0"/>
 
     <EditText
         android:id="@+id/email_edit"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Email"
-        android:inputType="textEmailAddress" />
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="E-mail"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:inputType="textEmailAddress"
+        android:fontFamily="@font/notosanskr_regular"
+        android:includeFontPadding="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="375dp"
+        app:layout_constraintVertical_bias="0.0"
+        android:backgroundTint="@color/white"/>
 
     <EditText
         android:id="@+id/password_edit"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="password"
-        android:inputType="textPassword" />
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:inputType="textPassword"
+        android:fontFamily="@font/notosanskr_regular"
+        android:includeFontPadding="false"
+        app:layout_constraintTop_toBottomOf="@+id/email_edit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="9dp"
+        app:layout_constraintVertical_bias="0.0"
+        android:backgroundTint="@color/white"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/login_btn"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="로그인" />
+        android:id="@+id/loginBtn"
+        android:layout_width="225dp"
+        android:layout_height="27dp"
+        android:text="SIGIN OR SIGNIN BY EMAIL"
+        android:textSize="11sp"
+        android:fontFamily="@font/notosanskr_regular"
+        app:layout_constraintTop_toBottomOf="@+id/password_edit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="45dp"
+        android:includeFontPadding="false"
+        app:layout_constraintVertical_bias="0.0"
+        android:background="@color/white"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/signUp_btn"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="회원가입" />
+        android:id="@+id/googleBtn"
+        android:layout_width="225dp"
+        android:layout_height="27dp"
+        android:text="GOOGLE LOGIN"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        android:fontFamily="@font/notosanskr_regular"
+        app:layout_constraintTop_toBottomOf="@+id/loginBtn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="9dp"
+        android:includeFontPadding="false"
+        app:layout_constraintVertical_bias="0.0"
+        android:background="@color/colorGoogleLogin"/>
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/google_sign_in_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

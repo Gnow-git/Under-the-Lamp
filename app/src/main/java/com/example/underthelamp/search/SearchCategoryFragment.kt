@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentSearchCategoryBinding
-import com.example.underthelamp.databinding.FragmentSignUpBinding
 
 class SearchCategoryFragment : Fragment(), View.OnClickListener {
 
