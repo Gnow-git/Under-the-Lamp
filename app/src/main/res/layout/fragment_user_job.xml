@@ -4,30 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/userjobtest">
+    android:background="@color/splashBackground">
+
+    <TextView
+        android:layout_width="219dp"
+        android:layout_height="28dp"
+        android:text="당신은?"
+        android:textSize="26sp"
+        android:fontFamily="@font/gmarket_sans_ttf_medium"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="290dp"
+        app:layout_constraintVertical_bias="0.0"    />
 
     <TextView
         android:id="@+id/artist"
-        android:layout_width="174dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="97dp"
+        android:layout_width="67dp"
+        android:layout_height="23dp"
+        android:text="예술가"
+        android:fontFamily="@font/gmarket_sans_ttf_light"
+        android:textSize="21dp"
+        android:textColor="@color/white"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="367dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.481" />
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
     <TextView
         android:id="@+id/promoter"
-        android:layout_width="171dp"
-        android:layout_height="61dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="97dp"
+        android:layout_width="65dp"
+        android:layout_height="23dp"
+        android:text="기획자"
+        android:fontFamily="@font/gmarket_sans_ttf_light"
+        android:textSize="21dp"
+        android:textColor="@color/white"
+        android:layout_marginEnd="107dp"
+        android:layout_marginTop="367dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.623" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:layout_width="390dp"
+        android:layout_height="580dp"
+        android:background="@drawable/userjob_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginTop="0dp"  />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
