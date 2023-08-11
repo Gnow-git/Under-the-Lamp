@@ -16,6 +16,7 @@ import com.example.underthelamp.community.WritingFragment
 import com.example.underthelamp.navigation.*
 import com.example.underthelamp.search.SearchFragment
 import com.example.underthelamp.upload.UploadFragment
+import com.example.underthelamp.user.UserJobFragment
 import com.google.android.gms.tasks.Task
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.navigation.NavigationView
@@ -72,6 +73,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.action_board -> {
                 // 게시글
+                var userJobFragment = UserJobFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.main_content, userJobFragment).commit()
             }
 /*            R.id.action_add_photo ->{
 
@@ -128,12 +131,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         default_upload.setOnClickListener{
 
             if(isOpen){ // floating button이 열려 있을 경우 실행
-//                image_upload.startAnimation(fabClose)
-//                camera_upload.startAnimation(fabClose)
-//                file_upload.startAnimation(fabClose)
-//                default_upload.startAnimation(fabRClockwise)
-//
-//                isOpen = false
                 closeFab()  // floating button 닫는 함수
             }
 

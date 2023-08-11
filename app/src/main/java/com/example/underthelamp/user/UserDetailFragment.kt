@@ -125,7 +125,7 @@ class UserDetailFragment : Fragment() {
         binding.back.setOnClickListener {
             val userInfoCategoriesFragment = UserInfoCategoriesFragment()
             parentFragmentManager.beginTransaction().apply {
-                replace(R.id.login_fragmentFrame, userInfoCategoriesFragment)
+                replace(R.id.loginFragmentFrame, userInfoCategoriesFragment)
                 addToBackStack(null)
                 commit()
             }

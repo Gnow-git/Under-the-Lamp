@@ -54,27 +54,28 @@ class UserJobFragment : Fragment() {
         }
     }
 
+    /** 유저의 직업을 저장 하는 함수 */
     private fun saveUserJobDTO(userJob : String) {
 
-        userJobDTO = UserJobDTO(userJob,)
+        userJobDTO = UserJobDTO(userJob)
 
         // Firestore 에 DTO 저장
-        userinfo.document(getCurrentUserUid()).collection("userinfo").document("job").set(userJobDTO)
+        userinfo.document(getCurrentUserUid()).collection("information").document("job").set(userJobDTO)
             .addOnSuccessListener {
                 // 성공적으로 저장된 경우 처리할 로직 작성
-                Toast.makeText(activity, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "직업 저장이 완료되었습니다.", Toast.LENGTH_SHORT).show()
 
-                val userInfoCategoriesFragment = UserInfoCategoriesFragment()
-                parentFragmentManager.beginTransaction().apply {
-                    replace(R.id.login_fragmentFrame, userInfoCategoriesFragment)
-                    addToBackStack(null)
-                    commit()
-                }
+//                val userInfoCategoriesFragment = UserInfoCategoriesFragment()
+//                parentFragmentManager.beginTransaction().apply {
+//                    replace(R.id.login_fragmentFrame, userInfoCategoriesFragment)
+//                    addToBackStack(null)
+//                    commit()
+//                }
 
             }
             .addOnFailureListener {
                 // 저장 실패 시 처리할 로직 작성
-                Toast.makeText(activity, "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "직업 저장에 실패하였습니다.", Toast.LENGTH_SHORT).show()
             }
     }
 

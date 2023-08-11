@@ -38,23 +38,24 @@ class UserInfoCategoriesFragment : Fragment() {
         var userGoal : String = "목적"
         var userExperience : String = "경험"
 
-        val categoryViews = listOf(binding.cateArts, binding.catePublicMusic, binding.cateMusic, binding.catePlay, binding.cateLiterature)
-        val goalViews = listOf(binding.button, binding.button2, binding.button3, binding.button4, binding.button5, binding.button6, binding.button7)
-        val experienceView = listOf(binding.button8, binding.button9, binding.button10, binding.button11, binding.button12,)
-        val color_se = ContextCompat.getColor(requireContext(), R.color.selectColor)
-        val color_un = ContextCompat.getColor(requireContext(), R.color.defaultColor)
+        val categoryViews = listOf(binding.categoriesArt, binding.categoriesPublicMusic, binding.categoriesMusic, binding.categoriesTheater, binding.categoriesLiterature)
+        val goalViews = listOf(binding.contestBtn, binding.practicalUseBtn, binding.selfDevelopmentBtn, binding.interviewBtn, binding.portfolioBtn, binding.contentBtn, binding.homeworkBtn)
+        val experienceView = listOf(binding.noneBtn, binding.introductionBtn, binding.intermediateBtn, binding.majorBtn, binding.practicalBtn,)
+        val select = ContextCompat.getColor(requireContext(), R.color.selectColor)
+        val unselect = ContextCompat.getColor(requireContext(), R.color.defaultColor)
 
+        /** 카테고리 선택 */
         categoryViews.forEach { view ->
             view.setOnClickListener {
                 categoryViews.forEach { categoryViews ->
                     if (categoryViews == view) {
                         // 뷰가 선택될 경우
                         when (categoryViews) {
-                            binding.cateArts -> userCategory = "미술"
-                            binding.catePublicMusic -> userCategory = "대중음악"
-                            binding.cateMusic -> userCategory = "음악"
-                            binding.catePlay -> userCategory = "연극"
-                            binding.cateLiterature -> userCategory = "문학"
+                            binding.categoriesArt -> userCategory = "미술"
+                            binding.categoriesPublicMusic -> userCategory = "대중음악"
+                            binding.categoriesMusic -> userCategory = "음악"
+                            binding.categoriesTheater -> userCategory = "연극"
+                            binding.categoriesLiterature -> userCategory = "문학"
                         }
                     } else {
                         // 선택한 뷰의 나머지
@@ -63,56 +64,69 @@ class UserInfoCategoriesFragment : Fragment() {
             }
         }
 
+        /** 목적 선택 */
         goalViews.forEach { view ->
             view.setOnClickListener {
                 goalViews.forEach { goalViews ->
                     if (goalViews == view) {
-                        goalViews.setTextColor(color_se) // 선택된 뷰의 색상 변경
+                        goalViews.setTextColor(select) // 선택된 뷰의 색상 변경
                         goalViews.background =
                             ContextCompat.getDrawable(requireContext(), R.drawable.button_round_se)
                         when (goalViews) {
-                            binding.button -> userGoal = "공모전"
-                            binding.button2 -> userGoal = "실무활용"
-                            binding.button3 -> userGoal = "자기개발"
-                            binding.button4 -> userGoal = "면접준비"
-                            binding.button5 -> userGoal = "포트폴리오"
-                            binding.button6 -> userGoal = "컨텐츠 제작"
-                            binding.button7 -> userGoal = "학업과제"
+                            binding.contestBtn -> userGoal = "공모전"
+                            binding.practicalUseBtn -> userGoal = "실무활용"
+                            binding.selfDevelopmentBtn -> userGoal = "자기개발"
+                            binding.interviewBtn -> userGoal = "면접준비"
+                            binding.portfolioBtn -> userGoal = "포트폴리오"
+                            binding.contentBtn -> userGoal = "컨텐츠 제작"
+                            binding.homeworkBtn -> userGoal = "학업과제"
                         }
                     } else {
-                        goalViews.setTextColor(color_un)   // 원래대로
+                        goalViews.setTextColor(unselect)   // 원래대로
                         goalViews.setBackgroundResource(R.drawable.button_round)
                     }
                 }
             }
         }
 
+        /** 당신의 경험 선택 */
         experienceView.forEach { view ->
             view.setOnClickListener {
                 experienceView.forEach { experienceView ->
                     if (experienceView == view) {
-                        experienceView.setTextColor(color_se) // 선택된 뷰의 색상 변경
+                        experienceView.setTextColor(select) // 선택된 뷰의 색상 변경
                         experienceView.background =
                             ContextCompat.getDrawable(requireContext(), R.drawable.button_round_se)
                         when (experienceView) {
-                            binding.button8 -> userExperience = "전무"
-                            binding.button9 -> userExperience = "입문자"
-                            binding.button10 -> userExperience = "중급자"
-                            binding.button11 -> userExperience = "전공자"
-                            binding.button12 -> userExperience = "실무경험"
+                            binding.noneBtn -> userExperience = "전무"
+                            binding.introductionBtn -> userExperience = "입문자"
+                            binding.intermediateBtn -> userExperience = "중급자"
+                            binding.majorBtn -> userExperience = "전공자"
+                            binding.practicalBtn -> userExperience = "실무경험"
                         }
                     } else {
-                        experienceView.setTextColor(color_un)   // 원래대로
+                        experienceView.setTextColor(unselect)   // 원래대로
                         experienceView.setBackgroundResource(R.drawable.button_round)
                     }
                 }
             }
         }
-        // 화살표 버튼 클릭 이벤트 처리
-        binding.next.setOnClickListener {
+        
+        // 왼쪽 화살표 버튼 클릭 이벤트 처리, 이전 페이지로 이동
+        binding.nextArrow.setOnClickListener {
+            val userJobFragment = UserJobFragment()
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.loginFragmentFrame, userJobFragment)
+                addToBackStack(null)
+                commit()
+            }
+        }
+        
+        // 오른쪽 화살표 버튼 클릭 이벤트 처리
+        binding.nextArrow.setOnClickListener {
             val userDetailFragment = UserDetailFragment()
             parentFragmentManager.beginTransaction().apply {
-                replace(R.id.login_fragmentFrame, userDetailFragment)
+                replace(R.id.loginFragmentFrame, userDetailFragment)
                 addToBackStack(null)
                 commit()
             }
@@ -120,6 +134,7 @@ class UserInfoCategoriesFragment : Fragment() {
         }
     }
 
+    /** 유저 정보 저장하는 함수 */
     private fun saveUserInfoCategoryDTO(userCategory : String, userGoal : String, userExperience : String) {
 
         userCategoryDTO = UserCategoryDTO(userCategory, userGoal, userExperience)

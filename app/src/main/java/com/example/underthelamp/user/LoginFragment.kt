@@ -21,6 +21,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.UserInfo
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -35,6 +36,7 @@ class LoginFragment : Fragment() {
 
     lateinit var emailEdit: EditText
     lateinit var passwordEdit: EditText
+
     var googleSignInClient : GoogleSignInClient? = null
     var GOOGLE_LOGIN_CODE = 9001
 
@@ -49,10 +51,12 @@ class LoginFragment : Fragment() {
         mAuth = Firebase.auth
 
         binding.loginBtn.setOnClickListener{
-            var email = emailEdit.text.toString()
-            var password = passwordEdit.text.toString()
-            // 그냥 클릭시 오류 뜨는거 수정해야함
-                login(email, password)
+
+            // trim 을 통해 공백 제거
+            var email = emailEdit.text.toString().trim()
+            var password = passwordEdit.text.toString().trim()
+
+            login(email, password)
         }
 
         // google 로그인
@@ -91,6 +95,7 @@ class LoginFragment : Fragment() {
                 startActivity(intent)
                 Toast.makeText(activity, "로그인 성공", Toast.LENGTH_SHORT).show()
                 activity?.finish()
+
             } else if(task.exception?.message?.contains("no user record") == true){
                 // 계정이 없는 경우 회원가입 수행
                 signUp(email, password)
@@ -106,15 +111,27 @@ class LoginFragment : Fragment() {
     }
 
     private fun signUp(email: String, password: String) {
+
+        if (email.isEmpty() || password.isEmpty()) {    // 회원가입 시 null 방지
+            Toast.makeText(activity, "모든 항목을 입력해주세요", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    // 회원가입 성공시
+                    // 회원가입 성공시 직업 선택 화면으로 이동
+
+                    val userJobFragment = UserJobFragment()
+                    parentFragmentManager.beginTransaction().apply {
+                        replace(R.id.loginFragmentFrame, userJobFragment)
+                        addToBackStack(null)
+                        commit()
+                    }
                     addUserToDatabase(email, mAuth.currentUser?.uid!!)
-                    val intent: Intent = Intent(activity, MainActivity::class.java)
-                    startActivity(intent)
+                    
                     Toast.makeText(activity, "회원가입 및 로그인 성공", Toast.LENGTH_SHORT).show()
-                    activity?.finish()
+
                 } else {
                     // 회원가입 실패시
                     Toast.makeText(activity, "회원가입 실패", Toast.LENGTH_SHORT).show()
