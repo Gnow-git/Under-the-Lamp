@@ -43,11 +43,13 @@ class UserJobFragment : Fragment() {
         jobViews.forEach { view ->
             view.setOnClickListener {
                 jobViews.forEach { jobViews ->
+                    jobViews.setTextColor(resources.getColor(R.color.selectColor))
                     if (jobViews == view) {
                         userJob = if (jobViews == binding.artist) "예술가" else "기획자"
                         saveUserJobDTO(userJob) // 직업 저장
                     } else {
                         // 선택 안된 항목에 대해 처리
+                        jobViews.setTextColor(resources.getColor(R.color.white))
                     }
                 }
             }
@@ -65,12 +67,12 @@ class UserJobFragment : Fragment() {
                 // 성공적으로 저장된 경우 처리할 로직 작성
                 Toast.makeText(activity, "직업 저장이 완료되었습니다.", Toast.LENGTH_SHORT).show()
 
-//                val userInfoCategoriesFragment = UserInfoCategoriesFragment()
-//                parentFragmentManager.beginTransaction().apply {
-//                    replace(R.id.login_fragmentFrame, userInfoCategoriesFragment)
-//                    addToBackStack(null)
-//                    commit()
-//                }
+                val userInfoCategoriesFragment = UserInfoCategoriesFragment()
+                parentFragmentManager.beginTransaction().apply {
+                    replace(R.id.loginFragmentFrame, userInfoCategoriesFragment)
+                    addToBackStack(null)
+                    commit()
+                }
 
             }
             .addOnFailureListener {

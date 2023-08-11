@@ -1,11 +1,15 @@
 package com.example.underthelamp.user
 
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.underthelamp.MainActivity
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentUserInfoCatergoriesBinding
 import com.example.underthelamp.navigation.model.UserCategoryDTO
@@ -13,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.item_search.category
 
 class UserInfoCategoriesFragment : Fragment() {
 
@@ -39,17 +44,18 @@ class UserInfoCategoriesFragment : Fragment() {
         var userExperience : String = "경험"
 
         val categoryViews = listOf(binding.categoriesArt, binding.categoriesPublicMusic, binding.categoriesMusic, binding.categoriesTheater, binding.categoriesLiterature)
+        val categoryText = listOf(binding.artText,binding.publicMusicText, binding.musicText, binding.theaterText, binding.literatureText)
         val goalViews = listOf(binding.contestBtn, binding.practicalUseBtn, binding.selfDevelopmentBtn, binding.interviewBtn, binding.portfolioBtn, binding.contentBtn, binding.homeworkBtn)
         val experienceView = listOf(binding.noneBtn, binding.introductionBtn, binding.intermediateBtn, binding.majorBtn, binding.practicalBtn,)
-        val select = ContextCompat.getColor(requireContext(), R.color.selectColor)
-        val unselect = ContextCompat.getColor(requireContext(), R.color.defaultColor)
 
         /** 카테고리 선택 */
-        categoryViews.forEach { view ->
+        categoryViews.forEachIndexed { index, view ->
             view.setOnClickListener {
-                categoryViews.forEach { categoryViews ->
+                categoryViews.forEachIndexed { categoryIndex, categoryViews ->
                     if (categoryViews == view) {
                         // 뷰가 선택될 경우
+                        categoryViews.setColorFilter(resources.getColor(R.color.selectColor))
+                        categoryText[categoryIndex].setTextColor(ContextCompat.getColor(requireContext(), R.color.selectColor))
                         when (categoryViews) {
                             binding.categoriesArt -> userCategory = "미술"
                             binding.categoriesPublicMusic -> userCategory = "대중음악"
@@ -58,7 +64,9 @@ class UserInfoCategoriesFragment : Fragment() {
                             binding.categoriesLiterature -> userCategory = "문학"
                         }
                     } else {
-                        // 선택한 뷰의 나머지
+                        // 선택한 뷰 제외한 나머지는 그대로
+                        categoryViews.setColorFilter(resources.getColor(R.color.white))
+                        categoryText[categoryIndex].setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
                     }
                 }
             }
@@ -69,9 +77,8 @@ class UserInfoCategoriesFragment : Fragment() {
             view.setOnClickListener {
                 goalViews.forEach { goalViews ->
                     if (goalViews == view) {
-                        goalViews.setTextColor(select) // 선택된 뷰의 색상 변경
-                        goalViews.background =
-                            ContextCompat.getDrawable(requireContext(), R.drawable.button_round_se)
+                        // 선택된 뷰의 색상 변경
+                        goalViews.setBackgroundResource(R.drawable.button_round_se)
                         when (goalViews) {
                             binding.contestBtn -> userGoal = "공모전"
                             binding.practicalUseBtn -> userGoal = "실무활용"
@@ -82,7 +89,6 @@ class UserInfoCategoriesFragment : Fragment() {
                             binding.homeworkBtn -> userGoal = "학업과제"
                         }
                     } else {
-                        goalViews.setTextColor(unselect)   // 원래대로
                         goalViews.setBackgroundResource(R.drawable.button_round)
                     }
                 }
@@ -94,9 +100,8 @@ class UserInfoCategoriesFragment : Fragment() {
             view.setOnClickListener {
                 experienceView.forEach { experienceView ->
                     if (experienceView == view) {
-                        experienceView.setTextColor(select) // 선택된 뷰의 색상 변경
-                        experienceView.background =
-                            ContextCompat.getDrawable(requireContext(), R.drawable.button_round_se)
+                        experienceView.setBackgroundResource(R.drawable.button_round_se)
+
                         when (experienceView) {
                             binding.noneBtn -> userExperience = "전무"
                             binding.introductionBtn -> userExperience = "입문자"
@@ -105,7 +110,6 @@ class UserInfoCategoriesFragment : Fragment() {
                             binding.practicalBtn -> userExperience = "실무경험"
                         }
                     } else {
-                        experienceView.setTextColor(unselect)   // 원래대로
                         experienceView.setBackgroundResource(R.drawable.button_round)
                     }
                 }
@@ -113,7 +117,7 @@ class UserInfoCategoriesFragment : Fragment() {
         }
         
         // 왼쪽 화살표 버튼 클릭 이벤트 처리, 이전 페이지로 이동
-        binding.nextArrow.setOnClickListener {
+        binding.backArrow.setOnClickListener {
             val userJobFragment = UserJobFragment()
             parentFragmentManager.beginTransaction().apply {
                 replace(R.id.loginFragmentFrame, userJobFragment)
@@ -122,14 +126,15 @@ class UserInfoCategoriesFragment : Fragment() {
             }
         }
         
-        // 오른쪽 화살표 버튼 클릭 이벤트 처리
+        // 오른쪽 화살표 버튼 클릭 이벤트 처리, 메인 페이지로 이동
         binding.nextArrow.setOnClickListener {
-            val userDetailFragment = UserDetailFragment()
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.loginFragmentFrame, userDetailFragment)
-                addToBackStack(null)
-                commit()
-            }
+//            val userDetailFragment = UserDetailFragment()
+//            parentFragmentManager.beginTransaction().apply {
+//                replace(R.id.loginFragmentFrame, userDetailFragment)
+//                addToBackStack(null)
+//                commit()
+//            }
+
             saveUserInfoCategoryDTO(userCategory, userGoal, userExperience)
         }
     }
@@ -140,12 +145,23 @@ class UserInfoCategoriesFragment : Fragment() {
         userCategoryDTO = UserCategoryDTO(userCategory, userGoal, userExperience)
 
         // Firestore에 DTO 저장
-        userinfo.document(getCurrentUserUid()).collection("userinfo").document("category").set(userCategoryDTO)
+        userinfo.document(getCurrentUserUid()).collection("information").document("category").set(userCategoryDTO)
             .addOnSuccessListener {
                 // 성공적으로 저장된 경우 처리할 로직 작성
+                Toast.makeText(activity, "유저 정보 저장이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                val intent: Intent = Intent(activity, MainActivity::class.java)
+
+                startActivity(intent)
             }
             .addOnFailureListener {
                 // 저장 실패 시 처리할 로직 작성
+                Toast.makeText(activity, "직업 저장에 실패하였습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                val userInfoCategoriesFragment = UserInfoCategoriesFragment()
+                parentFragmentManager.beginTransaction().apply {
+                    replace(R.id.loginFragmentFrame, userInfoCategoriesFragment)
+                    addToBackStack(null)
+                    commit()
+                }
             }
     }
 
