@@ -60,8 +60,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 return true
             }
             R.id.action_community-> {
-                fragment_position = 2;
-                // 커뮤니티
+
+            }
+            R.id.action_board -> {
+                // 정보 게시글
+                fragment_position = 3;
                 var communityFragment = CommunityFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, communityFragment).commit()
 
@@ -70,21 +73,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     closeFab()
                 }
                 return true
-            }
-            R.id.action_board -> {
-                // 게시글
-                var userJobFragment = UserJobFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.main_content, userJobFragment).commit()
-            }
-/*            R.id.action_add_photo ->{
-
 
             }
-            R.id.action_favorite_alarm ->{
-                var alarmFragment = AlarmFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.main_content, alarmFragment).commit()
-                return true
-            }*/
+
             R.id.action_account ->{
                 var userFragment = UserFragment()
                 var bundle = Bundle()
@@ -124,17 +115,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         registerPushToken()
 
         // floating button 지정
-        //var isOpen = false
         val fabOpen = AnimationUtils.loadAnimation(this, R.anim.fab_open)
         val fabRAntiClockwise = AnimationUtils.loadAnimation(this, R.anim.rotate_anticlockwise)
 
         default_upload.setOnClickListener{
 
-            if(isOpen){ // floating button이 열려 있을 경우 실행
+            if(isOpen){ // floating button 이 열려 있을 경우
                 closeFab()  // floating button 닫는 함수
             }
 
-            else{   // floating button이 닫혀 있을 경우 실행
+            else{   // floating button 이 닫혀 있을 경우
                 image_upload.startAnimation(fabOpen)
                 camera_upload.startAnimation(fabOpen)
                 file_upload.startAnimation(fabOpen)
@@ -149,12 +139,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 // floating 의 image(첫번째) 버튼을 눌렀을 경우
                 image_upload.setOnClickListener{
                     if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                        //startActivity(Intent(this,AddPhotoActivity::class.java))
                         closeFab()
-                        if(fragment_position == 0){
+                        if(fragment_position == 0){ // 홈에서 image 버튼을 눌렀을 경우
                             var uploadFragment = UploadFragment()
                             supportFragmentManager.beginTransaction().replace(R.id.main_content, uploadFragment).commit()
-                        } else if(fragment_position == 2){
+                        } else if(fragment_position == 3){  // 정보 게시글 화면에서 image 버튼을 눌렀을 경우
                             var writingFragment = WritingFragment()
                             supportFragmentManager.beginTransaction().replace(R.id.main_content, writingFragment).commit()
                         }
