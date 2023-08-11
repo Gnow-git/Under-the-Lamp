@@ -92,7 +92,7 @@
         android:layout_gravity="end|bottom"
         android:backgroundTint="@color/white"
         android:src="@drawable/float_image"
-        app:fabSize="normal"
+        app:maxImageSize="75dp"
         android:visibility="invisible"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -108,7 +108,7 @@
         android:layout_gravity="end|bottom"
         android:backgroundTint="@color/white"
         android:src="@drawable/float_picture"
-        app:fabSize="normal"
+        app:maxImageSize="75dp"
         android:visibility="invisible"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -124,7 +124,7 @@
         android:layout_gravity="end|bottom"
         android:backgroundTint="@color/white"
         android:src="@drawable/float_file"
-        app:fabSize="normal"
+        app:maxImageSize="75dp"
         android:visibility="invisible"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
