@@ -3,83 +3,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="691dp">
+    android:layout_height="691dp"
+    android:background="@color/colorLayoutBackground">
 
     <TextView
         android:id="@+id/search_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="190dp"
+        android:layout_height="60dp"
         android:layout_marginStart="30dp"
-        android:layout_marginEnd="205dp"
-        android:fontFamily="@font/pretendard_regular"
-        android:text="당신과 함께 할 빛"
+        android:fontFamily="@font/pretendard_semibold"
+        android:text="당신과 함께 할 빛을\n찾아보세요!"
         android:textColor="@color/black"
         android:textSize="24sp"
-        android:textStyle="bold"
+        android:includeFontPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="0dp"
-        android:layout_marginBottom="649dp"/>
-
-    <TextView
-        android:id="@+id/search_title2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="222dp"
-        android:layout_marginBottom="626dp"
-        android:fontFamily="@font/pretendard_regular"
-        android:text="함께 빛날 빛을 찾아보세요"
-        android:textColor="@color/fontColor"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_title" />
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
     <EditText
         android:id="@+id/search"
         android:layout_width="331dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="26dp"
-        android:layout_marginEnd="40dp"
-        android:autofillHints="no"
+        android:layout_height="wrap_content"
+        android:hint="내용"
+        android:textSize="14sp"
+        android:fontFamily="@font/pretendard_regular"
+        android:includeFontPadding="false"
         android:inputType="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_title2"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="581dp"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="76dp"
+        android:layout_marginStart="28dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.0"/>
 
     <ImageView
         android:id="@+id/searchBtn"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginStart="327dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="308dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_title2"
-        app:layout_constraintVertical_bias="0.06"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="79dp"
+        android:layout_marginStart="330dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/search" />
 
     <FrameLayout
         android:id="@+id/framelayout"
-        android:layout_width="330dp"
+        android:layout_width="341dp"
         android:layout_height="550dp"
-        android:layout_marginStart="29.5dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="29.5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search" />
+        app:layout_constraintTop_toBottomOf="@+id/search"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

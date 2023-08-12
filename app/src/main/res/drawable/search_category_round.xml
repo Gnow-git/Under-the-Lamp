@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Drop Shadow Stack -->
-    <item> <shape> <padding android:top="1dp" android:right="2dp" android:bottom="2dp" android:left="1dp" /> <corners android:radius="20dp" /> <solid android:color="#00CCCCCC" /> </shape> </item>
-    <item> <shape> <padding android:top="1dp" android:right="2dp" android:bottom="2dp" android:left="1dp" /> <corners android:radius="20dp" /> <solid android:color="#10CCCCCC" /> </shape> </item>
-    <item> <shape> <padding android:top="1dp" android:right="2dp" android:bottom="2dp" android:left="1dp" /> <corners android:radius="20dp" /> <solid android:color="#20CCCCCC" /> </shape> </item>
-    <item> <shape> <padding android:top="0dp" android:right="2dp" android:bottom="2dp" android:left="0dp" /> <corners android:radius="20dp" /> <solid android:color="#30CCCCCC" /> </shape> </item>
-    <item> <shape> <padding android:top="0dp" android:right="2dp" android:bottom="2dp" android:left="0dp" /> <corners android:radius="20dp" /> <solid android:color="#50CCCCCC" /> </shape> </item>
+    <!-- 그림자 설정 아래로 내려갈 수록 물체와 가까운 그림자로 표현 -->
+    <item> <shape> <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" /> <corners android:radius="20dp" /> <solid android:color="#F5F4F4F4" /> </shape> </item>
+    <item> <shape> <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" /> <corners android:radius="20dp" /> <solid android:color="#EDEEEEEE" /> </shape> </item>
+    <item> <shape> <padding android:top="0dp" android:right="1dp" android:bottom="1dp" android:left="1dp" /> <corners android:radius="20dp" /> <solid android:color="#E3E4E4E4" /> </shape> </item>
+    <item> <shape> <padding android:top="0dp" android:right="1dp" android:bottom="1dp" android:left="1dp" /> <corners android:radius="20dp" /> <solid android:color="#D6D7D7D7" /> </shape> </item>
+    <item> <shape> <padding android:top="0dp" android:right="0dp" android:bottom="1dp" android:left="0dp" /> <corners android:radius="20dp" /> <solid android:color="#C9CACACA" /> </shape> </item>
+    <item> <shape> <padding android:top="0dp" android:right="0dp" android:bottom="1dp" android:left="0dp" /> <corners android:radius="20dp" /> <solid android:color="#BFBFBFBF" /> </shape> </item>
+    <item> <shape> <padding android:top="0dp" android:right="0dp" android:bottom="1dp" android:left="0dp" /> <corners android:radius="20dp" /> <solid android:color="#B8B8B8B8" /> </shape> </item>
+    <item> <shape> <padding android:top="0dp" android:right="0dp" android:bottom="1dp" android:left="0dp" /> <corners android:radius="20dp" /> <solid android:color="#B5B5B5B5" /> </shape> </item>
+
     <!-- Background -->
     <item><shape
         android:padding="10dp"
@@ -16,9 +20,9 @@
             android:width="1dp"
             android:color="#FFFFFF"/>
         <corners
-            android:bottomLeftRadius="20dp"
-            android:bottomRightRadius="20dp"
-            android:topLeftRadius="20dp"
-            android:topRightRadius="20dp" />
+            android:bottomLeftRadius="15dp"
+            android:bottomRightRadius="15dp"
+            android:topLeftRadius="15dp"
+            android:topRightRadius="15dp" />
     </shape></item>
 </layer-list>

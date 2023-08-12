@@ -19,12 +19,12 @@ class SearchCategoryFragment : Fragment(), View.OnClickListener {
 
         // 클릭한 view에 대한 ID 배열 지정
         val viewId = arrayOf(
-            R.id.art_view,
-            R.id.public_music_view,
-            R.id.music_view,
-            R.id.play_view,
-            R.id.literature_view,
-            R.id.video_view
+            R.id.artView,
+            R.id.publicMusicView,
+            R.id.musicView,
+            R.id.theaterView,
+            R.id.literatureView,
+            R.id.videoView
         )
 
         // view에 대한 클릭리스너 설정
@@ -42,22 +42,22 @@ class SearchCategoryFragment : Fragment(), View.OnClickListener {
 
         // 특정 view에 대한 동작 지정
         when (viewId) {
-            R.id.art_view -> {
+            R.id.artView -> {
 
             }
-            R.id.public_music_view -> {
+            R.id.publicMusicView -> {
 
             }
-            R.id.music_view -> {
+            R.id.musicView -> {
 
             }
-            R.id.play_view -> {
+            R.id.theaterView -> {
 
             }
-            R.id.literature_view -> {
+            R.id.literatureView -> {
 
             }
-            R.id.video_view -> {
+            R.id.videoView -> {
 
             }
         }
