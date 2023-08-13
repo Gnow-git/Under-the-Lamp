@@ -25,15 +25,15 @@ class SearchFragment : Fragment() {
         transaction.commit()
 
         binding.searchBtn.setOnClickListener { // 검색버튼을 누를 경우
-            showSearchRecyclerFragment()
+            showSearchGridFragment()
         }
 
         return view
     }
 // 검색 버튼을 누를 경우 검색한 내용의 이미지들이 Grid 형태로 표시
-    private fun showSearchRecyclerFragment() {
+    private fun showSearchGridFragment() {
         val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
-        val fragment = GridFragment()
+        val fragment = SearchGridFragment()
         fragmentTransaction.replace(R.id.framelayout, fragment)
         fragmentTransaction.commit()
     }

@@ -8,12 +8,19 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentSearchCategoryBinding
+import com.example.underthelamp.navigation.UserFragment
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.fragment_search.search
 
 class SearchCategoryFragment : Fragment(), View.OnClickListener {
 
-    lateinit var binding : FragmentSearchCategoryBinding
+    lateinit var binding: FragmentSearchCategoryBinding
+    var firestore: FirebaseFirestore? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        firestore = FirebaseFirestore.getInstance()
         binding = FragmentSearchCategoryBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -34,32 +41,66 @@ class SearchCategoryFragment : Fragment(), View.OnClickListener {
         return view
     }
 
+    /** 각 뷰 클릭 시 해당 뷰의 카테고리와 동일한 유저가 작성한 게시물 출력 */
     override fun onClick(v: View?) {
         val viewId = v?.id
-        // view id  토스트 메시지로 출력
-        val viewIdString = resources.getResourceEntryName(viewId!!)
-        Toast.makeText(requireContext(), "$viewIdString", Toast.LENGTH_SHORT).show()
 
         // 특정 view에 대한 동작 지정
-        when (viewId) {
-            R.id.artView -> {
+        val categoryMap = mapOf(
+            R.id.artView to "미술",
+            R.id.publicMusicView to "대중음악",
+            R.id.musicView to "음악",
+            R.id.theaterView to "연극",
+            R.id.literatureView to "문학",
+            R.id.videoView to "영상"
+        )
 
-            }
-            R.id.publicMusicView -> {
+        val category = categoryMap[viewId]
+        if (category != null) {
+            searchFirebase(category)
+        }
+    }
 
-            }
-            R.id.musicView -> {
+    /** 카테고리와 동일한 유저의 게시물을 보여주는 함수 */
+    private fun searchFirebase(category: String) {
 
-            }
-            R.id.theaterView -> {
+        firestore?.collection("userinfo")?.get()?.addOnSuccessListener { mainCollectionSnapshot ->
+            val userUids = ArrayList<String>()
 
-            }
-            R.id.literatureView -> {
+            for (documentSnapshot in mainCollectionSnapshot) {
+                val userUid = documentSnapshot.id
+                val userSubCollection = documentSnapshot.reference.collection("userinfo")
 
-            }
-            R.id.videoView -> {
+                /** 서브 컬렉션 을 사용 중이기 때문에 따로 지정 */
+                userSubCollection.whereEqualTo("user_category", category)
+                    .get()
+                    .addOnSuccessListener { subcollectionQuerySnapshot ->
 
+                        if (!subcollectionQuerySnapshot.isEmpty) {
+                            userUids.add(userUid)
+                        }
+                        showSearchResult(category, userUids)
+                    }.addOnFailureListener { e ->
+                        // 오류시
+                        Toast.makeText(activity, "정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show()
+                    }
             }
+        }?.addOnFailureListener { e ->
+            // 오류 발생시
+            Toast.makeText(activity, "정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun showSearchResult(category: String, userUids: ArrayList<String>) {
+        if (userUids.isNotEmpty()) {
+            val gridFragment = SearchGridFragment.newInstance(category, userUids)
+            val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.framelayout, gridFragment)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
+        } else {
+            // 서브컬렉션에 저장된 게시물이 없는 경우
+            // Toast 메시지를 넣을 경우 반복문으로 인해 반복 호출, 추후 해결 요망
         }
     }
 }
