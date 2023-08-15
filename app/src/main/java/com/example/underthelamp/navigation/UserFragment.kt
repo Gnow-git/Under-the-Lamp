@@ -18,9 +18,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.underthelamp.MainActivity
 import com.example.underthelamp.R
-import com.example.underthelamp.navigation.model.AlarmDTO
-import com.example.underthelamp.navigation.model.ContentDTO
-import com.example.underthelamp.navigation.model.FollowDTO
+import com.example.underthelamp.model.AlarmDTO
+import com.example.underthelamp.model.ContentDTO
+import com.example.underthelamp.model.FollowDTO
 import com.example.underthelamp.navigation.util.FcmPush
 import com.example.underthelamp.user.LoginActivity
 import com.google.firebase.auth.FirebaseAuth

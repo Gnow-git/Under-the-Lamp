@@ -1,4 +1,4 @@
-package com.example.underthelamp.navigation.model
+package com.example.underthelamp.model
 
 // 커뮤니티의 게시글에 대한 DTO
 data class CommunityDTO(

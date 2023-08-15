@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentUserDetailBinding
-import com.example.underthelamp.navigation.model.UserDetailDTO
+import com.example.underthelamp.model.UserDetailDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore

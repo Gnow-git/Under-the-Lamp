@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentUserJobBinding
-import com.example.underthelamp.navigation.model.UserJobDTO
+import com.example.underthelamp.model.UserJobDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserInfo
 import com.google.firebase.auth.ktx.auth

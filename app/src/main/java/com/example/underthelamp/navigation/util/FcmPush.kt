@@ -1,7 +1,7 @@
 package com.example.underthelamp.navigation.util
 
 import com.example.underthelamp.BuildConfig
-import com.example.underthelamp.navigation.model.PushDTO
+import com.example.underthelamp.model.PushDTO
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import io.grpc.Server

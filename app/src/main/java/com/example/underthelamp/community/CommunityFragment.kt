@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentCommunityBinding
-import com.example.underthelamp.navigation.model.CommunityDTO
+import com.example.underthelamp.model.CommunityDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_community.view.community_recyclerview

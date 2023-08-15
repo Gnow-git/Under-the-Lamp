@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentWritingBinding
-import com.example.underthelamp.navigation.model.CommunityDTO
+import com.example.underthelamp.model.CommunityDTO
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore

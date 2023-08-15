@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import com.example.underthelamp.MainActivity
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentLoginBinding
-import com.example.underthelamp.navigation.model.UserDTO
+import com.example.underthelamp.model.UserDTO
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount

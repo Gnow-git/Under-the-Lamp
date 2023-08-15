@@ -1,4 +1,4 @@
-package com.example.underthelamp.navigation.model
+package com.example.underthelamp.model
 
 /**
  * 예술인 찾기할 때 나타낼 유저 정보

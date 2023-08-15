@@ -1,4 +1,4 @@
-package com.example.underthelamp.navigation.model
+package com.example.underthelamp.model
 
 data class FollowDTO(
     var followerCount : Int = 0,

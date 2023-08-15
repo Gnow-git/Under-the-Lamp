@@ -1,4 +1,4 @@
-package com.example.underthelamp.navigation.model
+package com.example.underthelamp.model
 
 data class ContentDTO(var explain : String? = null,
                       var imageUrl : String? = null,

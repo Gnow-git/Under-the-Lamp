@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.underthelamp.R
-import com.example.underthelamp.navigation.model.ContentDTO
+import com.example.underthelamp.model.ContentDTO
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_grid.view.gridfragment_recyclerview
 

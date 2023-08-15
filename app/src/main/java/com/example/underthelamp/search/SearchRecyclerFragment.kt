@@ -16,10 +16,10 @@ import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentSearchRecyclerBinding
 import com.example.underthelamp.databinding.FragmentUserInfoCatergoriesBinding
 import com.example.underthelamp.navigation.UserFragment
-import com.example.underthelamp.navigation.model.ArtistDTO
-import com.example.underthelamp.navigation.model.ContentDTO
-import com.example.underthelamp.navigation.model.UserCategoryDTO
-import com.example.underthelamp.navigation.model.UserDetailDTO
+import com.example.underthelamp.model.ArtistDTO
+import com.example.underthelamp.model.ContentDTO
+import com.example.underthelamp.model.UserCategoryDTO
+import com.example.underthelamp.model.UserDetailDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
