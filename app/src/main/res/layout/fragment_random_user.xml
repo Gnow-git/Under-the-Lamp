@@ -43,8 +43,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/randomUserFrame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="330dp"
+        android:layout_height="480dp"
         app:layout_constraintTop_toBottomOf="@+id/community_sub_title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,6 +62,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@drawable/layout_round"
             android:src="@drawable/random_user_default"
+            android:layout_marginTop="0dp"
+            app:layout_constraintVertical_bias="0.0"
             android:scaleType="centerCrop"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -72,7 +74,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="1.0">
+            android:layout_marginTop="276dp"
+            app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/userProfileForm"
@@ -178,7 +181,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="15dp"
         android:layout_marginBottom="35dp" />
 
 
