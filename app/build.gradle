@@ -68,4 +68,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx:21.2.1'
     implementation 'com.google.gms:google-services:4.3.15'
     implementation 'me.relex:circleindicator:2.1.6'
+    implementation "androidx.palette:palette:1.0.0"
 }

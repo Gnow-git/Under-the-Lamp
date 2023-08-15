@@ -43,14 +43,15 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/randomUserFrame"
-        android:layout_width="330dp"
-        android:layout_height="480dp"
+        android:layout_width="318dp"
+        android:layout_height="472dp"
         app:layout_constraintTop_toBottomOf="@+id/community_sub_title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.0"
+        android:background="@drawable/random_user_shadow">
 
         <ImageView
             android:id="@+id/userPostImage"
@@ -181,8 +182,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="35dp" />
+        android:layout_marginTop="23dp"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 

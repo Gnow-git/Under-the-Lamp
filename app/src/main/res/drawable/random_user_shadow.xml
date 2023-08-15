@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 그림자 설정 아래로 내려갈 수록 물체와 가까운 그림자로 표현 -->
+    <item> <shape> <padding android:top="0dp" android:right="1dp" android:bottom="1dp" android:left="1dp" /> <corners android:radius="20dp" /> <solid android:color="#FFFFFF" /> </shape> </item>
+    <item> <shape> <padding android:top="0dp" android:right="1dp" android:bottom="1dp" android:left="1dp" /> <corners android:radius="20dp" /> <solid android:color="#FAFFFFFF" /> </shape> </item>
+    <item> <shape> <padding android:top="0dp" android:right="1dp" android:bottom="1dp" android:left="1dp" /> <corners android:radius="20dp" /> <solid android:color="#F5FFFFFF" /> </shape> </item>
+    <item> <shape> <padding android:top="0dp" android:right="1dp" android:bottom="1dp" android:left="1dp" /> <corners android:radius="20dp" /> <solid android:color="#EFFFFFFF" /> </shape> </item>
+    <item> <shape> <padding android:top="0dp" android:right="1dp" android:bottom="1dp" android:left="0dp" /> <corners android:radius="20dp" /> <solid android:color="#E6FFFFFF" /> </shape> </item>
+    <item> <shape> <padding android:top="0dp" android:right="1dp" android:bottom="1dp" android:left="0dp" /> <corners android:radius="20dp" /> <solid android:color="#E0FFFFFF" /> </shape> </item>
+    <item> <shape> <padding android:top="0dp" android:right="0dp" android:bottom="1dp" android:left="0dp" /> <corners android:radius="20dp" /> <solid android:color="#DAFFFFFF" /> </shape> </item>
+    <item> <shape> <padding android:top="0dp" android:right="0dp" android:bottom="1dp" android:left="0dp" /> <corners android:radius="20dp" /> <solid android:color="#D4FFFFFF" /> </shape> </item>
+    <item> <shape> <padding android:top="0dp" android:right="0dp" android:bottom="2dp" android:left="0dp" /> <corners android:radius="20dp" /> <solid android:color="#CEFFFFFF" /> </shape> </item>
+    <item> <shape> <padding android:top="0dp" android:right="0dp" android:bottom="2dp" android:left="0dp" /> <corners android:radius="20dp" /> <solid android:color="#CCFFFFFF" /> </shape> </item>
+
+    <!-- Background -->
+    <item><shape
+        android:padding="10dp"
+        android:shape="rectangle">
+        <solid android:color="#ffffff" />
+
+        <stroke
+            android:width="1dp"
+            android:color="#FFFFFF"/>
+        <corners
+            android:bottomLeftRadius="20dp"
+            android:bottomRightRadius="20dp"
+            android:topLeftRadius="20dp"
+            android:topRightRadius="20dp" />
+    </shape></item>
+</layer-list>
