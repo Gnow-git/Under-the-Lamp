@@ -62,14 +62,14 @@ class UserFragment : Fragment() {
                 .get().addOnSuccessListener { document ->
                     if (document.exists()) {
                         val userName = document.getString("user_name")
-                        mainActivity?.toolbar_username?.text = userName
+                        //mainActivity?.toolbar_username?.text = userName
                     } else {
-                        mainActivity?.toolbar_username?.text = "이름을 불러올 수 없습니다."
+                        //mainActivity?.toolbar_username?.text = "이름을 불러올 수 없습니다."
                     }
                 }
                 .addOnFailureListener { exception ->
                      Log.d(TAG, "데이터 가져오기 실패: ", exception)
-                    mainActivity?.toolbar_username?.text  = "데이터를 가져오는 중에 오류가 발생하였습니다."
+                    //mainActivity?.toolbar_username?.text  = "데이터를 가져오는 중에 오류가 발생하였습니다."
                 }
 
 //            mainActivity?.toolbar_btn_back?.setOnClickListener {

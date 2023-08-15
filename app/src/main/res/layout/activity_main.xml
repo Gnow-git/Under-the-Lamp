@@ -15,21 +15,16 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="40dp">
 
-        <TextView
-            android:id="@+id/toolbar_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/toolbar_title"
+            android:layout_width="61.11dp"
+            android:layout_height="22dp"
             android:layout_alignParentStart="true"
             android:layout_marginStart="28dp"
             android:layout_marginTop="14dp"
-            android:layout_marginBottom="18dp"
-            android:fontFamily="@font/pretendard_regular"
-            android:gravity="center"
-            android:text="등잔 밑"
-            android:textColor="@color/selectColor"
-            android:textSize="19sp" />
+            android:src="@drawable/toolbar_title_icon"/>
 
         <ImageView
             android:layout_width="24.71dp"
@@ -52,15 +47,8 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/nav_division"
+        android:layout_above="@id/bottom_navigation"
         android:layout_below="@+id/toolbar_division" />
-    <LinearLayout
-        android:id="@+id/nav_division"
-        android:background="@color/colorDivision"
-        android:orientation="horizontal"
-        android:layout_above="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

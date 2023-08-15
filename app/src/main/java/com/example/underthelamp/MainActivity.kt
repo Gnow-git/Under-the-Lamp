@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.underthelamp.community.CommunityFragment
+import com.example.underthelamp.community.RandomUserFragment
 import com.example.underthelamp.community.WritingFragment
 import com.example.underthelamp.navigation.*
 import com.example.underthelamp.search.SearchFragment
@@ -60,7 +61,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 return true
             }
             R.id.action_community-> {
+                fragment_position = 2;
+                var randomUserFragment = RandomUserFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.main_content, randomUserFragment).commit()
+                if (isOpen) {
+                    closeFab()
+                }
+                default_upload.visibility = View.GONE   // floating 버튼 안 보이게
 
+                return true
             }
             R.id.action_board -> {
                 // 정보 게시글
