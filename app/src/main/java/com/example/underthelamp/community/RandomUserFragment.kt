@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
 import com.example.underthelamp.R
@@ -31,6 +32,7 @@ class RandomUserFragment: Fragment() {
 
         val bitmap = (userPostImage.drawable as? BitmapDrawable)?.bitmap
 
+        /** 그림자 수정할 때 쓰는 부분 */
         bitmap?.let {
             // Palette 라이브러리를 사용하여 이미지의 주요 색상을 추출
             Palette.from(it).generate { palette ->
@@ -63,5 +65,32 @@ class RandomUserFragment: Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        loadRandomUser()
+    }
+
+    /** 유저의 정보를 랜덤 으로 보여 주는 함수 */
+    private fun loadRandomUser() {
+        val userNameTextView = binding.userName
+
+        // 현재는 테스트 용으로 email 정보를 불러 오도록 임시 작성, 추후 DB 수정 후 name 으로 불러 오도록 수정 예정
+        firestore?.collection("userinfo")
+            ?.get()
+            ?.addOnSuccessListener { querySnapshot ->
+                if (!querySnapshot.isEmpty) {
+                    val randomIndex = (0 until querySnapshot.size()).random()
+                    val document = querySnapshot.documents[randomIndex]
+                    val email = document.getString("email") ?: ""
+                    val username = email.substringBefore('@')
+                    userNameTextView.text = username
+                }
+            }
+            ?.addOnFailureListener { exception ->
+                // 예외 시
+                Toast.makeText(activity, "유저 정보를 불러오는데 실패했습니다",Toast.LENGTH_SHORT).show()
+            }
     }
 }

@@ -88,12 +88,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintVertical_bias="1.0"
                 android:background="@drawable/user_profile_form_background">
-                
+
                 <TextView
                     android:id="@+id/userName"
                     android:layout_width="160dp"
-                    android:layout_height="25dp"
-                    android:text="아자자"
+                    android:layout_height="wrap_content"
+                    android:text="userName"
                     android:textSize="24sp"
                     android:includeFontPadding="false"
                     android:fontFamily="@font/pretendard_semibold"
