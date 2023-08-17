@@ -1,6 +1,5 @@
 package com.example.underthelamp.community
 
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.GradientDrawable
@@ -12,10 +11,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
-import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentRandomUserBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.palette.graphics.Palette
+import com.bumptech.glide.Glide
 
 class RandomUserFragment: Fragment() {
 
@@ -83,14 +82,43 @@ class RandomUserFragment: Fragment() {
                 if (!querySnapshot.isEmpty) {
                     val randomIndex = (0 until querySnapshot.size()).random()
                     val document = querySnapshot.documents[randomIndex]
+
+                    /** email 필드 에서 도메인 주소를 제외한 local-parts만 출력 */
                     val email = document.getString("email") ?: ""
                     val username = email.substringBefore('@')
                     userNameTextView.text = username
+
+                    /** 랜덤으로 불러온 유저의 이미지를 불러 오기 위해 uid 저장 */
+                    val uid = document.getString("uid")
+                    loadRandomUserImage(uid)
+
                 }
             }
             ?.addOnFailureListener { exception ->
                 // 예외 시
                 Toast.makeText(activity, "유저 정보를 불러오는데 실패했습니다",Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun loadRandomUserImage(uid: String?) {
+
+        if (uid != null) {
+            firestore?.collection("images")
+                ?.whereEqualTo("uid", uid)
+                ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                    if (querySnapshot == null) return@addSnapshotListener
+
+                    if (!querySnapshot.isEmpty) {
+                        // 여러 개의 문서 중에서 첫 번째 문서를 가져옴
+                        val document = querySnapshot.documents[0]
+                        val imageUrl = document.getString("imageUrl")
+                        if (imageUrl != null) {
+                            Glide.with(this).load(imageUrl).into(binding.userPostImage)
+                        }
+                    } else {
+                        Toast.makeText(activity, "사용자가 올린 게시물이 없습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+        }
     }
 }
