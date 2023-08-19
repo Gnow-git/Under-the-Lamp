@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.underthelamp.MainActivity
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentUserDetailBinding
 import com.example.underthelamp.model.UserDetailDTO
@@ -51,6 +52,13 @@ class UserDetailFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 // 나이 선택 시
                 userAge = parent?.getItemAtPosition(position).toString()
+
+                // 선택된 항목의 글자 색상을 변경
+                if (position > 0) {
+                    (view as? TextView)?.setTextColor(ContextCompat.getColor(requireContext(), R.color.selectColor))
+                } else {    // 선택해주세요 일 경우
+                    (view as? TextView)?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -63,6 +71,12 @@ class UserDetailFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 // 지역 선택 시
                 userLocation = parent?.getItemAtPosition(position).toString()
+                // 선택된 항목의 글자 색상을 변경
+                if (position > 0) {
+                    (view as? TextView)?.setTextColor(ContextCompat.getColor(requireContext(), R.color.selectColor))
+                } else {    // 선택해주세요 일 경우
+                    (view as? TextView)?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -82,18 +96,15 @@ class UserDetailFragment : Fragment() {
 
         val genderViews = listOf(binding.man, binding.women)
         val subCategoryViews = listOf(binding.button, binding.button2, binding.button3, binding.button4, binding.button5)
-        val color_se = ContextCompat.getColor(requireContext(), R.color.defaultColor)
-        val color_un = ContextCompat.getColor(requireContext(), R.color.selectColor)
 
         genderViews.forEach { view ->
             view.setOnClickListener {
                 genderViews.forEach { genderView ->
                     if (genderView == view) {
-                        genderView.setTextColor(color_se) // 선택된 뷰의 색상 변경
-                        genderView.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_round_se)
+                        //genderView.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_round_se)
+                        genderView.setBackgroundResource(R.drawable.button_round_se)
                         userGender = if (genderView == binding.man) "남자" else "여자"
                     } else {
-                        genderView.setTextColor(color_un)   // 원래대로
                         genderView.setBackgroundResource(R.drawable.button_round)
                     }
                 }
@@ -104,8 +115,7 @@ class UserDetailFragment : Fragment() {
             view.setOnClickListener {
                 subCategoryViews.forEach { subCategoryView ->
                     if (subCategoryView == view) {
-                        subCategoryView.setTextColor(color_se) // 선택된 뷰의 색상 변경
-                        subCategoryView.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_round_se)
+                        subCategoryView.setBackgroundResource(R.drawable.button_round_se)
                         when (subCategoryView) {
                             binding.button -> userSubCategory = "전무"
                             binding.button2 -> userSubCategory = "입문자"
@@ -114,8 +124,8 @@ class UserDetailFragment : Fragment() {
                             binding.button5 -> userSubCategory = "실무경험"
                         }
                     } else {
-                        subCategoryView.setTextColor(color_un)   // 원래대로
                         subCategoryView.setBackgroundResource(R.drawable.button_round)
+
                     }
                 }
             }
@@ -147,8 +157,11 @@ class UserDetailFragment : Fragment() {
             .addOnSuccessListener {
                 // 성공적으로 저장된 경우 처리할 로직 작성
                 Toast.makeText(activity, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-
-                startActivity(Intent(activity, LoginActivity::class.java))
+                
+                // 회원가입 완료 시 MainActivity로 이동
+                val intent = Intent(activity, MainActivity::class.java)
+                
+                startActivity(intent)
             }
             .addOnFailureListener {
                 // 저장 실패 시 처리할 로직 작성

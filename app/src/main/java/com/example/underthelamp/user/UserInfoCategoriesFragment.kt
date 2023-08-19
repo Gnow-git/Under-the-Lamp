@@ -128,12 +128,6 @@ class UserInfoCategoriesFragment : Fragment() {
         
         // 오른쪽 화살표 버튼 클릭 이벤트 처리, 메인 페이지로 이동
         binding.nextArrow.setOnClickListener {
-//            val userDetailFragment = UserDetailFragment()
-//            parentFragmentManager.beginTransaction().apply {
-//                replace(R.id.loginFragmentFrame, userDetailFragment)
-//                addToBackStack(null)
-//                commit()
-//            }
 
             saveUserInfoCategoryDTO(userCategory, userGoal, userExperience)
         }
@@ -149,9 +143,15 @@ class UserInfoCategoriesFragment : Fragment() {
             .addOnSuccessListener {
                 // 성공적으로 저장된 경우 처리할 로직 작성
                 Toast.makeText(activity, "유저 정보 저장이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-                val intent: Intent = Intent(activity, MainActivity::class.java)
-
-                startActivity(intent)
+//                val intent: Intent = Intent(activity, MainActivity::class.java)
+//
+//                startActivity(intent)
+                val userDetailFragment = UserDetailFragment()
+                parentFragmentManager.beginTransaction().apply {
+                    replace(R.id.loginFragmentFrame, userDetailFragment)
+                    addToBackStack(null)
+                    commit()
+                }
             }
             .addOnFailureListener {
                 // 저장 실패 시 처리할 로직 작성
