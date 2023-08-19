@@ -1,7 +1,9 @@
 package com.example.underthelamp.community
 
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
@@ -15,6 +17,11 @@ import com.example.underthelamp.databinding.FragmentRandomUserBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.example.underthelamp.R
+import kotlinx.android.synthetic.main.fragment_random_user.randomUserFrame
+import kotlinx.android.synthetic.main.fragment_user_detail.view.back
 
 class RandomUserFragment: Fragment() {
 
@@ -26,48 +33,21 @@ class RandomUserFragment: Fragment() {
         firestore = FirebaseFirestore.getInstance()
         binding = FragmentRandomUserBinding.inflate(inflater, container, false)
 
-        val userPostImage = binding.userPostImage
-        val randomUserFrame = binding.randomUserFrame
-
-        val bitmap = (userPostImage.drawable as? BitmapDrawable)?.bitmap
-
-        /** 그림자 수정할 때 쓰는 부분 */
-        bitmap?.let {
-            // Palette 라이브러리를 사용하여 이미지의 주요 색상을 추출
-            Palette.from(it).generate { palette ->
-                val dominantColor = palette?.getDominantColor(Color.WHITE) // 기본값
-
-                // 추출한 주요 색상을 기반으로 그림자 색상을 설정 0(투명) ~ 255(불투명)
-                val shadowColors = arrayOf(
-                    ColorUtils.setAlphaComponent(dominantColor!!, 10),
-                    ColorUtils.setAlphaComponent(dominantColor, 9),
-                    ColorUtils.setAlphaComponent(dominantColor, 8),
-                    ColorUtils.setAlphaComponent(dominantColor, 7),
-                    ColorUtils.setAlphaComponent(dominantColor, 6),
-                    ColorUtils.setAlphaComponent(dominantColor, 5),
-                    ColorUtils.setAlphaComponent(dominantColor, 4),
-                    ColorUtils.setAlphaComponent(dominantColor, 3),
-                    ColorUtils.setAlphaComponent(dominantColor, 2),
-                    ColorUtils.setAlphaComponent(dominantColor, 1)
-
-                )
-
-                // 그림자의 색상을 변경
-                val layerDrawable = randomUserFrame.background as? LayerDrawable
-                if (layerDrawable != null && layerDrawable.numberOfLayers >= 10) {
-                    for (i in 0 until 10) {
-                        val shapeDrawable = layerDrawable.getDrawable(i) as? GradientDrawable
-                        shapeDrawable?.setColor(shadowColors[i])
-                    }
-                }
-            }
-        }
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var userPostImage = binding.userPostImage
+        var userProfileImage = binding.userProfileImage
+
+        /** ImageView 의 round 적용이 안되어 적용 하기 위한 코드 */
+        userPostImage.background = resources.getDrawable(R.drawable.layout_round, null)
+        userPostImage.clipToOutline = true
+
+        userProfileImage.background = resources.getDrawable(R.drawable.radius, null)
+        userProfileImage.clipToOutline = true
+
         loadRandomUser()
     }
 
@@ -114,6 +94,46 @@ class RandomUserFragment: Fragment() {
                         val imageUrl = document.getString("imageUrl")
                         if (imageUrl != null) {
                             Glide.with(this).load(imageUrl).into(binding.userPostImage)
+
+                            val randomUserFrame = binding.randomUserFrame
+
+                            Glide.with(this).asBitmap().load(imageUrl).into(object : CustomTarget<Bitmap>() {
+                                override fun onResourceReady(
+                                    resource: Bitmap,
+                                    transition: Transition<in Bitmap>?
+                                ) {
+                                    Palette.from(resource).generate { palette ->
+                                        val dominantColor =
+                                            palette?.getDominantColor(Color.WHITE) ?: Color.WHITE
+                                        val shadowColors = arrayOf(
+                                            ColorUtils.setAlphaComponent(dominantColor, 10),
+                                            ColorUtils.setAlphaComponent(dominantColor, 9),
+                                            ColorUtils.setAlphaComponent(dominantColor, 8),
+                                            ColorUtils.setAlphaComponent(dominantColor, 7),
+                                            ColorUtils.setAlphaComponent(dominantColor, 6),
+                                            ColorUtils.setAlphaComponent(dominantColor, 5),
+                                            ColorUtils.setAlphaComponent(dominantColor, 4),
+                                            ColorUtils.setAlphaComponent(dominantColor, 3),
+                                            ColorUtils.setAlphaComponent(dominantColor, 2),
+                                            ColorUtils.setAlphaComponent(dominantColor, 1)
+                                        )
+                                        // 그림자의 색상을 변경
+                                        val layerDrawable =
+                                            randomUserFrame.background as? LayerDrawable
+                                        if (layerDrawable != null && layerDrawable.numberOfLayers >= 10) {
+                                            for (i in 0 until 10) {
+                                                val shapeDrawable =
+                                                    layerDrawable.getDrawable(i) as? GradientDrawable
+                                                shapeDrawable?.setColor(shadowColors[i])
+                                            }
+                                        }
+                                    }
+                                }
+
+                                override fun onLoadCleared(placeholder: Drawable?) {
+                                    // 작업 미수행
+                                }
+                            })
                         }
                     } else {
                         Toast.makeText(activity, "사용자가 올린 게시물이 없습니다.", Toast.LENGTH_SHORT).show()

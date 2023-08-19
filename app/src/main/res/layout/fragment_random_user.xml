@@ -61,7 +61,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/layout_round"
             android:src="@drawable/random_user_default"
             android:layout_marginTop="0dp"
             app:layout_constraintVertical_bias="0.0"
@@ -157,7 +156,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/userProfileImage"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
@@ -169,7 +168,8 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="109dp"
                 app:layout_constraintVertical_bias="0.0"
-                app:layout_constraintHorizontal_bias="1.0" />
+                app:layout_constraintHorizontal_bias="1.0"
+                android:scaleType="centerCrop"  />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
