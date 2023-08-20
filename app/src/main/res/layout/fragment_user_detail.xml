@@ -203,16 +203,16 @@
         app:layout_constraintVertical_bias="0.14" />
 
     <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/detailCategory"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom"
         app:layout_constraintEnd_toStartOf="@+id/end"
-        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintHorizontal_bias="0.399"
         app:layout_constraintStart_toStartOf="@+id/start"
         app:layout_constraintTop_toTopOf="@+id/experience"
-        app:layout_constraintVertical_bias="0.079"
-        app:srcCompat="@drawable/play_un" />
+        app:layout_constraintVertical_bias="0.128"
+        app:srcCompat="@drawable/art_icon" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -230,7 +230,7 @@
         app:layout_constraintVertical_bias="0.512" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/noneBtn"
         android:layout_width="65dp"
         android:layout_height="30dp"
         android:background="@drawable/button_round"
@@ -247,7 +247,7 @@
         app:layout_constraintVertical_bias="0.5" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/introductionBtn"
         android:layout_width="65dp"
         android:layout_height="30dp"
         android:background="@drawable/button_round"
@@ -264,7 +264,7 @@
         app:layout_constraintVertical_bias="0.5" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/intermediateBtn"
         android:layout_width="65dp"
         android:layout_height="30dp"
         android:background="@drawable/button_round"
@@ -282,7 +282,7 @@
         app:layout_constraintVertical_bias="0.5" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/majorBtn"
         android:layout_width="65dp"
         android:layout_height="30dp"
         android:background="@drawable/button_round"
@@ -300,7 +300,7 @@
         app:layout_constraintVertical_bias="0.72" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/practicalBtn"
         android:layout_width="65dp"
         android:layout_height="30dp"
         android:background="@drawable/button_round"

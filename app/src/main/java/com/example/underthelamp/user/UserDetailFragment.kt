@@ -95,7 +95,7 @@ class UserDetailFragment : Fragment() {
         userSubCategory = "부카테고리"
 
         val genderViews = listOf(binding.man, binding.women)
-        val subCategoryViews = listOf(binding.button, binding.button2, binding.button3, binding.button4, binding.button5)
+        val subCategoryViews = listOf(binding.noneBtn, binding.introductionBtn, binding.intermediateBtn, binding.majorBtn, binding.practicalBtn)
 
         genderViews.forEach { view ->
             view.setOnClickListener {
@@ -111,17 +111,30 @@ class UserDetailFragment : Fragment() {
             }
         }
 
+        /** 저장된 카테고리 값에 따른 이미지 변경 */
+        userinfo.document(getCurrentUserUid()).collection("information").document("category").get().addOnSuccessListener { querySnapshot ->
+            val userCategory = querySnapshot.getString("user_category")
+
+            when (userCategory) {
+                "미술" -> binding.detailCategory.setImageResource(R.drawable.art_icon)
+                "대중음악" -> binding.detailCategory.setImageResource(R.drawable.public_music_icon)
+                "음악" -> binding.detailCategory.setImageResource(R.drawable.music_icon)
+                "연극" -> binding.detailCategory.setImageResource(R.drawable.theater_icon)
+                "문학" -> binding.detailCategory.setImageResource(R.drawable.literature_icon)
+            }
+        }
+
         subCategoryViews.forEach { view ->
             view.setOnClickListener {
                 subCategoryViews.forEach { subCategoryView ->
                     if (subCategoryView == view) {
                         subCategoryView.setBackgroundResource(R.drawable.button_round_se)
                         when (subCategoryView) {
-                            binding.button -> userSubCategory = "전무"
-                            binding.button2 -> userSubCategory = "입문자"
-                            binding.button3 -> userSubCategory = "중급자"
-                            binding.button4 -> userSubCategory = "전공자"
-                            binding.button5 -> userSubCategory = "실무경험"
+                            binding.majorBtn -> userSubCategory = "전무"
+                            binding.introductionBtn -> userSubCategory = "입문자"
+                            binding.intermediateBtn -> userSubCategory = "중급자"
+                            binding.majorBtn -> userSubCategory = "전공자"
+                            binding.practicalBtn -> userSubCategory = "실무경험"
                         }
                     } else {
                         subCategoryView.setBackgroundResource(R.drawable.button_round)
