@@ -89,7 +89,7 @@ class UserDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        nameEdit = binding.editTextTextPersonName
+        nameEdit = binding.editName
         userName = "이름"
         userGender = "성별"
         userSubCategory = "부카테고리"

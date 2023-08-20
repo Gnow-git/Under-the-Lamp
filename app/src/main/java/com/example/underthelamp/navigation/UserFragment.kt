@@ -86,7 +86,7 @@ class UserFragment : Fragment() {
         fragmentView?.account_recyclerview?.layoutManager = GridLayoutManager(requireActivity(), 3)
 
         // profile
-        fragmentView?.account_iv_profile?.setOnClickListener {
+        fragmentView?.userProfileImage?.setOnClickListener {
             var photoPickerIntent = Intent(Intent.ACTION_PICK)
             photoPickerIntent.type = "image/*"
             activity?.startActivityForResult(photoPickerIntent, PICK_PROFILE_FROM_ALBUM)
@@ -102,10 +102,10 @@ class UserFragment : Fragment() {
             if(documentSnapshot == null) return@addSnapshotListener
             var followDTO = documentSnapshot.toObject(FollowDTO::class.java)
             if(followDTO?.followingCount != null){
-                fragmentView?.account_tv_following_count?.text = followDTO?.followingCount?.toString()
+                fragmentView?.followingCount?.text = followDTO?.followingCount?.toString()
             }
             if(followDTO?.followerCount != null){
-                fragmentView?.account_tv_follower_count?.text = followDTO?.followerCount?.toString()
+                fragmentView?.followerCount?.text = followDTO?.followerCount?.toString()
                 // 팔로우하고 있는 경우 버튼 취소로
                 if (followDTO?.followers?.containsKey(currentUserUid!!) == true){
                     fragmentView?.account_btn_follow_signout?.text = context.getString(R.string.follow_cancel)
@@ -195,7 +195,7 @@ class UserFragment : Fragment() {
             if(documentSnapshot.data != null){
                 // null이 아닐 경우 이미지 주소를 받아옴
                 var url = documentSnapshot?.data!!["image"]
-                Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop()).into(fragmentView?.account_iv_profile!!)
+                Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop()).into(fragmentView?.userProfileImage!!)
             }
         }
     }
@@ -210,16 +210,16 @@ class UserFragment : Fragment() {
                 for(snapshot in querySnapshots.documents){
                     contentDTOs.add(snapshot.toObject(ContentDTO::class.java )!!)
                 }
-                fragmentView?.account_tv_post_count?.text = contentDTOs.size.toString()
+                fragmentView?.postCount?.text = contentDTOs.size.toString()
                 notifyDataSetChanged()
             }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            var width = resources.displayMetrics.widthPixels / 3
+            //var width = resources.displayMetrics.widthPixels / 3
 
             var imageview = ImageView(parent.context)
-            imageview.layoutParams = LinearLayoutCompat.LayoutParams(width, width)
+            imageview.layoutParams = LinearLayoutCompat.LayoutParams(105, 105)
             return CustomViewHolder(imageview)
         }
 

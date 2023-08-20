@@ -1,98 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp">
+
+    <ImageView
+        android:id="@+id/userProfileImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/user_profile_default"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        app:layout_constraintVertical_bias="0.0"/>
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="홍길동"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/pretendard_semibold"
+        app:layout_constraintTop_toBottomOf="@+id/userProfileImage"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        app:layout_constraintVertical_bias="0.0"    />
+    
+    <TextView
+        android:id="@+id/introduce"
+        android:layout_width="331dp"
+        android:layout_height="20dp"
+        android:text="나는 나를 말한다"
+        android:textSize="12sp"
+        android:textColor="@color/fontColor"
+        android:fontFamily="@font/pretendard_regular"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/userName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="0dp"
+        app:layout_constraintVertical_bias="0.0"    />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/userInfoForm"
+        android:layout_width="331dp"
+        android:layout_height="68dp"
+        app:layout_constraintTop_toBottomOf="@+id/introduce"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        app:layout_constraintVertical_bias="0.0" >
 
         <ImageView
-            android:id="@+id/account_iv_profile"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_account" />
+            android:layout_width="331dp"
+            android:layout_height="1dp"
+            android:background="#4D767676"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
-        <Button
-            android:id="@+id/account_btn_follow_signout"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/account_iv_profile"
-            android:text="@string/follow" />
+        <TextView
+            android:id="@+id/postText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/post"
+            android:textSize="14sp"
+            android:fontFamily="@font/pretendard_semibold"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="49dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/account_btn_follow_signout"
-            android:layout_toRightOf="@+id/account_iv_profile"
-            android:gravity="center">
+        <TextView
+            android:id="@+id/postCount"
+            android:layout_width="9dp"
+            android:layout_height="24dp"
+            android:text="@string/count_0"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:fontFamily="@font/pretendard_regular"
+            android:textColor="@color/defaultColor"
+            app:layout_constraintTop_toBottomOf="@+id/postText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="59dp"
+            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"/>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="vertical">
+        <TextView
+            android:id="@+id/followText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/follow"
+            android:textSize="14sp"
+            android:fontFamily="@font/pretendard_semibold"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="137dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/post" />
+        <TextView
+            android:id="@+id/followerCount"
+            android:layout_width="9dp"
+            android:layout_height="24dp"
+            android:text="@string/count_0"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:fontFamily="@font/pretendard_regular"
+            android:textColor="@color/defaultColor"
+            app:layout_constraintTop_toBottomOf="@+id/followText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="158dp"
+            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"/>
 
-                <TextView
-                    android:id="@+id/account_tv_post_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/count_0" />
-            </LinearLayout>
+        <TextView
+            android:id="@+id/followingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/following"
+            android:textSize="14sp"
+            android:fontFamily="@font/pretendard_semibold"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="224dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0"/>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="vertical">
+        <TextView
+            android:id="@+id/followingCount"
+            android:layout_width="9dp"
+            android:layout_height="24dp"
+            android:text="@string/count_0"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:fontFamily="@font/pretendard_regular"
+            android:textColor="@color/defaultColor"
+            app:layout_constraintTop_toBottomOf="@+id/followingText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="256dp"
+            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/follower" />
+        <ImageView
+            android:layout_width="331dp"
+            android:layout_height="1dp"
+            android:background="#4D767676"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
-                <TextView
-                    android:id="@+id/account_tv_follower_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/count_0" />
-            </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="vertical">
+    <Button
+        android:id="@+id/account_btn_follow_signout"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:text="@string/follow"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/following" />
-
-                <TextView
-                    android:id="@+id/account_tv_following_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/count_0" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/account_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+        android:layout_width="331dp"
+        android:layout_height="392dp"
+        app:layout_constraintTop_toBottomOf="@+id/userInfoForm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        app:layout_constraintVertical_bias="0.0" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
