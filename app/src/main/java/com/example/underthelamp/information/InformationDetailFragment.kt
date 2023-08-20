@@ -1,4 +1,4 @@
-package com.example.underthelamp.community
+package com.example.underthelamp.information
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,11 +15,7 @@ import com.example.underthelamp.model.CommunityDTO
 import com.example.underthelamp.navigation.util.FcmPush
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_comment.comment_edit_message
-import kotlinx.android.synthetic.main.fragment_community_detail.view.detail_date
-import kotlinx.android.synthetic.main.fragment_community_detail.view.detail_title
-import kotlinx.android.synthetic.main.fragment_community_detail.view.detail_user
 import kotlinx.android.synthetic.main.item_community_comment.view.commentviewitem_textview_comment
 import kotlinx.android.synthetic.main.item_community_comment.view.commentviewitem_textview_profile
 import java.text.SimpleDateFormat
@@ -29,7 +25,7 @@ import java.util.Locale
 /** Community 의 상세 보기 기능 및 댓글을 보여 주는 fragment */
 /** 현재는 댓글만 보여 주도록 구현 */
 
-class CommunityDetailFragment : Fragment() {
+class InformationDetailFragment : Fragment() {
 
     lateinit var binding : FragmentCommunityDetailBinding
     var firestore : FirebaseFirestore? = null
@@ -84,10 +80,10 @@ class CommunityDetailFragment : Fragment() {
                 }
         } else {
             // communityUid 가 null 일 경우
-            val communityFragment = CommunityFragment()
+            val informationFragment = InformationFragment()
 
             parentFragmentManager.beginTransaction()
-                .replace(R.id.main_content, communityFragment)
+                .replace(R.id.main_content, informationFragment)
                 .addToBackStack(null)
                 .commit()
         }

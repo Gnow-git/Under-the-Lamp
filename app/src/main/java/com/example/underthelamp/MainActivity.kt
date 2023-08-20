@@ -11,13 +11,13 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.underthelamp.community.CommunityFragment
+import com.example.underthelamp.information.InformationFragment
 import com.example.underthelamp.community.RandomUserFragment
-import com.example.underthelamp.community.WritingFragment
-import com.example.underthelamp.navigation.*
+import com.example.underthelamp.information.WritingFragment
+import com.example.underthelamp.home.DetailViewFragment
 import com.example.underthelamp.search.SearchFragment
 import com.example.underthelamp.upload.UploadFragment
-import com.example.underthelamp.user.UserJobFragment
+import com.example.underthelamp.user.UserFragment
 import com.google.android.gms.tasks.Task
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.navigation.NavigationView
@@ -74,8 +74,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.action_board -> {
                 // 정보 게시글
                 fragment_position = 3;
-                var communityFragment = CommunityFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.main_content, communityFragment).commit()
+                var informationFragment = InformationFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.main_content, informationFragment).commit()
 
                 default_upload.visibility = View.VISIBLE   // floating 버튼 보이게
                 if (isOpen) {

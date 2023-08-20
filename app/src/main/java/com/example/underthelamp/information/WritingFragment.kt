@@ -1,4 +1,4 @@
-package com.example.underthelamp.community
+package com.example.underthelamp.information
 
 import android.app.Activity
 import android.content.Intent
@@ -67,8 +67,8 @@ class WritingFragment : Fragment() {
 
                 // 업로드 안될 경우 이동
                 // 업로드 후 fragment 변경
-                var communityFragment = CommunityFragment()
-                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content, communityFragment)?.commit()
+                var informationFragment = InformationFragment()
+                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content, informationFragment)?.commit()
             }
         }
     }
@@ -106,8 +106,8 @@ class WritingFragment : Fragment() {
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
             
             // 업로드 후 fragment 변경
-            var communityFragment = CommunityFragment()
-            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content, communityFragment)?.commit()
+            var informationFragment = InformationFragment()
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content, informationFragment)?.commit()
         }
     }
 }

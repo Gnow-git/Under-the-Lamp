@@ -1,7 +1,6 @@
 package com.example.underthelamp.search
 
 import android.os.Bundle
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +8,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.Glide.init
-import com.bumptech.glide.request.RequestOptions
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentSearchRecyclerBinding
-import com.example.underthelamp.databinding.FragmentUserInfoCatergoriesBinding
-import com.example.underthelamp.navigation.UserFragment
 import com.example.underthelamp.model.ArtistDTO
 import com.example.underthelamp.model.ContentDTO
 import com.example.underthelamp.model.UserCategoryDTO

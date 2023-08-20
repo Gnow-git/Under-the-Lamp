@@ -8,9 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentSearchCategoryBinding
-import com.example.underthelamp.navigation.UserFragment
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.fragment_search.search
 
 class SearchCategoryFragment : Fragment(), View.OnClickListener {
 

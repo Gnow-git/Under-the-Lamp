@@ -1,4 +1,4 @@
-package com.example.underthelamp.navigation
+package com.example.underthelamp.user
 
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -22,7 +22,6 @@ import com.example.underthelamp.model.AlarmDTO
 import com.example.underthelamp.model.ContentDTO
 import com.example.underthelamp.model.FollowDTO
 import com.example.underthelamp.navigation.util.FcmPush
-import com.example.underthelamp.user.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*

@@ -1,9 +1,6 @@
-package com.example.underthelamp.community
+package com.example.underthelamp.information
 
-import android.content.ContentValues
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,19 +9,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.underthelamp.R
-import com.example.underthelamp.databinding.FragmentCommunityBinding
 import com.example.underthelamp.model.CommunityDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_community.view.community_recyclerview
-import kotlinx.android.synthetic.main.fragment_detail.view.detailviewfragment_recyclerview
 import kotlinx.android.synthetic.main.item_community.view.community_form
 import kotlinx.android.synthetic.main.item_community.view.communityItem_image
 import kotlinx.android.synthetic.main.item_community.view.community_text
 import kotlinx.android.synthetic.main.item_community.view.community_title
-import kotlinx.android.synthetic.main.item_detail.view.detailviewitem_profile_textview
 
-class CommunityFragment : Fragment() {
+class InformationFragment : Fragment() {
     var firestore : FirebaseFirestore? = null
     var uid : String? = null
 
@@ -84,14 +78,14 @@ class CommunityFragment : Fragment() {
             // 커뮤니티의 게시글을 누를 경우
             viewHolder.community_form.setOnClickListener { v ->
 
-                val communityDetailFragment = CommunityDetailFragment()
+                val informationDetailFragment = InformationDetailFragment()
                 val args = Bundle()
                 args.putString("communityUid", communityUidList[position])
                 args.putString("destinationUid", communityDTOs[position].uid)
-                communityDetailFragment.arguments = args
+                informationDetailFragment.arguments = args
 
                 parentFragmentManager.beginTransaction()
-                    .replace(R.id.main_content, communityDetailFragment)
+                    .replace(R.id.main_content, informationDetailFragment)
                     .addToBackStack(null)
                     .commit()
             }
