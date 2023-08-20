@@ -94,6 +94,7 @@
                     android:layout_height="wrap_content"
                     android:text="userName"
                     android:textSize="24sp"
+                    android:maxLines="1"
                     android:includeFontPadding="false"
                     android:fontFamily="@font/pretendard_semibold"
                     android:textColor="@color/splashBackground"
@@ -175,6 +176,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
     
     <ImageView
+        android:id="@+id/randomDice"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/dice_icon"

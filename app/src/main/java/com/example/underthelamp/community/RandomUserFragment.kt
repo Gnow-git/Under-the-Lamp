@@ -49,6 +49,11 @@ class RandomUserFragment: Fragment() {
         userProfileImage.clipToOutline = true
 
         loadRandomUser()
+
+        /** 주사위 버튼을 눌렀을 경우 */
+        binding.randomDice.setOnClickListener {
+            loadRandomUser()
+        }
     }
 
     /** 유저의 정보를 랜덤 으로 보여 주는 함수 */
@@ -63,15 +68,28 @@ class RandomUserFragment: Fragment() {
                     val randomIndex = (0 until querySnapshot.size()).random()
                     val document = querySnapshot.documents[randomIndex]
 
-                    /** email 필드 에서 도메인 주소를 제외한 local-parts만 출력 */
-                    val email = document.getString("email") ?: ""
-                    val username = email.substringBefore('@')
-                    userNameTextView.text = username
+                    /** email 필드 에서 도메인 주소를 제외한 local-parts만 출력 현재는 미사용 */
+//                    val email = document.getString("email") ?: ""
+//                    val emailLocal = email.substringBefore('@')
 
-                    /** 랜덤으로 불러온 유저의 이미지를 불러 오기 위해 uid 저장 */
                     val uid = document.getString("uid")
-                    loadRandomUserImage(uid)
+                    if (uid != null) {
+                        firestore?.collection("userinfo")
+                            ?.document(uid)
+                            ?.collection("userinfo")
+                            ?.document("detail")
+                            ?.get()
+                            ?.addOnSuccessListener { detailDocumentSnapshot ->
 
+                                /** 유저의 이름을 출력 데이터가 없을 경우 기본 값 사용*/
+                                val username = detailDocumentSnapshot
+                                    .getString("user_name") ?: "Unkown"
+                                userNameTextView.text = username
+
+                                /** 랜덤으로 불러온 유저의 이미지를 불러 오기 위한 함수 */
+                                loadRandomUserImage(uid)
+                            }
+                    }
                 }
             }
             ?.addOnFailureListener { exception ->
@@ -136,7 +154,8 @@ class RandomUserFragment: Fragment() {
                             })
                         }
                     } else {
-                        Toast.makeText(activity, "사용자가 올린 게시물이 없습니다.", Toast.LENGTH_SHORT).show()
+                        // 사용자가 올린 게시물이 없을 경우 기본 이미지로 설정
+                        binding.userPostImage.setImageResource(R.drawable.random_user_default)
                     }
                 }
         }
