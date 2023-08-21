@@ -7,15 +7,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.bumptech.glide.Glide
 import com.example.underthelamp.R
 import com.example.underthelamp.model.ContestDTO
+import com.example.underthelamp.model.RankDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.fragment_information.view.contest_recyclerview
+import kotlinx.android.synthetic.main.fragment_information.view.contestRecyclerView
+import kotlinx.android.synthetic.main.fragment_information.view.informationRank
 import kotlinx.android.synthetic.main.item_contest.view.contestForm
 import kotlinx.android.synthetic.main.item_contest.view.contestImage
 import kotlinx.android.synthetic.main.item_contest.view.contestTitle
+import kotlinx.android.synthetic.main.item_rank.rankImage
+import kotlinx.android.synthetic.main.item_rank.view.rankImage
+import kotlinx.android.synthetic.main.item_rank.view.rankLikeCount
+import kotlinx.android.synthetic.main.item_rank.view.rankTitle
 
 class InformationFragment : Fragment() {
     var firestore : FirebaseFirestore? = null
@@ -26,11 +33,74 @@ class InformationFragment : Fragment() {
         firestore = FirebaseFirestore.getInstance()
         uid = FirebaseAuth.getInstance().currentUser?.uid
 
-        view.contest_recyclerview.adapter = ContestAdapter()
-        view.contest_recyclerview.layoutManager = LinearLayoutManager(activity)
+        /** informationRank 에 대한 adapter 와 layoutManager 지정 */
+        view.informationRank.adapter = RankAdapter()
+        view.informationRank.layoutManager = LinearLayoutManager(activity)
+
+        /** contestRecyclerView 에 대한 adapter 와 layoutManager 지정 */
+        view.contestRecyclerView.adapter = ContestAdapter()
+        view.contestRecyclerView.layoutManager = LinearLayoutManager(activity)
         return view
     }
 
+    /** informationRank 에 대한 adapter */
+    inner class RankAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+        var rankDTOS : ArrayList<RankDTO> = arrayListOf()
+        var rankUidList : ArrayList<String> = arrayListOf()
+        init{
+            firestore?.collection("rank")?.addSnapshotListener {
+                querySnapshot, firebaseFirestoreException ->
+                rankDTOS.clear()
+                rankUidList.clear()
+                if (querySnapshot == null) return@addSnapshotListener
+
+                for (snapshot in querySnapshot!!.documents) {
+                    var item = snapshot.toObject(RankDTO::class.java)
+                    rankDTOS.add(item!!)
+                    rankUidList.add(snapshot.id)
+                }
+                notifyDataSetChanged()
+            }
+        }
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+            var view = LayoutInflater.from(parent.context).inflate(R.layout.item_rank, parent, false)
+            return CustomRankViewHolder(view)
+        }
+
+        inner class CustomRankViewHolder(view: View) : RecyclerView.ViewHolder(view)
+
+        override fun getItemCount(): Int {
+            return rankDTOS.size
+        }
+
+        /** 랭킹 주제를 불러와 보여 주는 ViewHolder */
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            var rankViewHolder = (holder as CustomRankViewHolder).itemView
+
+            if (rankDTOS!![position].imageUrl != null) {
+                // 저장된 Rank 주제에 해당 하는 공모전 이미지 불러 오기
+                Glide.with(holder.itemView.context)
+                    .load(rankDTOS!![position].imageUrl).into(rankViewHolder.rankImage)
+
+            } else {
+               // 만약 저장된 이미지가 없다면
+                Glide.with(holder.itemView.context)
+                    .load(R.drawable.rank_image_default).into(rankViewHolder.rankImage)
+            }
+
+            // 저장된 Rank 주제 불러 오기
+            rankViewHolder.rankTitle.text = rankDTOS!![position].rankTitle.toString().replace("\\n", "\n")
+
+            // Rank 주제에 해당 하는 공모전 의 like 불러 오기
+            rankViewHolder.rankLikeCount.text = rankDTOS!![position].rankLikeCount.toString()
+
+            /** 불러온 Image 의 모서리 부분을 원하는 형태로 조정하기 위한 코드 */
+            rankViewHolder.rankImage.background = rankViewHolder.resources.getDrawable(R.drawable.layout_shadow, null)
+            rankViewHolder.rankImage.clipToOutline = true
+        }
+    }
+
+    /** contestRecyclerView 에 대한 adapter */
     inner class ContestAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         var contestDTOS : ArrayList<ContestDTO> = arrayListOf() // DTO 지정
         var contestUidList : ArrayList<String> = arrayListOf()
@@ -51,28 +121,28 @@ class InformationFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             var view = LayoutInflater.from(parent.context).inflate(R.layout.item_contest,parent, false)
-            return CustomViewHolder(view)
+            return CustomContestViewHolder(view)
         }
 
-        inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view)
+        inner class CustomContestViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
         override fun getItemCount(): Int {
             return contestDTOS.size
         }
 
-        /** 유저의 게시글을 불러와 보여주는 ViewHolder */
+        /** 유저의 게시글 을 불러와 보여 주는 ViewHolder */
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-            var viewHolder = (holder as CustomViewHolder).itemView
+            var contestViewHolder = (holder as CustomContestViewHolder).itemView
 
-            // 작성된 공모전 제목 불러오기
-            viewHolder.contestTitle.text = contestDTOS!![position].contestTitle
+            // 작성된 공모전 제목 불러 오기
+            contestViewHolder.contestTitle.text = contestDTOS!![position].contestTitle
             
-            // 공모전 Image 불러오기
-            Glide.with(holder.itemView.context).load(contestDTOS!![position].imageUrl).into(viewHolder.contestImage)
+            // 공모전 Image 불러 오기
+            Glide.with(holder.itemView.context).load(contestDTOS!![position].imageUrl).into(contestViewHolder.contestImage)
 
-            // 커뮤니티의 게시글을 누를 경우
-            viewHolder.contestForm.setOnClickListener { v ->
+            // 커뮤니티 의 게시글 을 누를 경우
+            contestViewHolder.contestForm.setOnClickListener { v ->
 
                 val contestDetailFragment = ContestDetailFragment()
                 val args = Bundle()
