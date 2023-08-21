@@ -9,57 +9,57 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.underthelamp.R
-import com.example.underthelamp.databinding.FragmentCommunityDetailBinding
+import com.example.underthelamp.databinding.FragmentContestDetailBinding
 import com.example.underthelamp.model.AlarmDTO
-import com.example.underthelamp.model.CommunityDTO
+import com.example.underthelamp.model.ContestDTO
 import com.example.underthelamp.navigation.util.FcmPush
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_comment.comment_edit_message
-import kotlinx.android.synthetic.main.item_community_comment.view.commentviewitem_textview_comment
-import kotlinx.android.synthetic.main.item_community_comment.view.commentviewitem_textview_profile
+import kotlinx.android.synthetic.main.item_contest_comment.view.commentviewitem_textview_comment
+import kotlinx.android.synthetic.main.item_contest_comment.view.commentviewitem_textview_profile
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-/** Community 의 상세 보기 기능 및 댓글을 보여 주는 fragment */
+/** 공모전(Contest) 의 상세 보기 기능 및 댓글을 보여 주는 fragment */
 /** 현재는 댓글만 보여 주도록 구현 */
 
-class InformationDetailFragment : Fragment() {
+class ContestDetailFragment : Fragment() {
 
-    lateinit var binding : FragmentCommunityDetailBinding
+    lateinit var binding : FragmentContestDetailBinding
     var firestore : FirebaseFirestore? = null
     var uid : String? = null
-    var communityUid : String? = null
+    var contestUid : String? = null
     var destinationUid : String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentCommunityDetailBinding.inflate(inflater, container, false)
+        binding = FragmentContestDetailBinding.inflate(inflater, container, false)
         var view = binding.root
 
         firestore = FirebaseFirestore.getInstance()
         uid = FirebaseAuth.getInstance().currentUser?.uid
 
         /** 게시물 상세 페이지 댓글 */
-        communityUid = arguments?.getString("communityUid")
+        contestUid = arguments?.getString("contestUid")
         destinationUid = arguments?.getString("destinationUid")
 
         /** 게시물 상세 내용 불러 오기 */
-        if (communityUid != null){
-            firestore?.collection("community")?.document(communityUid!!)
+        if (contestUid != null){
+            firestore?.collection("contest")?.document(contestUid!!)
                 ?.get()
                 ?.addOnSuccessListener { documentSnapshot ->
                     if (documentSnapshot != null) {
-                        val communityDTO = documentSnapshot.toObject(CommunityDTO::class.java)
+                        val contestDTO = documentSnapshot.toObject(ContestDTO::class.java)
 
                         /** 게시물 제목 */
-                        binding.detailTitle.text = communityDTO?.community_title
+                        binding.detailTitle.text = contestDTO?.contestTitle
 
                         /** 작성자 */
-                        binding.detailUser.text = communityDTO?.userId
+                        binding.detailUser.text = contestDTO?.userId
 
                         /** 작성 날짜 */
-                        val timestamp = communityDTO?.timestamp
+                        val timestamp = contestDTO?.timestamp
                         val date = timestampToDate(timestamp)
                         binding.detailDate.text = formatDate(date)
 
@@ -67,7 +67,7 @@ class InformationDetailFragment : Fragment() {
                         binding.detailTime.text = formatTimeAgo(timestamp)
 
                         /** 게시물 내용 */
-                        binding.detailCommunity.text = communityDTO?.community_content
+                        binding.detailContest.text = contestDTO?.contestContent
 
                         /** 게시물 사진 */
                         var imageUrl = documentSnapshot.getString("imageUrl")
@@ -79,7 +79,7 @@ class InformationDetailFragment : Fragment() {
                     // 나중에 경고 창 구현 하기
                 }
         } else {
-            // communityUid 가 null 일 경우
+            // contestUid 가 null 일 경우
             val informationFragment = InformationFragment()
 
             parentFragmentManager.beginTransaction()
@@ -89,18 +89,18 @@ class InformationDetailFragment : Fragment() {
         }
 
         /** 댓글 Recyclerview 함수 초기화 */
-        val comment = view.findViewById<RecyclerView>(R.id.community_comment_recyclerview)
-        comment.adapter = CommunityCommentRecyclerViewAdapter()
+        val comment = view.findViewById<RecyclerView>(R.id.contestCommentRecyclerView)
+        comment.adapter = ContestCommentRecyclerViewAdapter()
         comment.layoutManager = LinearLayoutManager(activity)
 
-        binding.commentBtnSend.setOnClickListener {
-            var comment = CommunityDTO.CommunityComment()
+        binding.commentSendBtn.setOnClickListener {
+            var comment = ContestDTO.ContestComment()
             comment.userId = FirebaseAuth.getInstance().currentUser?.email
             comment.uid = FirebaseAuth.getInstance().currentUser?.uid
             comment.comment = comment_edit_message.text.toString()
             comment.timestamp = System.currentTimeMillis()
 
-            FirebaseFirestore.getInstance().collection("community").document(communityUid!!).collection("comments").document().set(comment)
+            FirebaseFirestore.getInstance().collection("contest").document(contestUid!!).collection("comments").document().set(comment)
             //commentAlarm(destinationUid!!, comment_edit_message.text.toString())
             comment_edit_message.setText("")
         }
@@ -121,13 +121,13 @@ class InformationDetailFragment : Fragment() {
         FcmPush.instance.sendMessage(destinationUid, "Under_thee_Lamp", msg)
     }
 
-    inner class CommunityCommentRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-        var comments : ArrayList<CommunityDTO.CommunityComment> = arrayListOf()
+    inner class ContestCommentRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+        var comments : ArrayList<ContestDTO.ContestComment> = arrayListOf()
 
         init {
             FirebaseFirestore.getInstance()
-                .collection("community")
-                .document(communityUid!!)
+                .collection("contest")
+                .document(contestUid!!)
                 .collection("comments")
                 .orderBy("timestamp")
                 .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
@@ -135,13 +135,13 @@ class InformationDetailFragment : Fragment() {
                     if(querySnapshot == null) return@addSnapshotListener
 
                     for(snapshot in querySnapshot.documents!!){
-                        comments.add(snapshot.toObject(CommunityDTO.CommunityComment::class.java)!!)
+                        comments.add(snapshot.toObject(ContestDTO.ContestComment::class.java)!!)
                     }
                     notifyDataSetChanged()
                 }
         }
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            var view = LayoutInflater.from(parent.context).inflate(R.layout.item_community_comment, parent, false)
+            var view = LayoutInflater.from(parent.context).inflate(R.layout.item_contest_comment, parent, false)
             return CustomViewHolder(view)
         }
 

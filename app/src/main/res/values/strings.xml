@@ -28,7 +28,7 @@
     <string name="home">home</string>
     <string name="search">Search</string>
     <string name="community">Community</string>
-    <string name="board">Board</string>
+    <string name="information">Information</string>
     <!-- <string name="gallery">Gallery</string> -->
     <!--<string name="favorite">Favorite</string> -->
     <string name="account">Account</string>
@@ -64,8 +64,8 @@
     <string name="Comment"></string>
 
     <!-- Commmunity -->
-    <string name="hint_community_title">제목</string>
-    <string name="hint_community_content">내용</string>
+    <string name="hint_contest_title">제목</string>
+    <string name="hint_contest_content">내용</string>
     <string name="upload">업로드</string>
     <string name="cancle">취소</string>
 

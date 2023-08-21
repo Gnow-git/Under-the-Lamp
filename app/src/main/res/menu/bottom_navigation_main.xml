@@ -16,10 +16,10 @@
         android:enabled="true"
         android:title="@string/community"/>
     <item
-        android:id="@+id/action_board"
+        android:id="@+id/action_information"
         android:icon="@drawable/navi_board"
         android:enabled="true"
-        android:title="@string/board"/>
+        android:title="@string/information"/>
     <item
         android:id="@+id/action_account"
         android:icon="@drawable/navi_account"

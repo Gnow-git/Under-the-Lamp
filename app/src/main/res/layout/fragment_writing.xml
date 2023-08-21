@@ -8,11 +8,11 @@
     tools:context=".information.WritingFragment">
 
     <TextView
-        android:id="@+id/community_title"
+        android:id="@+id/contestTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/pretendard_semibold"
-        android:text="커뮤니티"
+        android:text="공모전"
         android:textSize="24sp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -25,18 +25,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/community_title_edit"
+        android:id="@+id/contestTitleEdit"
         android:layout_width="334dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/community_title"
+        android:layout_below="@+id/contestTitle"
         android:gravity="top"
-        android:hint="@string/hint_community_title"
+        android:hint="@string/hint_contest_title"
         android:fontFamily="@font/pretendard_regular"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/community_title"
+        app:layout_constraintTop_toBottomOf="@+id/contestTitle"
         android:layout_marginTop="33dp"
         android:layout_marginBottom="601dp"
         android:layout_marginStart="28dp"
@@ -51,13 +51,13 @@
         android:background="@drawable/cross"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/community_title" />
+        app:layout_constraintTop_toBottomOf="@+id/contestTitle" />
 
     <EditText
-        android:id="@+id/community_content_edit"
+        android:id="@+id/contestContentEdit"
         android:layout_width="334dp"
         android:layout_height="300dp"
-        android:layout_below="@+id/community_title"
+        android:layout_below="@+id/contestTitle"
         android:layout_marginStart="28dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="28dp"
@@ -65,19 +65,19 @@
         android:paddingStart="5dp"
         android:fontFamily="@font/pretendard_regular"
         android:gravity="top"
-        android:hint="@string/hint_community_content"
+        android:hint="@string/hint_contest_content"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/community_title_edit"
+        app:layout_constraintTop_toBottomOf="@+id/contestTitleEdit"
         android:background="@color/transparent" />
 
     <ImageView
         android:id="@+id/addPhotoImage"
         android:layout_width="105dp"
         android:layout_height="105dp"
-        android:layout_below="@id/community_title"
+        android:layout_below="@id/contestTitle"
         android:layout_marginStart="28dp"
         android:layout_marginEnd="257dp"
         android:layout_marginBottom="170dp"
@@ -112,7 +112,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.615"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/community_content_edit"
+        app:layout_constraintTop_toBottomOf="@+id/contestContentEdit"
         app:layout_constraintVertical_bias="0.0"
         android:background="@drawable/search_category_round" />
 
@@ -126,7 +126,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.907"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/community_content_edit"
+        app:layout_constraintTop_toBottomOf="@+id/contestContentEdit"
         app:layout_constraintVertical_bias="0.0"
         android:background="@drawable/search_category_round" />
 

@@ -63,7 +63,7 @@
         <ImageView
             android:layout_width="331dp"
             android:layout_height="1dp"
-            android:background="#4D767676"
+            android:background="@color/line"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -178,7 +178,7 @@
         <ImageView
             android:layout_width="331dp"
             android:layout_height="1dp"
-            android:background="#4D767676"
+            android:background="@color/line"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

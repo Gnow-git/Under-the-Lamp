@@ -10,15 +10,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentWritingBinding
-import com.example.underthelamp.model.CommunityDTO
+import com.example.underthelamp.model.ContestDTO
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.fragment_writing.addPhotoImage
-import kotlinx.android.synthetic.main.fragment_writing.community_content_edit
-import kotlinx.android.synthetic.main.fragment_writing.community_title_edit
+import kotlinx.android.synthetic.main.fragment_writing.contestContentEdit
+import kotlinx.android.synthetic.main.fragment_writing.contestTitleEdit
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -60,7 +60,7 @@ class WritingFragment : Fragment() {
                 photoUri = data?.data
                 addPhotoImage.setImageURI(photoUri)
 
-                communityUpload()
+                contestUpload()
             } else {
                 // finish
                 activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
@@ -73,34 +73,34 @@ class WritingFragment : Fragment() {
         }
     }
 
-    fun communityUpload() {
+    fun contestUpload() {
         var timestamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        var imageFileName = "CommunityImage" + timestamp + "_.png"    // 이미지 파일의 중복 방지
+        var imageFileName = "ContestImage" + timestamp + "_.png"    // 이미지 파일의 중복 방지
 
-        var storageRef = storage?.reference?.child("communityImages")?.child(imageFileName)
+        var storageRef = storage?.reference?.child("contestImages")?.child(imageFileName)
 
         storageRef?.putFile(photoUri!!)?.continueWithTask { task: Task<UploadTask.TaskSnapshot> ->
             return@continueWithTask storageRef.downloadUrl
         }?.addOnSuccessListener { uri ->
-            var communityDTO = CommunityDTO()
+            var contestDTO = ContestDTO()
 
             // 이미지 url
-            communityDTO.imageUrl = uri.toString()
+            contestDTO.imageUrl = uri.toString()
 
             // 작성자 uid
-            communityDTO.uid = auth?.currentUser?.uid
+            contestDTO.uid = auth?.currentUser?.uid
 
             // 게시물 제목
-            communityDTO.community_title = community_title_edit.text.toString()
+            contestDTO.contestTitle = contestTitleEdit.text.toString()
 
             // 게시물 내용
-            communityDTO.community_content = community_content_edit.text.toString()
+            contestDTO.contestContent = contestContentEdit.text.toString()
 
             // timestamp 추가
-            communityDTO.timestamp = System.currentTimeMillis()
+            contestDTO.timestamp = System.currentTimeMillis()
 
             // 저장할 위치 지정
-            firestore?.collection("community")?.document()?.set(communityDTO)
+            firestore?.collection("contest")?.document()?.set(contestDTO)
             
             // 현재 fragment 종료
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()

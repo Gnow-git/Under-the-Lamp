@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 return true
             }
-            R.id.action_board -> {
+            R.id.action_information -> {
                 // 정보 게시글
                 fragment_position = 3;
                 var informationFragment = InformationFragment()

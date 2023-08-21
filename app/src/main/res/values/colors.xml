@@ -30,8 +30,8 @@
 
     <color name="transparent">#00000000</color>
 
-    <color name="community_detail_font">#000011</color>
-    <color name="community_detail_info">#80767676</color>
+    <color name="contest_detail_font">#000011</color>
+    <color name="contest_detail_info">#80767676</color>
     <color name="line">#4D767676</color>
     <color name="colorLayoutBackground">#FFFFFF</color>
 </resources>

@@ -6,7 +6,7 @@
     android:layout_height="691dp">
 
     <TextView
-        android:id="@+id/community_menu"
+        android:id="@+id/contestMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="전체글 >"
@@ -23,71 +23,71 @@
         app:layout_constraintHorizontal_bias="0.0"/>
 
     <TextView
-        android:id="@+id/detail_title"
+        android:id="@+id/detailTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginTop="6dp"
         android:fontFamily="@font/pretendard_semibold"
         android:text="커뮤니티 제목"
-        android:textColor="@color/community_detail_font"
+        android:textColor="@color/contest_detail_font"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/community_menu"
+        app:layout_constraintTop_toBottomOf="@+id/contestMenu"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/detail_user"
+        android:id="@+id/detailUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/pretendard_regular"
         android:text="\@h_00_ng"
-        android:textColor="@color/community_detail_info"
+        android:textColor="@color/contest_detail_info"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_title"
+        app:layout_constraintTop_toBottomOf="@+id/detailTitle"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/detail_date"
+        android:id="@+id/detailDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="84dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/pretendard_regular"
         android:text="0000.00.00"
-        android:textColor="@color/community_detail_info"
+        android:textColor="@color/contest_detail_info"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_title"
+        app:layout_constraintTop_toBottomOf="@+id/detailTitle"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/detail_time"
+        android:id="@+id/detailTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="144dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/pretendard_regular"
         android:text="0분전"
-        android:textColor="@color/community_detail_info"
+        android:textColor="@color/contest_detail_info"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_title"
+        app:layout_constraintTop_toBottomOf="@+id/detailTitle"
         app:layout_constraintVertical_bias="0.0" />
 
     <View
@@ -105,13 +105,13 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/detail_community"
+        android:id="@+id/detailContest"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:text="커뮤니티 내용"
+        android:text="공모전 내용"
         android:fontFamily="@font/pretendard_regular"
         android:textSize="12sp"
-        android:textColor="@color/community_detail_font"
+        android:textColor="@color/contest_detail_font"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -123,7 +123,7 @@
         app:layout_constraintHorizontal_bias="0.0"/>
 
     <ImageView
-        android:id="@+id/detail_image"
+        android:id="@+id/detailImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/add_photo"
@@ -138,7 +138,7 @@
         app:layout_constraintHorizontal_bias="0.0"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/detail_hashtag"
+        android:id="@+id/detailHashTag"
         android:layout_width="match_parent"
         android:layout_height="14dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -151,13 +151,13 @@
         app:layout_constraintVertical_bias="0.0"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/community_comment_recyclerview"
+        android:id="@+id/contestCommentRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="456dp"
         android:layout_marginEnd="28dp"
-        app:layout_constraintBottom_toTopOf="@+id/comment_btn_send"
+        app:layout_constraintBottom_toTopOf="@+id/commentSendBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -165,20 +165,20 @@
         app:layout_constraintHorizontal_bias="0.0"/>
 
     <EditText
-        android:id="@+id/comment_edit_message"
+        android:id="@+id/commentEditMessage"
         android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="40dp"
-        android:layout_toLeftOf="@+id/comment_btn_send"
+        android:layout_toLeftOf="@+id/commentSendBtn"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/comment_btn_send"
+        app:layout_constraintEnd_toStartOf="@+id/commentSendBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/community_comment_recyclerview" />
+        app:layout_constraintTop_toBottomOf="@+id/contestCommentRecyclerView" />
 
     <Button
-        android:id="@+id/comment_btn_send"
+        android:id="@+id/commentSendBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -188,6 +188,6 @@
         android:text="@string/send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/comment_edit_message"
-        app:layout_constraintTop_toBottomOf="@+id/community_comment_recyclerview" />
+        app:layout_constraintStart_toEndOf="@+id/commentEditMessage"
+        app:layout_constraintTop_toBottomOf="@+id/contestCommentRecyclerView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
