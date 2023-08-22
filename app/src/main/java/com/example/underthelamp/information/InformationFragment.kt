@@ -35,7 +35,8 @@ class InformationFragment : Fragment() {
 
         /** informationRank 에 대한 adapter 와 layoutManager 지정 */
         view.informationRank.adapter = RankAdapter()
-        view.informationRank.layoutManager = LinearLayoutManager(activity)
+        // 가로로 설정
+        view.informationRank.layoutManager = LinearLayoutManager(activity , RecyclerView.HORIZONTAL, false)
 
         /** contestRecyclerView 에 대한 adapter 와 layoutManager 지정 */
         view.contestRecyclerView.adapter = ContestAdapter()
@@ -48,7 +49,7 @@ class InformationFragment : Fragment() {
         var rankDTOS : ArrayList<RankDTO> = arrayListOf()
         var rankUidList : ArrayList<String> = arrayListOf()
         init{
-            firestore?.collection("rank")?.addSnapshotListener {
+            firestore?.collection("rank")?.orderBy("orderNum")?.addSnapshotListener {
                 querySnapshot, firebaseFirestoreException ->
                 rankDTOS.clear()
                 rankUidList.clear()
@@ -92,10 +93,10 @@ class InformationFragment : Fragment() {
             rankViewHolder.rankTitle.text = rankDTOS!![position].rankTitle.toString().replace("\\n", "\n")
 
             // Rank 주제에 해당 하는 공모전 의 like 불러 오기
-            rankViewHolder.rankLikeCount.text = rankDTOS!![position].rankLikeCount.toString()
+            rankViewHolder.rankLikeCount.text = "Like " + rankDTOS!![position].rankLikeCount
 
             /** 불러온 Image 의 모서리 부분을 원하는 형태로 조정하기 위한 코드 */
-            rankViewHolder.rankImage.background = rankViewHolder.resources.getDrawable(R.drawable.layout_shadow, null)
+            rankViewHolder.rankImage.background = rankViewHolder.resources.getDrawable(R.drawable.layout_round, null)
             rankViewHolder.rankImage.clipToOutline = true
         }
     }
