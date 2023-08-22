@@ -17,7 +17,8 @@
             android:layout_marginTop="14dp"
             android:layout_marginBottom="12dp"
             android:layout_marginLeft="28dp"
-            android:background="@drawable/radius" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/user_profile_default" />
 
         <TextView
             android:id="@+id/detailviewitem_profile_textview"

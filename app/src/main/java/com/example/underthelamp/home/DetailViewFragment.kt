@@ -26,6 +26,7 @@ import com.example.underthelamp.user.UserFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_detail.view.*
+import kotlinx.android.synthetic.main.fragment_user_detail.view.back
 import kotlinx.android.synthetic.main.item_detail.view.*
 
 class DetailViewFragment : Fragment() {
@@ -108,8 +109,11 @@ class DetailViewFragment : Fragment() {
             // likes
             viewholder.detailviewitem_favoritecounter_textview.text = "Likes " + contentDTOs!![position].favoriteCount
 
-            // ProfileImage
+            // ProfileImage -> 나중에 프로필 이미지 불러오는 것으로 수정해야함
             //Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).into(viewholder.detailviewitem_profile_image)
+            viewholder.detailviewitem_profile_image.background = viewholder.resources.getDrawable(R.drawable.radius, null)
+            viewholder.detailviewitem_profile_image.clipToOutline = true
+
 
             // This code is when the button is clicked
             viewholder.favorite_btn.setOnClickListener {
