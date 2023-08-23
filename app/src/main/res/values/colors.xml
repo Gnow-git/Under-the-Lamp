@@ -34,4 +34,6 @@
     <color name="contest_detail_info">#80767676</color>
     <color name="line">#4D767676</color>
     <color name="colorLayoutBackground">#FFFFFF</color>
+
+    <color name="rank_detail_font">#000011</color>
 </resources>

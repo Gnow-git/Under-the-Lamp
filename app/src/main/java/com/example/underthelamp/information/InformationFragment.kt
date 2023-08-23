@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.item_contest.view.contestForm
 import kotlinx.android.synthetic.main.item_contest.view.contestImage
 import kotlinx.android.synthetic.main.item_contest.view.contestTitle
 import kotlinx.android.synthetic.main.item_rank.rankImage
+import kotlinx.android.synthetic.main.item_rank.view.enterBtn
 import kotlinx.android.synthetic.main.item_rank.view.rankImage
 import kotlinx.android.synthetic.main.item_rank.view.rankLikeCount
 import kotlinx.android.synthetic.main.item_rank.view.rankTitle
@@ -95,9 +96,25 @@ class InformationFragment : Fragment() {
             // Rank 주제에 해당 하는 공모전 의 like 불러 오기
             rankViewHolder.rankLikeCount.text = "Like " + rankDTOS!![position].rankLikeCount
 
-            /** 불러온 Image 의 모서리 부분을 원하는 형태로 조정하기 위한 코드 */
+            /** 불러온 Image 의 모서리 부분을 원하는 형태로 조정 하기 위한 코드 */
             rankViewHolder.rankImage.background = rankViewHolder.resources.getDrawable(R.drawable.layout_round, null)
             rankViewHolder.rankImage.clipToOutline = true
+
+            /** 랭킹의 화살표 버튼을 누를 경우 */
+            rankViewHolder.enterBtn.setOnClickListener {
+
+                val rankDetailFragment = RankDetailFragment()
+                val args = Bundle()
+                args.putString("rankType", rankDTOS[position].rankType)
+                args.putString("rankStandard", rankDTOS[position].rankStandard)
+                rankDetailFragment.arguments = args
+
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.main_content, rankDetailFragment)
+                    .addToBackStack(null)
+                    .commit()
+
+            }
         }
     }
 
