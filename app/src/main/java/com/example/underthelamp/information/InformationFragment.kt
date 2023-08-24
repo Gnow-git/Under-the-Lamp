@@ -105,6 +105,7 @@ class InformationFragment : Fragment() {
 
                 val rankDetailFragment = RankDetailFragment()
                 val args = Bundle()
+                args.putString("rankTitle", rankDTOS[position].rankTitle)
                 args.putString("rankType", rankDTOS[position].rankType)
                 args.putString("rankStandard", rankDTOS[position].rankStandard)
                 rankDetailFragment.arguments = args
