@@ -1,5 +1,6 @@
 package com.example.underthelamp.information
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,7 +38,7 @@ class RankDetailFragment : Fragment() {
 
         firestore = FirebaseFirestore.getInstance()
 
-        /** 랭킹 제목 */
+        /** 랭킹 테마 제목 */
         rankTitle = arguments?.getString("rankTitle")?.replace("\\n", "\n")
         view.rankTitle.text = rankTitle
 
@@ -67,9 +68,8 @@ class RankDetailFragment : Fragment() {
                 ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 contestDTOS.clear()
                 contestUidList.clear()
-                if (querySnapshot == null){
-                    return@addSnapshotListener
-                }
+                if (querySnapshot == null)  return@addSnapshotListener
+
 
                 for (snapshot in querySnapshot!!.documents) {
                     var item = snapshot.toObject(ContestDTO::class.java)
@@ -92,6 +92,7 @@ class RankDetailFragment : Fragment() {
         }
 
         /** 랭킹에 해당 하는 게시글 을 불러와 보여 주는 ViewHolder*/
+        @SuppressLint("UseCompatLoadingForDrawables")   // rank_detail_banner_round 를 적용할 때 충돌 방지 지정
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             var rankDetailViewHolder = (holder as CustomRankViewHolder).itemView
 
@@ -99,16 +100,16 @@ class RankDetailFragment : Fragment() {
             rankDetailViewHolder.rankDetailBanner.background = rankDetailViewHolder.resources.getDrawable(R.drawable.rank_detail_banner_round, null)
             rankDetailViewHolder.rankImage.clipToOutline = true
 
-            // 게시글 제목 불러 오기
+            // 랭킹에 속한 게시글 제목 불러 오기
             rankDetailViewHolder.rankDetailTitle.text = contestDTOS!![position].contestTitle
 
-            // 게시글 내용 불러 오기
-            rankDetailViewHolder.rankDetailContent.text = contestDTOS!![position].contestContent
+            // 랭킹에 속한 게시글 내용 불러 오기
+            rankDetailViewHolder.rankDetailContent.text = contestDTOS!![position].contestContent?.replace("\\n", "\n")
 
-            // 게시글 이미지 불러 오기
+            // 랭킹에 속한 게시글 이미지 불러 오기
             Glide.with(holder.itemView.context).load(contestDTOS!![position].imageUrl).into(rankDetailViewHolder.contestImage)
 
-            // 게시글 을 누를 경우
+            // 랭킹에 속한 게시글 을 누를 경우 원본 게시물 로 이동
             rankDetailViewHolder.rankDetailForm.setOnClickListener { v ->
                 val contestDetailFragment = ContestDetailFragment()
                 val args = Bundle()

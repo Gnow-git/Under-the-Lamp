@@ -97,7 +97,7 @@ class WritingFragment : Fragment() {
             contestDTO.contestContent = contestContentEdit.text.toString()
 
             // timestamp 추가
-            contestDTO.timestamp = System.currentTimeMillis()
+            //contestDTO.timestamp = System.currentTimeMillis()
 
             // 저장할 위치 지정
             firestore?.collection("contest")?.document()?.set(contestDTO)

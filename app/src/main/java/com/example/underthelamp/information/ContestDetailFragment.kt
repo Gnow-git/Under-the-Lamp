@@ -60,14 +60,14 @@ class ContestDetailFragment : Fragment() {
 
                         /** 작성 날짜 */
                         val timestamp = contestDTO?.timestamp
-                        val date = timestampToDate(timestamp)
-                        binding.detailDate.text = formatDate(date)
+                        //val date = timestampToDate(timestamp)
+                        //binding.detailDate.text = formatDate(date)
 
                         /** 작성 된 시간 */
-                        binding.detailTime.text = formatTimeAgo(timestamp)
+                        //binding.detailTime.text = formatTimeAgo(timestamp)
 
                         /** 게시물 내용 */
-                        binding.detailContest.text = contestDTO?.contestContent
+                        binding.detailContest.text = contestDTO?.contestContent?.replace("\\n", "\n")
 
                         /** 게시물 사진 */
                         var imageUrl = documentSnapshot.getString("imageUrl")

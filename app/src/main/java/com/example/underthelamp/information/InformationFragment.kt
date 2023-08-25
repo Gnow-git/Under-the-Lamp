@@ -1,9 +1,11 @@
 package com.example.underthelamp.information
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,8 +19,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_information.view.contestRecyclerView
 import kotlinx.android.synthetic.main.fragment_information.view.informationRank
 import kotlinx.android.synthetic.main.item_contest.view.contestForm
+import kotlinx.android.synthetic.main.item_contest.view.contestHashTag
 import kotlinx.android.synthetic.main.item_contest.view.contestImage
 import kotlinx.android.synthetic.main.item_contest.view.contestTitle
+import kotlinx.android.synthetic.main.item_hashtag.view.tagText
 import kotlinx.android.synthetic.main.item_rank.rankImage
 import kotlinx.android.synthetic.main.item_rank.view.enterBtn
 import kotlinx.android.synthetic.main.item_rank.view.rankImage
@@ -76,6 +80,7 @@ class InformationFragment : Fragment() {
         }
 
         /** 랭킹 주제를 불러와 보여 주는 ViewHolder */
+        @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             var rankViewHolder = (holder as CustomRankViewHolder).itemView
 
@@ -91,10 +96,10 @@ class InformationFragment : Fragment() {
             }
 
             // 저장된 Rank 주제 불러 오기
-            rankViewHolder.rankTitle.text = rankDTOS!![position].rankTitle.toString().replace("\\n", "\n")
+            rankViewHolder.rankTitle.text = rankDTOS[position].rankTitle.toString().replace("\\n", "\n")
 
             // Rank 주제에 해당 하는 공모전 의 like 불러 오기
-            rankViewHolder.rankLikeCount.text = "Like " + rankDTOS!![position].rankLikeCount
+            rankViewHolder.rankLikeCount.text = "Like " + rankDTOS[position].rankLikeCount
 
             /** 불러온 Image 의 모서리 부분을 원하는 형태로 조정 하기 위한 코드 */
             rankViewHolder.rankImage.background = rankViewHolder.resources.getDrawable(R.drawable.layout_round, null)
@@ -120,6 +125,7 @@ class InformationFragment : Fragment() {
     }
 
     /** contestRecyclerView 에 대한 adapter */
+    @SuppressLint("NotifyDataSetChanged")
     inner class ContestAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         var contestDTOS : ArrayList<ContestDTO> = arrayListOf() // DTO 지정
         var contestUidList : ArrayList<String> = arrayListOf()
@@ -129,7 +135,7 @@ class InformationFragment : Fragment() {
                 contestUidList.clear()
                 if (querySnapshot == null) return@addSnapshotListener
 
-                for (snapshot in querySnapshot!!.documents) {
+                for (snapshot in querySnapshot.documents) {
                     var item = snapshot.toObject(ContestDTO::class.java)
                     contestDTOS.add(item!!)
                     contestUidList.add(snapshot.id)
@@ -139,8 +145,8 @@ class InformationFragment : Fragment() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            var view = LayoutInflater.from(parent.context).inflate(R.layout.item_contest,parent, false)
-            return CustomContestViewHolder(view)
+            var contestView = LayoutInflater.from(parent.context).inflate(R.layout.item_contest,parent, false)
+            return CustomContestViewHolder(contestView)
         }
 
         inner class CustomContestViewHolder(view: View) : RecyclerView.ViewHolder(view)
@@ -150,15 +156,29 @@ class InformationFragment : Fragment() {
         }
 
         /** 유저의 게시글 을 불러와 보여 주는 ViewHolder */
+        @SuppressLint("UseCompatLoadingForDrawables")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
             var contestViewHolder = (holder as CustomContestViewHolder).itemView
 
+            // 공모전 Image 불러 오기
+            Glide.with(holder.itemView.context).load(contestDTOS!![position].imageUrl).into(contestViewHolder.contestImage)
+
+            /** 불러온 Image 의 모서리 부분을 원하는 형태로 조정 하기 위한 코드 */
+            contestViewHolder.contestImage.background = contestViewHolder.resources.getDrawable(R.drawable.contest_image, null)
+            contestViewHolder.contestImage.clipToOutline = true
+
             // 작성된 공모전 제목 불러 오기
             contestViewHolder.contestTitle.text = contestDTOS!![position].contestTitle
             
-            // 공모전 Image 불러 오기
-            Glide.with(holder.itemView.context).load(contestDTOS!![position].imageUrl).into(contestViewHolder.contestImage)
+            // 작성된 공모전 의 해시태그 불러 오기
+            val hashTagAdapter = HashTagAdapter(contestDTOS[position].hashTag)
+            contestViewHolder.contestHashTag.adapter = hashTagAdapter
+            contestViewHolder.contestHashTag.layoutManager = LinearLayoutManager(
+                contestViewHolder.context,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
 
             // 커뮤니티 의 게시글 을 누를 경우
             contestViewHolder.contestForm.setOnClickListener { v ->
@@ -175,5 +195,29 @@ class InformationFragment : Fragment() {
                     .commit()
             }
         }
+    }
+
+    /** 해시태그를 표시하기 위한 어댑터 */
+    inner class HashTagAdapter(private val hashTags: List<String>?) :
+            RecyclerView.Adapter<HashTagAdapter.HashTagViewHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HashTagViewHolder {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_hashtag, parent, false)
+            return HashTagViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: HashTagViewHolder, position: Int) {
+            hashTags?.get(position)?.let { hashTag ->
+                holder.itemView.tagText.text = "#$hashTag"
+            }
+        }
+
+        override fun getItemCount(): Int {
+            return hashTags?.size ?: 0
+        }
+
+        inner class HashTagViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val tagText: TextView = view.findViewById(R.id.tagText)
+        }
+
     }
 }
