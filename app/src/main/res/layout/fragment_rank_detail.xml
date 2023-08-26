@@ -71,6 +71,7 @@
         app:layout_constraintVertical_bias="0.0" />
     
     <ImageView
+        android:id="@+id/line"
         android:layout_width="339dp"
         android:layout_height="1dp"
         android:background="@color/line"
@@ -83,18 +84,31 @@
         app:layout_constraintVertical_bias="0.0"
         app:layout_constraintHorizontal_bias="0.0" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rankDetailRecyclerView"
-        android:layout_width="330dp"
+    <ScrollView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="277dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.03"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/line"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constrainedHeight="true"
+        android:scrollbars="none">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rankDetailRecyclerView"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line"
+        app:layout_constraintVertical_bias="0.0"    />
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

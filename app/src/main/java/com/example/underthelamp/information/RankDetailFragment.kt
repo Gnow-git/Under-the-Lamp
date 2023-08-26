@@ -14,6 +14,7 @@ import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentRankDetailBinding
 import com.example.underthelamp.model.ContestDTO
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.fragment_rank_detail.view.rankDetailBanner
 import kotlinx.android.synthetic.main.fragment_rank_detail.view.rankDetailRecyclerView
 import kotlinx.android.synthetic.main.fragment_rank_detail.view.rankTitle
@@ -52,7 +53,8 @@ class RankDetailFragment : Fragment() {
 
         /** 랭킹에 대한 adapter 와 layoutManager 지정 */
         view.rankDetailRecyclerView.adapter = RankDetailAdapter(typeOrder!!, standardOrder!!)
-        view.rankDetailRecyclerView.layoutManager = LinearLayoutManager(activity)
+        // RecyclerView 방향 가로로 지정
+        view.rankDetailRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         return view
     }
 
@@ -63,8 +65,9 @@ class RankDetailFragment : Fragment() {
 
         init{
             firestore
-                ?.collection(typeOrder)  /** 정렬할 종류 (공모전 & 협업 등) */
-                ?.orderBy(standardOrder) /** 정렬할 기준 (좋아요 & 댓글 등) */
+                ?.collection(typeOrder)  // 정렬할 종류 (공모전 & 협업 등)
+                ?.orderBy(standardOrder, Query.Direction.DESCENDING) // 정렬할 기준 (좋아요 & 댓글 등)
+                ?.limit(10) // 게시물 10개로 제한
                 ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 contestDTOS.clear()
                 contestUidList.clear()
@@ -97,17 +100,20 @@ class RankDetailFragment : Fragment() {
             var rankDetailViewHolder = (holder as CustomRankViewHolder).itemView
 
             /** 불러온 Banner 의 모서리 부분을 원하는 형태로 조정 하기 위한 코드 */
-            rankDetailViewHolder.rankDetailBanner.background = rankDetailViewHolder.resources.getDrawable(R.drawable.rank_detail_banner_round, null)
-            rankDetailViewHolder.rankImage.clipToOutline = true
+            //rankDetailViewHolder.rankDetailBanner.background = rankDetailViewHolder.resources.getDrawable(R.drawable.rank_detail_banner_round, null)
+            //rankDetailViewHolder.rankImage.clipToOutline = true
+
+            /** 불러온 제목 앞에 순서를 나타낼 숫자를 추가 */
+            val numbering = "${position + 1}. "
 
             // 랭킹에 속한 게시글 제목 불러 오기
-            rankDetailViewHolder.rankDetailTitle.text = contestDTOS!![position].contestTitle
+            rankDetailViewHolder.rankDetailTitle.text = numbering + contestDTOS!![position].contestTitle
 
             // 랭킹에 속한 게시글 내용 불러 오기
             rankDetailViewHolder.rankDetailContent.text = contestDTOS!![position].contestContent?.replace("\\n", "\n")
 
             // 랭킹에 속한 게시글 이미지 불러 오기
-            Glide.with(holder.itemView.context).load(contestDTOS!![position].imageUrl).into(rankDetailViewHolder.contestImage)
+            //Glide.with(holder.itemView.context).load(contestDTOS!![position].imageUrl).into(rankDetailViewHolder.contestImage)
 
             // 랭킹에 속한 게시글 을 누를 경우 원본 게시물 로 이동
             rankDetailViewHolder.rankDetailForm.setOnClickListener { v ->
@@ -143,7 +149,7 @@ class RankDetailFragment : Fragment() {
 
         standardOrder = when (rankStandard) {
             "좋아요" -> {
-                "like"
+                "likeCount"
             }
             "댓글" -> {
                 "comment"
