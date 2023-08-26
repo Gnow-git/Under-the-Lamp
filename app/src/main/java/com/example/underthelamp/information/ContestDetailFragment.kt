@@ -95,7 +95,7 @@ class ContestDetailFragment : Fragment() {
             comment.userId = FirebaseAuth.getInstance().currentUser?.email
             comment.uid = FirebaseAuth.getInstance().currentUser?.uid
             comment.comment = comment_edit_message.text.toString()
-            comment.timestamp = System.currentTimeMillis()
+            //comment.timestamp = System.currentTimeMillis()
 
             FirebaseFirestore.getInstance().collection("contest").document(contestUid!!).collection("comments").document().set(comment)
             //commentAlarm(destinationUid!!, comment_edit_message.text.toString())

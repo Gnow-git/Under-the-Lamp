@@ -12,10 +12,10 @@ data class ContestDTO(
     var timestamp : Timestamp? = null,
     var likeCount: Int = 0, // 좋아요 개수
     var likes: MutableMap<String, Boolean> = HashMap()) {
-    data class ContestComment(      // 커뮤니티 댓글에 대한 DTO
-        var uid: String? = null,    // 댓글 ID
-        var userId: String? = null, // 댓글 작성자 ID
-        var comment: String? = null,    // 댓글 내용
-        var timestamp : Long? = null
-    )
+        data class ContestComment(      // 커뮤니티 댓글에 대한 DTO
+            var uid: String? = null,    // 댓글 ID
+            var userId: String? = null, // 댓글 작성자 ID
+            var comment: String? = null,    // 댓글 내용
+            var timestamp : Timestamp? = null
+        )
 }

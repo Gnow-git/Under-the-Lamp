@@ -1,10 +1,12 @@
 package com.example.underthelamp.information
 
 import android.annotation.SuppressLint
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,31 +14,38 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.bumptech.glide.Glide
 import com.example.underthelamp.R
+import com.example.underthelamp.databinding.FragmentInformationBinding
 import com.example.underthelamp.model.ContestDTO
 import com.example.underthelamp.model.RankDTO
+import com.google.android.material.internal.ViewUtils.dpToPx
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_information.view.contestRecyclerView
 import kotlinx.android.synthetic.main.fragment_information.view.informationRank
+import kotlinx.android.synthetic.main.item_contest.like_heart_icon
 import kotlinx.android.synthetic.main.item_contest.view.contestForm
 import kotlinx.android.synthetic.main.item_contest.view.contestHashTag
 import kotlinx.android.synthetic.main.item_contest.view.contestImage
 import kotlinx.android.synthetic.main.item_contest.view.contestTitle
+import kotlinx.android.synthetic.main.item_contest.view.likeView
 import kotlinx.android.synthetic.main.item_hashtag.view.tagText
-import kotlinx.android.synthetic.main.item_rank.rankImage
+import kotlinx.android.synthetic.main.item_like.likeUserProfile
+import kotlinx.android.synthetic.main.item_like.view.likeUserProfile
 import kotlinx.android.synthetic.main.item_rank.view.enterBtn
 import kotlinx.android.synthetic.main.item_rank.view.rankImage
 import kotlinx.android.synthetic.main.item_rank.view.rankLikeCount
 import kotlinx.android.synthetic.main.item_rank.view.rankTitle
 
 class InformationFragment : Fragment() {
+    lateinit var binding : FragmentInformationBinding
     var firestore : FirebaseFirestore? = null
     var uid : String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = LayoutInflater.from(activity).inflate(R.layout.fragment_information, container, false)
         firestore = FirebaseFirestore.getInstance()
         uid = FirebaseAuth.getInstance().currentUser?.uid
+        binding = FragmentInformationBinding.inflate(inflater, container, false)
+        val view = binding.root
 
         /** informationRank 에 대한 adapter 와 layoutManager 지정 */
         view.informationRank.adapter = RankAdapter()
@@ -124,7 +133,7 @@ class InformationFragment : Fragment() {
         }
     }
 
-    /** contestRecyclerView 에 대한 adapter */
+    /** contestRecyclerView(하단) 에 대한 adapter */
     @SuppressLint("NotifyDataSetChanged")
     inner class ContestAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         var contestDTOS : ArrayList<ContestDTO> = arrayListOf() // DTO 지정
@@ -155,7 +164,7 @@ class InformationFragment : Fragment() {
             return contestDTOS.size
         }
 
-        /** 유저의 게시글 을 불러와 보여 주는 ViewHolder */
+        /** 공모전 을 불러와 보여 주는 ViewHolder */
         @SuppressLint("UseCompatLoadingForDrawables")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
@@ -175,6 +184,15 @@ class InformationFragment : Fragment() {
             val hashTagAdapter = HashTagAdapter(contestDTOS[position].hashTag)
             contestViewHolder.contestHashTag.adapter = hashTagAdapter
             contestViewHolder.contestHashTag.layoutManager = LinearLayoutManager(
+                contestViewHolder.context,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+
+            // 좋아요 누른 사람들의 프로필 이미지 불러 오기
+            val contestLikeAdapter = ContestLikeAdapter(contestDTOS[position].likes)
+            contestViewHolder.likeView.adapter = contestLikeAdapter
+            contestViewHolder.likeView.layoutManager = LinearLayoutManager(
                 contestViewHolder.context,
                 LinearLayoutManager.HORIZONTAL,
                 false
@@ -218,6 +236,68 @@ class InformationFragment : Fragment() {
         inner class HashTagViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val tagText: TextView = view.findViewById(R.id.tagText)
         }
+    }
 
+    /** 좋아요 누른 유저의 프로필 사진을 표시하기 위한 어댑터 */
+    inner class ContestLikeAdapter(private val likes: MutableMap<String, Boolean>?) :
+            RecyclerView.Adapter<ContestLikeAdapter.ContestLikeViewHolder>() {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContestLikeViewHolder {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_like, parent, false)
+            return ContestLikeViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: ContestLikeAdapter.ContestLikeViewHolder, position: Int) {
+            val likeViewHolder = holder.itemView
+
+            // likes 맵에서 uid 가져오기
+            val uidList = likes?.keys?.toList()
+            val uid = uidList?.get(position)
+
+            /** ImageView 의 round 적용이 안되어 적용 하기 위한 코드 */
+            val likeUserProfile = likeViewHolder.findViewById<ImageView>(R.id.likeUserProfile)
+            likeUserProfile.background = resources.getDrawable(R.drawable.like_background, null)
+            likeUserProfile.clipToOutline = true
+
+            if (uid != null) {
+                firestore?.collection("profileImage")?.document(uid)?.get()
+                    ?.addOnSuccessListener { documentSnapshot ->
+                        val imageUrl = documentSnapshot.getString("image")
+
+                        // 프로필 이미지를 가져와 likeView 에 표시
+                        if(!imageUrl.isNullOrEmpty()) {
+
+                            Glide.with(holder.itemView.context).load(imageUrl).into(likeViewHolder.likeUserProfile)
+
+                            like_heart_icon.visibility = View.VISIBLE
+
+                            val layoutParams = likeViewHolder.likeUserProfile.layoutParams as ViewGroup.MarginLayoutParams
+                                if (position == 0){
+                                    layoutParams.width = dpToPx(24)
+                                    layoutParams.height = dpToPx(24)
+                                } else {
+                                    layoutParams.width = dpToPx(20)
+                                    layoutParams.height = dpToPx(20)
+                                }
+                                likeViewHolder.likeUserProfile.layoutParams = layoutParams
+
+                        }else
+                            // 좋아요 를 누른 유저가 없을 경우
+                            like_heart_icon.visibility = View.INVISIBLE
+
+                    }
+            }
+        }
+
+        override fun getItemCount(): Int {
+            return likes?.size ?: 0
+        }
+
+        inner class ContestLikeViewHolder(view: View) : RecyclerView.ViewHolder(view)
+
+        fun dpToPx(dp: Int): Int {
+            val scale = Resources.getSystem().displayMetrics.density
+            return (dp * scale).toInt()
+        }
     }
 }
