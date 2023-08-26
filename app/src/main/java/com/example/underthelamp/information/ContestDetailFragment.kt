@@ -55,9 +55,6 @@ class ContestDetailFragment : Fragment() {
                         /** 게시물 제목 */
                         binding.detailTitle.text = contestDTO?.contestTitle
 
-                        /** 작성자 */
-                        binding.detailUser.text = contestDTO?.userId
-
                         /** 작성 날짜 */
                         val timestamp = contestDTO?.timestamp
                         //val date = timestampToDate(timestamp)
