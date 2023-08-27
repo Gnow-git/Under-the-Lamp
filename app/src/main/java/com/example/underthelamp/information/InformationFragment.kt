@@ -8,16 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.bumptech.glide.Glide
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentInformationBinding
 import com.example.underthelamp.model.ContestDTO
 import com.example.underthelamp.model.RankDTO
-import com.google.android.material.internal.ViewUtils.dpToPx
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_information.view.contestRecyclerView
@@ -29,7 +28,6 @@ import kotlinx.android.synthetic.main.item_contest.view.contestImage
 import kotlinx.android.synthetic.main.item_contest.view.contestTitle
 import kotlinx.android.synthetic.main.item_contest.view.likeView
 import kotlinx.android.synthetic.main.item_hashtag.view.tagText
-import kotlinx.android.synthetic.main.item_like.likeUserProfile
 import kotlinx.android.synthetic.main.item_like.view.likeUserProfile
 import kotlinx.android.synthetic.main.item_rank.view.enterBtn
 import kotlinx.android.synthetic.main.item_rank.view.rankImage
@@ -179,7 +177,7 @@ class InformationFragment : Fragment() {
 
             // 작성된 공모전 제목 불러 오기
             contestViewHolder.contestTitle.text = contestDTOS!![position].contestTitle
-            
+
             // 작성된 공모전 의 해시태그 불러 오기
             val hashTagAdapter = HashTagAdapter(contestDTOS[position].hashTag)
             contestViewHolder.contestHashTag.adapter = hashTagAdapter
@@ -259,29 +257,38 @@ class InformationFragment : Fragment() {
             likeUserProfile.background = resources.getDrawable(R.drawable.like_background, null)
             likeUserProfile.clipToOutline = true
 
+            val likeUserProfileForm = likeViewHolder.findViewById<ConstraintLayout>(R.id.likeUserProfileForm)
+
             if (uid != null) {
                 firestore?.collection("profileImage")?.document(uid)?.get()
                     ?.addOnSuccessListener { documentSnapshot ->
                         val imageUrl = documentSnapshot.getString("image")
 
                         // 프로필 이미지를 가져와 likeView 에 표시
-                        if(!imageUrl.isNullOrEmpty()) {
+                        if (!imageUrl.isNullOrEmpty()) {
 
-                            Glide.with(holder.itemView.context).load(imageUrl).into(likeViewHolder.likeUserProfile)
+                            Glide.with(holder.itemView.context)
+                                .load(imageUrl)
+                                .into(likeViewHolder.likeUserProfile)
 
                             like_heart_icon.visibility = View.VISIBLE
 
                             val layoutParams = likeViewHolder.likeUserProfile.layoutParams as ViewGroup.MarginLayoutParams
-                                if (position == 0){
-                                    layoutParams.width = dpToPx(24)
-                                    layoutParams.height = dpToPx(24)
-                                } else {
-                                    layoutParams.width = dpToPx(20)
-                                    layoutParams.height = dpToPx(20)
-                                }
-                                likeViewHolder.likeUserProfile.layoutParams = layoutParams
 
-                        }else
+                            layoutParams.width = dpToPx(if (position == 0) 24 else 20)
+                            layoutParams.height = dpToPx(if (position == 0) 24 else 20)
+                            layoutParams.topMargin = dpToPx(if (position == 0) 0 else 2)
+
+                            val maxZValue = 10F
+                            val minZValue = 4F
+
+                            val zValue = maxZValue - (position * ((maxZValue - minZValue) / itemCount))
+
+                            likeUserProfileForm.translationZ = dpToPx(zValue.toInt()).toFloat()
+
+                        likeViewHolder.likeUserProfile.layoutParams = layoutParams
+
+                        } else
                             // 좋아요 를 누른 유저가 없을 경우
                             like_heart_icon.visibility = View.INVISIBLE
 

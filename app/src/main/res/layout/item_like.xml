@@ -4,17 +4,16 @@
     android:id="@+id/likeUserProfileForm"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginRight="-16dp">
+    android:layout_marginEnd="-12dp">
 
     <ImageView
         android:id="@+id/likeUserProfile"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:background="@drawable/like_background"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:scaleType="fitCenter" />
+        android:scaleType="centerCrop" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
