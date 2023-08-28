@@ -31,56 +31,99 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     NavigationBarView.OnItemSelectedListener {
 
-    var fragment_position = 0;  // 현재 fragment 위치 파악
+    private var fragmentPosition = 0;  // 현재 fragment 위치 파악
     private var isOpen = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        bottom_navigation.setOnItemSelectedListener(this)
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
+
+        // 기본 화면 지정
+        bottom_navigation.selectedItemId = R.id.action_home
+        registerPushToken()
+        
+        default_upload.setOnClickListener{
+
+            if(isOpen) closeFab()  // floating button 닫는 함수
+
+            else{   // floating button 이 닫혀 있을 경우
+
+                openFab()
+
+                // floating 의 image(첫번째) 버튼을 눌렀을 경우
+                image_upload.setOnClickListener{
+                    if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                        if(fragmentPosition == 0){ // 홈에서 image 버튼을 눌렀을 경우
+                            var uploadFragment = UploadFragment()
+                            supportFragmentManager.beginTransaction().replace(R.id.main_content, uploadFragment).commit()
+                        } else if(fragmentPosition == 3){  // 정보 게시글 화면에서 image 버튼을 눌렀을 경우
+                            var writingFragment = WritingFragment()
+                            supportFragmentManager.beginTransaction().replace(R.id.main_content, writingFragment).commit()
+                        }
+
+                        default_upload.visibility = View.GONE   // floating 버튼 안 보이게
+                        if (isOpen) {
+                            closeFab()
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     // Navigation 기능 설정
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         //setToolbarDefault()
         when(item.itemId){
+
             R.id.action_home ->{
-                fragment_position = 0;
+                if (isOpen) closeFab()
+
+                default_upload.visibility = View.VISIBLE   // floating 버튼 보이게
+
+                fragmentPosition = 0;
                 var detailViewFragment = DetailViewFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, detailViewFragment).commit()
 
-                default_upload.visibility = View.VISIBLE   // floating 버튼 보이게
-                if (isOpen) {
-                    closeFab()
-                }
                 return true
             }
+
             R.id.action_search ->{
-                fragment_position = 1;
+                if (isOpen) closeFab()
+
+                default_upload.visibility = View.GONE   // floating 버튼 안 보이게
+
+                fragmentPosition = 1;
                 var searchFragment = SearchFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, searchFragment).commit()
-                if (isOpen) {
-                    closeFab()
-                }
-                default_upload.visibility = View.GONE   // floating 버튼 안 보이게
 
                 return true
             }
+
             R.id.action_community-> {
-                fragment_position = 2;
+                if (isOpen) closeFab()
+
+                default_upload.visibility = View.GONE   // floating 버튼 안 보이게
+
+                fragmentPosition = 2;
                 var randomUserFragment = RandomUserFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, randomUserFragment).commit()
-                if (isOpen) {
-                    closeFab()
-                }
-                default_upload.visibility = View.GONE   // floating 버튼 안 보이게
 
                 return true
             }
+
+            /** 정보 게시글 */
             R.id.action_information -> {
-                // 정보 게시글
-                fragment_position = 3;
+                if (isOpen) closeFab()
+
+                default_upload.visibility = View.GONE   // floating 버튼 안 보이게
+
+                fragmentPosition = 3;
                 var informationFragment = InformationFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, informationFragment).commit()
 
-                default_upload.visibility = View.VISIBLE   // floating 버튼 보이게
-                if (isOpen) {
-                    closeFab()
-                }
                 return true
 
             }
@@ -99,83 +142,61 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return false
 
     }
+
     fun registerPushToken(){
         FirebaseMessaging.getInstance().token.addOnCompleteListener {
-            task ->
+                task ->
             if (task.isSuccessful) {
                 val token = task.result
                 val uid = FirebaseAuth.getInstance().currentUser?.uid
                 val map = mutableMapOf<String,Any>()
                 map["pushToken"] = token!!
 
-              FirebaseFirestore.getInstance().collection("pushtokens").document(uid!!).set(map)
+                FirebaseFirestore.getInstance().collection("pushtokens").document(uid!!).set(map)
             }
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        bottom_navigation.setOnItemSelectedListener(this)
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
+    /** floatingButton 을 펼칠 때 사용 하는 함수 */
+    private fun openFab() {
 
-        // Set default screen
-        bottom_navigation.selectedItemId = R.id.action_home
-        registerPushToken()
+        // 맨 아래 버튼의 시계 방향 회전 애니메이션
+        val rotateAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate_clockwise)
+        default_upload.startAnimation(rotateAnimation)
 
-        // floating button 지정
+        // 나머지 버튼이 나타나게하는 애니메이션
         val fabOpen = AnimationUtils.loadAnimation(this, R.anim.fab_open)
-        val fabRAntiClockwise = AnimationUtils.loadAnimation(this, R.anim.rotate_anticlockwise)
 
-        default_upload.setOnClickListener{
+        image_upload.startAnimation(fabOpen)
+        camera_upload.startAnimation(fabOpen)
+        file_upload.startAnimation(fabOpen)
 
-            if(isOpen){ // floating button 이 열려 있을 경우
-                closeFab()  // floating button 닫는 함수
-            }
+        image_upload.isClickable
+        camera_upload.isClickable
+        file_upload.isClickable
 
-            else{   // floating button 이 닫혀 있을 경우
-                image_upload.startAnimation(fabOpen)
-                camera_upload.startAnimation(fabOpen)
-                file_upload.startAnimation(fabOpen)
-                default_upload.startAnimation(fabRAntiClockwise)
-
-                image_upload.isClickable
-                camera_upload.isClickable
-                file_upload.isClickable
-
-                isOpen = true
-
-                // floating 의 image(첫번째) 버튼을 눌렀을 경우
-                image_upload.setOnClickListener{
-                    if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                        closeFab()
-                        if(fragment_position == 0){ // 홈에서 image 버튼을 눌렀을 경우
-                            var uploadFragment = UploadFragment()
-                            supportFragmentManager.beginTransaction().replace(R.id.main_content, uploadFragment).commit()
-                        } else if(fragment_position == 3){  // 정보 게시글 화면에서 image 버튼을 눌렀을 경우
-                            var writingFragment = WritingFragment()
-                            supportFragmentManager.beginTransaction().replace(R.id.main_content, writingFragment).commit()
-                        }
-                    }
-                }
-            }
-        }
+        isOpen = true
     }
+
+    /** floatingButton 을 닫을 때 사용 하는 함수 */
 
     private fun closeFab() {
+
+        // 맨 아래 버튼의 반시계 방향 회전 애니메이션
+        // default_upload 의 GONE 을 위해 android:fillAfter="false" 로 지정 즉, 애니메이션 끝나면 유지 X
+        val rotateAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate_anticlockwise)
+        default_upload.startAnimation(rotateAnimation)
+
+        // 나머지 버튼이 사라지게하는 애니메이션
+
         val fabClose = AnimationUtils.loadAnimation(this, R.anim.fab_close)
-        val fabRClockwise = AnimationUtils.loadAnimation(this, R.anim.rotate_clockwise)
 
         image_upload.startAnimation(fabClose)
         camera_upload.startAnimation(fabClose)
         file_upload.startAnimation(fabClose)
-        default_upload.startAnimation(fabRClockwise)
 
-        if(fragment_position ==1){
-            default_upload.visibility = View.GONE
-        }   // floating 버튼 안 보이게
-        else default_upload.visibility = View.VISIBLE
         isOpen = false
+
     }
 
  // Profile
