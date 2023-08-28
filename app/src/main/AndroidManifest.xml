@@ -37,10 +37,6 @@
             android:exported="false" />
 
         <activity
-            android:name=".navigation.AddPhotoActivity"
-            android:exported="false" />
-
-        <activity
             android:name=".MainActivity"
             android:exported="false">
         </activity>

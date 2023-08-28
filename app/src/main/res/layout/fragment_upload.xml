@@ -7,62 +7,99 @@
     android:layout_height="691dp"
     tools:context=".upload.UploadFragment">
 
-    <ImageView
-        android:id="@+id/addphoto_image"
-        android:layout_width="105dp"
-        android:layout_height="105dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/blankColor"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/loadImageForm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="10dp">
 
-    <Button
-        android:id="@+id/addphoto_btn_upload"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_toRightOf="@+id/addphoto_image"
-        android:theme="@style/ButtonStyle"
-        app:layout_constraintBottom_toBottomOf="@+id/addphoto_image"
-        app:layout_constraintEnd_toEndOf="@+id/addphoto_image"
-        app:layout_constraintStart_toStartOf="@+id/addphoto_image"
-        app:layout_constraintTop_toTopOf="@+id/addphoto_image"
-        android:background="@drawable/float_default"
-        android:scaleX="1.5"
-        android:scaleY="1.5"/>
+        <ImageView
+            android:id="@+id/previewImage"
+            android:layout_width="111dp"
+            android:layout_height="111dp"
+            android:background="@color/blankColor"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"   />
 
-    <EditText
-        android:id="@+id/addphoto_edit_explain"
-        android:layout_width="213dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="67dp"
-        android:fontFamily="@font/pretendard_regular"
-        android:gravity="top"
-        android:hint="@string/hint_image_content"
-        android:textSize="14sp"
+        <ImageView
+            android:id="@+id/loadPhotoBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/float_default" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/inputForm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/addphoto_image"
+        app:layout_constraintStart_toEndOf="@+id/loadImageForm"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintHorizontal_bias="0.0"/>
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="67dp">
 
-    <ImageView
-        android:layout_width="8dp"
-        android:layout_height="8dp"
-        android:layout_marginStart="211dp"
-        android:layout_marginTop="87dp"
-        android:background="@drawable/cross"
-        app:layout_constraintTop_toTopOf="parent"
+    <EditText
+        android:id="@+id/contentEdit"
+        android:layout_width="213dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendard_regular"
+        android:hint="@string/hint_image_content"
+        android:textSize="14sp"
+        android:textColor="@color/defaultColor"
+        android:inputType="textMultiLine"
+        android:maxHeight="400dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/addphoto_image"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/clearTextBtn"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_marginEnd="11.51dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/cross"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/contentEdit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintVertical_bias="1.0"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/uploadBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/upload_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="18dp"
+        android:layout_marginEnd="31dp"
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintHorizontal_bias="1.0" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

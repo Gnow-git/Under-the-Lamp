@@ -55,12 +55,12 @@ class SearchGridFragment : Fragment() {
     inner class UserFragmentRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         val category = arguments?.getString(ARG_CATEGORY)
-        val userUids = arguments?.getStringArrayList(ARG_USER_UIDS)
+        val userId = arguments?.getStringArrayList(ARG_USER_UIDS)
 
         init {
-            if (userUids != null) {
+            if (userId != null) {
                 firestore?.collection("images")
-                    ?.whereIn("uid", userUids)
+                    ?.whereIn("userId", userId)
                     ?.addSnapshotListener { querySnapshots, firebaseFirestoreException ->
 
 

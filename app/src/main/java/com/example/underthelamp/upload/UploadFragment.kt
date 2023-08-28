@@ -17,8 +17,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import kotlinx.android.synthetic.main.activity_add_photo.addphoto_edit_explain
-import kotlinx.android.synthetic.main.activity_add_photo.addphoto_image
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -40,18 +38,21 @@ class UploadFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
-        // fragment에서는 튕기는 오류 발생
-//        var photoPickerIntent = Intent(Intent.ACTION_PICK)
-//        photoPickerIntent.type = "image/*"
-//        getActivity()?.startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_ALBUM)
+        binding.loadImageForm.setOnClickListener {
+            openImagePicker()   // 사진 불러 오는 함수 호출
+        }
 
-        binding.addphotoBtnUpload.setOnClickListener() {
-            //contentUpload()
-            openImagePicker()   // 사진 불러오는 함수 호출
+        binding.uploadBtn.setOnClickListener {
+            contentUpload()
+        }
+
+        binding.clearTextBtn.setOnClickListener {
+            binding.contentEdit.text = null // 작성한 글 초기화
         }
         return view
     }
 
+    /** 저장된 이미지를 찾도록 해주는 함수 */
     private fun openImagePicker() {
         var photoPickerIntent = Intent(Intent.ACTION_PICK)
         photoPickerIntent.type = "image/*"
@@ -61,51 +62,61 @@ class UploadFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == PICK_IMAGE_FROM_ALBUM) {
-            if(resultCode == Activity.RESULT_OK){
+            if(resultCode == Activity.RESULT_OK){   // 이미지를 정상적으로 불러 왔을 경우
                 photoUri = data?.data
-                addphoto_image.setImageURI(photoUri)
 
-                contentUpload()
-            } else {
-                // finish
-                getActivity()?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
+                binding.loadPhotoBtn.visibility = View.INVISIBLE
+
+                binding.previewImage.setImageURI(photoUri) // 이미지뷰에 적용시켜 미리보기
+
+            } else {    // 이미지를 불러오지 못하였거나 선택하지 않고 나갔을 경우
+
+                var uploadFragment = UploadFragment()    // 다시 업로드 화면으로 이동
+                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content, uploadFragment)?.commit()
             }
         }
     }
 
-    fun contentUpload() {
-        var timestamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        var imageFileName = "IMAGE_" + timestamp + "_.png"  // 중복 방지를 위한 파일명
+    private fun contentUpload() {
+        val timestamp = com.google.firebase.Timestamp.now()
+        val imageFileName = "IMAGE_" + timestamp + "_.png"  // 중복 방지를 위한 파일명
 
-        var storageRef = storage?.reference?.child("images")?.child(imageFileName)
+        val storageRef = storage?.reference?.child("images")?.child(imageFileName)
 
         storageRef?.putFile(photoUri!!)?.continueWithTask { task: Task<UploadTask.TaskSnapshot> ->
             return@continueWithTask storageRef.downloadUrl
         }?.addOnSuccessListener { uri ->
-            var contentDTO = ContentDTO()
+            val contentDTO = ContentDTO()
+
+            // images 라는 collection 에 랜덤한 document 를 가진 주소 생성
+            val documentRef = firestore?.collection("images")?.document()
 
             // url 추가
             contentDTO.imageUrl = uri.toString()
 
-            // user uid 추가
-            contentDTO.uid = auth?.currentUser?.uid
+            // 게시글 uid 추가(랜덤 생성한 document 값)
+            contentDTO.contentUid = documentRef?.id
+            
+            // 작성한 사람의 id 추가
+            contentDTO.userId = auth?.currentUser?.uid
 
-            // content에 대한 내용 추가
-            contentDTO.explain = addphoto_edit_explain.text.toString()
+            // content 에 대한 내용 추가
+            contentDTO.explain = binding.contentEdit.text.toString()
 
-            // timestamp 추가
-            contentDTO.timestamp = System.currentTimeMillis()
+            // firebase 용 timestamp 추가
+            contentDTO.timestamp = timestamp
 
-            firestore?.collection("images")?.document()?.set(contentDTO)
+            // 추가한 내용들 fireStore 에 저장
+            documentRef?.set(contentDTO)
 
-            getActivity()?.setResult(Activity.RESULT_OK)
+            // 정상 업로드 결과 전달
+            activity?.setResult(Activity.RESULT_OK)
 
-            // finish
-            getActivity()?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
+            // 프래그먼트 종료 후 메인 화면 으로 이동
+            activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
 
-            // 프래그먼트 변경
             var detailViewFragment = DetailViewFragment()
-            getActivity()?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content, detailViewFragment)?.commit()
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content, detailViewFragment)?.commit()
         }
     }
 

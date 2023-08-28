@@ -82,7 +82,7 @@ class DetailViewFragment : Fragment() {
             // UserId
 
             firestore!!.collection("userinfo")
-                .document(contentDTOs!![position].uid.toString()).collection("userinfo").document("detail")
+                .document(contentDTOs!![position].userId.toString()).collection("userinfo").document("detail")
                 .get().addOnSuccessListener { document ->
                     if (document.exists()) {
                         val userName = document.getString("user_name")
@@ -136,7 +136,7 @@ class DetailViewFragment : Fragment() {
             viewholder.detailviewitem_profile_image.setOnClickListener {
                 var fragment = UserFragment()
                 var bundle = Bundle()
-                bundle.putString("destinationUid", contentDTOs[position].uid)
+                bundle.putString("destinationUid", contentDTOs[position].contentUid)
                 bundle.putString("userId",contentDTOs[position].userId)
                 fragment.arguments = bundle
                 activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content, fragment)?.commit()
@@ -144,7 +144,7 @@ class DetailViewFragment : Fragment() {
             viewholder.comment_btn.setOnClickListener { v ->
                 var intent = Intent(v.context, CommentActivity::class.java)
                 intent.putExtra("contentUid", contentUidList[position])
-                intent.putExtra("destinationUid", contentDTOs[position].uid)
+                intent.putExtra("destinationUid", contentDTOs[position].contentUid)
                 startActivity(intent)
             }
 
@@ -168,7 +168,7 @@ class DetailViewFragment : Fragment() {
                     // When the button is not clicked
                     contentDTO?.favoriteCount = contentDTO?.favoriteCount!! + 1
                     contentDTO?.favorites?.set(uid!!, true)
-                    favoriteAlarm(contentDTOs[position].uid!!)
+                    favoriteAlarm(contentDTOs[position].contentUid!!)
                 }
                 transaction.set(tsDoc, contentDTO)
             }

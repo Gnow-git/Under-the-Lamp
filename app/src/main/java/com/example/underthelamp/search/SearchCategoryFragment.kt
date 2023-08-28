@@ -69,7 +69,7 @@ class SearchCategoryFragment : Fragment(), View.OnClickListener {
                 val userUid = documentSnapshot.id
                 val userSubCollection = documentSnapshot.reference.collection("userinfo")
 
-                /** 서브 컬렉션 을 사용 중이기 때문에 따로 지정 */
+                /** 서브 컬렉션 을 사용 중이기 때문에 따로 지정, 사용자의 카테고리 정보를 불러옴 */
                 userSubCollection.whereEqualTo("user_category", category)
                     .get()
                     .addOnSuccessListener { subcollectionQuerySnapshot ->
@@ -80,18 +80,18 @@ class SearchCategoryFragment : Fragment(), View.OnClickListener {
                         showSearchResult(category, userUids)
                     }.addOnFailureListener { e ->
                         // 오류시
-                        Toast.makeText(activity, "정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity, "정보를 불러 오지 못했습니다.", Toast.LENGTH_SHORT).show()
                     }
             }
         }?.addOnFailureListener { e ->
             // 오류 발생시
-            Toast.makeText(activity, "정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "정보를 불러 오지 못했습니다.", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun showSearchResult(category: String, userUids: ArrayList<String>) {
-        if (userUids.isNotEmpty()) {
-            val gridFragment = SearchGridFragment.newInstance(category, userUids)
+    private fun showSearchResult(category: String, userId: ArrayList<String>) {
+        if (userId.isNotEmpty()) {
+            val gridFragment = SearchGridFragment.newInstance(category, userId)
             val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
             fragmentTransaction.replace(R.id.framelayout, gridFragment)
             fragmentTransaction.addToBackStack(null)

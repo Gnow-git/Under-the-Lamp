@@ -90,6 +90,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 return true
             }
 
+            /** 검색 */
             R.id.action_search ->{
                 if (isOpen) closeFab()
 
