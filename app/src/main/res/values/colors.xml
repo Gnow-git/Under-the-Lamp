@@ -36,4 +36,8 @@
     <color name="colorLayoutBackground">#FFFFFF</color>
 
     <color name="rank_detail_font">#000011</color>
+
+    <color name="message_font">#000011</color>
+    <color name="message_time">#80767676</color>
+    <color name="message_content">#767676</color>
 </resources>

@@ -69,4 +69,8 @@
     <string name="upload">업로드</string>
     <string name="cancle">취소</string>
 
+    <!-- Default -->
+    <string name="default_name">홍길동</string>
+    <string name="default_time">0분전</string>
+
 </resources>
