@@ -27,6 +27,7 @@
             android:src="@drawable/toolbar_title_icon"/>
 
         <ImageView
+            android:id="@+id/messageBtn"
             android:layout_width="24.71dp"
             android:layout_height="24.71dp"
             android:layout_marginLeft="254.65dp"
