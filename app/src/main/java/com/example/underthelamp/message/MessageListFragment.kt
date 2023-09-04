@@ -1,7 +1,6 @@
 package com.example.underthelamp.message
 
 import android.os.Bundle
-import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,15 +14,15 @@ import com.example.underthelamp.databinding.FragmentMessageBinding
 import com.example.underthelamp.model.MessageDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import kotlinx.android.synthetic.main.item_message.view.messageContent
-import kotlinx.android.synthetic.main.item_message.view.messageProfile
-import kotlinx.android.synthetic.main.item_message.view.messageTime
-import kotlinx.android.synthetic.main.item_message.view.messageUserName
+import kotlinx.android.synthetic.main.item_message_list.view.messageContent
+import kotlinx.android.synthetic.main.item_message_list.view.messageForm
+import kotlinx.android.synthetic.main.item_message_list.view.messageProfile
+import kotlinx.android.synthetic.main.item_message_list.view.messageTime
+import kotlinx.android.synthetic.main.item_message_list.view.messageUserName
 
-class MessageFragment : Fragment() {
+class MessageListFragment : Fragment() {
     lateinit var binding : FragmentMessageBinding
     var firestore : FirebaseFirestore? = null
     var loginUserId : String? = null
@@ -74,7 +73,7 @@ class MessageFragment : Fragment() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            var view = LayoutInflater.from(parent.context).inflate(R.layout.item_message, parent, false)
+            var view = LayoutInflater.from(parent.context).inflate(R.layout.item_message_list, parent, false)
             return CustomMessageViewHolder(view)
         }
 
@@ -87,6 +86,21 @@ class MessageFragment : Fragment() {
             val messageViewHolder = (holder as CustomMessageViewHolder).itemView
 
             getUserInfo(messageViewHolder, position)    // 대화 상대에 대한 정보 불러 오기
+
+            // 대화 목록의 대화를 누를 경우
+            messageViewHolder.messageForm.setOnClickListener{
+
+                val chatFragment = ChatFragment()
+                var args = Bundle()
+                args.putString("otherUserId", otherUserIdList[position])
+                chatFragment.arguments = args
+
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.main_content, chatFragment)
+                    .addToBackStack(null)
+                    .commit()
+                
+            }
         }
 
         /** 상대방의 이름 정보를 가져와 적용 하는 함수 */
@@ -102,7 +116,7 @@ class MessageFragment : Fragment() {
                     ?.addOnSuccessListener { querySnapshot ->
                         if (querySnapshot != null ){
                             val imageUrl = querySnapshot.getString("image")
-                            Glide.with(this@MessageFragment).load(imageUrl).into(messageViewHolder.messageProfile)
+                            Glide.with(this@MessageListFragment).load(imageUrl).into(messageViewHolder.messageProfile)
                         }
                     }
                     ?.addOnFailureListener{ exception ->

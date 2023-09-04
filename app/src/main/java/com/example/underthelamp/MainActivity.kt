@@ -15,7 +15,7 @@ import com.example.underthelamp.information.InformationFragment
 import com.example.underthelamp.community.RandomUserFragment
 import com.example.underthelamp.information.WritingFragment
 import com.example.underthelamp.home.DetailViewFragment
-import com.example.underthelamp.message.MessageFragment
+import com.example.underthelamp.message.MessageListFragment
 import com.example.underthelamp.search.SearchFragment
 import com.example.underthelamp.upload.UploadFragment
 import com.example.underthelamp.user.UserFragment
@@ -75,8 +75,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         /** 상단의 메시지 버튼을 눌렀을 경우 */
         messageBtn.setOnClickListener {
-            var messageFragment = MessageFragment()
-            supportFragmentManager.beginTransaction().replace(R.id.main_content, messageFragment).commit()
+
+            if (isOpen) closeFab()
+
+            default_upload.visibility = View.GONE   // floating 버튼 안 보이게
+
+            var messageListFragment = MessageListFragment()
+            supportFragmentManager.beginTransaction().replace(R.id.main_content, messageListFragment).commit()
         }
     }
 

@@ -26,7 +26,7 @@
         android:layout_height="22dp"
         android:text="@string/default_name"
         android:textSize="14sp"
-        android:textColor="@color/message_font"
+        android:textColor="@color/message_color"
         android:fontFamily="@font/pretendard_semibold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -87,19 +87,19 @@ class DetailViewFragment : Fragment() {
                     if (document.exists()) {
                         val userName = document.getString("user_name")
                         // viewholder.detailviewitem_profile_textview.text = contentDTOs!![position].userId // 이메일
-                        viewholder.detailviewitem_profile_textview.text = userName
+                        viewholder.detailUserName.text = userName
                     } else {
-                        viewholder.detailviewitem_profile_textview.text = "이름을 불러올 수 없습니다."
+                        viewholder.detailUserName.text = "이름을 불러올 수 없습니다."
                     }
                 }
                 .addOnFailureListener { exception ->
                     Log.d(ContentValues.TAG, "데이터 가져오기 실패: ", exception)
-                    viewholder.detailviewitem_profile_textview.text  = "데이터를 가져오는 중에 오류가 발생하였습니다."
+                    viewholder.detailUserName.text  = "데이터를 가져오는 중에 오류가 발생하였습니다."
                 }
 
 
             // Image
-            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).into(viewholder.detailviewitem_imageview_content)
+            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).into(viewholder.detailImage)
 
             // 댓글단 유저 이름 fragment로 추가해야함
 
@@ -107,16 +107,16 @@ class DetailViewFragment : Fragment() {
             // viewholder.comment_user.text = contentDTOs!![position].explain
 
             // likes
-            viewholder.detailviewitem_favoritecounter_textview.text = "Likes " + contentDTOs!![position].favoriteCount
+            viewholder.detailLikeCount.text = "Likes " + contentDTOs!![position].favoriteCount
 
             // ProfileImage -> 나중에 프로필 이미지 불러오는 것으로 수정해야함
             //Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).into(viewholder.detailviewitem_profile_image)
-            viewholder.detailviewitem_profile_image.background = viewholder.resources.getDrawable(R.drawable.radius, null)
-            viewholder.detailviewitem_profile_image.clipToOutline = true
+            viewholder.detailProfileImage.background = viewholder.resources.getDrawable(R.drawable.radius, null)
+            viewholder.detailProfileImage.clipToOutline = true
 
 
             // This code is when the button is clicked
-            viewholder.favorite_btn.setOnClickListener {
+            viewholder.likeBtn.setOnClickListener {
                 favoriteEvent(position)
             }
 
@@ -124,16 +124,13 @@ class DetailViewFragment : Fragment() {
             if(contentDTOs!![position].favorites.containsKey(uid)){
                 // 좋아요를 누른 경우
                 val tintColor = ContextCompat.getColorStateList(requireContext(), R.color.selectColor)
-                viewholder.favorite_btn.setBackgroundResource(R.drawable.heart)
-                viewholder.favorite_btn.backgroundTintList = tintColor
+                viewholder.likeBtn.backgroundTintList = tintColor
             } else{
                 // 좋아요를 안 누른 경우
-                val tintColor = ContextCompat.getColorStateList(requireContext(), R.color.defaultColor)
-                viewholder.favorite_btn.setBackgroundResource(R.drawable.heart_line)
-                viewholder.favorite_btn.backgroundTintList = tintColor
+                viewholder.likeBtn.setBackgroundResource(R.drawable.like_icon)
             }
             // This code is when the profile image is clicked
-            viewholder.detailviewitem_profile_image.setOnClickListener {
+            viewholder.detailProfileImage.setOnClickListener {
                 var fragment = UserFragment()
                 var bundle = Bundle()
                 bundle.putString("destinationUid", contentDTOs[position].contentUid)
@@ -141,14 +138,14 @@ class DetailViewFragment : Fragment() {
                 fragment.arguments = bundle
                 activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content, fragment)?.commit()
             }
-            viewholder.comment_btn.setOnClickListener { v ->
+            viewholder.commentBtn.setOnClickListener { v ->
                 var intent = Intent(v.context, CommentActivity::class.java)
                 intent.putExtra("contentUid", contentUidList[position])
                 intent.putExtra("destinationUid", contentDTOs[position].contentUid)
                 startActivity(intent)
             }
 
-            viewholder.detail_menu.setOnClickListener{
+            viewholder.detailMenuBtn.setOnClickListener{
                 // 상세 메뉴 버튼을 누를 경우 하단 BottomSheet 나타나게하기
                 showModalBottomSheet()
             }

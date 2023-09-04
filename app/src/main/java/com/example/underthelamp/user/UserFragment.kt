@@ -90,8 +90,9 @@ class UserFragment : Fragment() {
             activity?.startActivityForResult(photoPickerIntent, PICK_PROFILE_FROM_ALBUM)
         }
 
-        getProfileImage()
-        getFollowerAndFollowing()
+        // 오류 발생으로 잠시 주석처리
+        //getProfileImage()
+        //getFollowerAndFollowing()
 
         return binding.root
     }

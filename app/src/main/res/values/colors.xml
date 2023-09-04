@@ -28,6 +28,7 @@
     <color name="fontColor">#767676</color>
     <color name="selectColor">#FABE00</color>
 
+    <color name="defaultFontColor">#000011</color>
     <color name="transparent">#00000000</color>
 
     <color name="contest_detail_font">#000011</color>
@@ -37,7 +38,10 @@
 
     <color name="rank_detail_font">#000011</color>
 
-    <color name="message_font">#000011</color>
+    <color name="message_color">#000011</color>
     <color name="message_time">#80767676</color>
     <color name="message_content">#767676</color>
+
+    <color name="chat_background">#33999999</color>
+    <color name="message_input_background">#80D9D9D9</color>
 </resources>

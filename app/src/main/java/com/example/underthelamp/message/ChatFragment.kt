@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentChatBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -36,15 +37,18 @@ class ChatFragment : Fragment() {
 
         var chatList: ArrayList<String> = arrayListOf()
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            TODO("Not yet implemented")
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_message_list, parent)
+            return CustomChatViewHolder(view)
         }
 
+        inner class CustomChatViewHolder(view: View) : RecyclerView.ViewHolder(view)
+
         override fun getItemCount(): Int {
-            TODO("Not yet implemented")
+            return chatList.size
         }
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            TODO("Not yet implemented")
+
         }
 
 //        init{
