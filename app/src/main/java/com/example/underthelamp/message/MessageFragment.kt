@@ -26,42 +26,48 @@ import kotlinx.android.synthetic.main.item_message.view.messageUserName
 class MessageFragment : Fragment() {
     lateinit var binding : FragmentMessageBinding
     var firestore : FirebaseFirestore? = null
-    var userId : String? = null
+    var loginUserId : String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         firestore = FirebaseFirestore.getInstance()
+
         // 현재 로그인한 유저의 id 정보 확인
-        userId = FirebaseAuth.getInstance().currentUser?.uid
+        loginUserId = FirebaseAuth.getInstance().currentUser?.uid
         binding = FragmentMessageBinding.inflate(inflater, container, false)
         val view = binding.root
 
         /** chatList에 대한 adapter와 layoutManager 지정 */
-        binding.chatList.adapter = ChatAdapter()
-        binding.chatList.layoutManager = LinearLayoutManager(activity)
+        binding.messageList.adapter = MessageListAdapter()
+        binding.messageList.layoutManager = LinearLayoutManager(activity)
 
         return view
     }
 
-    inner class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-        var messageUidList: ArrayList<String> = arrayListOf()   // otherUserId를 저장할 리스트
+    inner class MessageListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+        /** otherUserId를 저장할 리스트 */
+        var otherUserIdList: ArrayList<String> = arrayListOf()
 
         /** firestore 초기화 */
         init{
             firestore?.collection("message")
-                ?.whereEqualTo("userId", userId)    // 현재 로그인한 사용자가 포함된 메시지 필터링
+                ?.whereArrayContains("messageUser", loginUserId!!)
                 ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
 
-                    messageUidList.clear()
+                    otherUserIdList.clear()
 
                     if (querySnapshot == null) return@addSnapshotListener
 
-                    for (snapshot in querySnapshot.documents) {
-                        val messageDTO = snapshot.toObject(MessageDTO::class.java)!!
+                    // messageDTO 의 messageUser 와 현재 로그인한 사용자를 비교 후 상대방에 대한 Id 정보를 arrayList로 저장
 
-                        // messageDTO의 userId와 현재 로그인한 userId를 비교 후 상대방에 대한 Id 정보를 arrayList로 저장
-                        if(messageDTO.userId == userId){
-                            messageUidList.add(messageDTO.otherUserId.toString())
-                        }else Toast.makeText(activity, "사용자 정보가 다릅니다.", Toast.LENGTH_SHORT).show()
+                    for (snapshot in querySnapshot.documents) {
+                        val messageDTO = snapshot.toObject(MessageDTO::class.java)
+
+                        messageDTO?.messageUser?.forEach { userId ->
+                            if (userId != loginUserId) {
+                                otherUserIdList.add(userId)
+                            }
+                        }
                     }
                     notifyDataSetChanged()
                 }
@@ -74,7 +80,7 @@ class MessageFragment : Fragment() {
 
         inner class CustomMessageViewHolder(view: View) : RecyclerView.ViewHolder(view)
         override fun getItemCount(): Int {
-            return messageUidList.size
+            return otherUserIdList.size
         }
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -86,8 +92,8 @@ class MessageFragment : Fragment() {
         /** 상대방의 이름 정보를 가져와 적용 하는 함수 */
         private fun getUserInfo(messageViewHolder: View, position: Int){
             // 대화 하고 있는 사람이 있을 경우
-            if (position < messageUidList.size){
-                val otherUserId = messageUidList[position]
+            if (position < otherUserIdList.size){
+                val otherUserId = otherUserIdList[position]
 
                 // 대화 상대의 프로필 이미지 불러오기
                 firestore?.collection("profileImage")
@@ -100,7 +106,7 @@ class MessageFragment : Fragment() {
                         }
                     }
                     ?.addOnFailureListener{ exception ->
-                        Toast.makeText(activity, "프로필을 불러오지 못했습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity, "상대방의 프로필을 불러오지 못했습니다.", Toast.LENGTH_SHORT).show()
                     }
                 
                 // 대화 상대의 이름 불러오기
@@ -118,7 +124,7 @@ class MessageFragment : Fragment() {
                             messageViewHolder.messageUserName.text = userName
 
                             // 가장 최근에 한 대화 불러 오기
-                            getLatestChat(messageViewHolder, position, otherUserId)
+                            getLatestChat(messageViewHolder, position, loginUserId!!, otherUserId)
 
                         } else {
                             // userinfo 에서 값이 존재 하지 않는 경우
@@ -133,19 +139,25 @@ class MessageFragment : Fragment() {
         }
 
         /** 가장 최근에 대화한 내용을 불러 오는 함수 */
-        private fun getLatestChat(messageViewHolder: View, position: Int, otherUserId : String){
-            if (position < messageUidList.size){
+        private fun getLatestChat(messageViewHolder: View, position: Int, loginUserId : String, otherUserId : String){
+            if (position < otherUserIdList.size){
                 firestore?.collection("message")
-                    ?.whereEqualTo("userId", userId)
-                    ?.whereEqualTo("otherUserId", otherUserId)
+                    ?.whereArrayContains("messageUser", loginUserId!!) // 내 정보와 같은 collection 에 접근
                     ?.get()
                     ?.addOnSuccessListener { mainCollectionSnapshot ->
+
                         if (mainCollectionSnapshot != null && !mainCollectionSnapshot.isEmpty){
 
-                            for (documentSnapshot in mainCollectionSnapshot.documents) {
+                            /** 현재 메시지 방이 로그인한 사용자와 상대방의 uid 값이 같은지 판별 */
+                            val documentsWithBothUsers = mainCollectionSnapshot.documents.filter { document ->
+                                val messageUserList = document.get("messageUser") as? List<String>
+                                messageUserList?.contains(loginUserId) == true &&messageUserList.contains(otherUserId)
+                            }
+
+                            /** 서브 컬렉션 chat 에 접근, 가장 마지막으로 했던 대화(timestamp 기준)를 보여 주도록 정렬 */
+                            for (documentSnapshot in documentsWithBothUsers) {
                                 val messageSubCollection = documentSnapshot.reference.collection("chat")
 
-                                /** 서브 컬렉션 chat 에 접근, 가장 마지막으로 했던 대화를 보여 주도록 정렬 */
                                 messageSubCollection
                                     .orderBy("timestamp", Query.Direction.DESCENDING)
                                     .limit(1)
@@ -154,11 +166,12 @@ class MessageFragment : Fragment() {
 
                                         if (!chatSnapshot.isEmpty) {
                                             val lastChatDocument = chatSnapshot.documents[0]
+                                            // text 필드의 값을 불러와 textView에 지정
                                             messageViewHolder.messageContent.text = lastChatDocument.getString("text")
                                             timeCalculate(messageViewHolder, lastChatDocument)
 
                                         } else {
-                                            messageViewHolder.messageContent.text = " 대화가 없습니다."
+                                            messageViewHolder.messageContent.text = " 대화 내용이 없습니다."
                                         }
 
                                     }.addOnFailureListener{ exception ->
@@ -171,7 +184,7 @@ class MessageFragment : Fragment() {
                     }
                     ?.addOnFailureListener { exception ->
                         // 오류 처리
-                        messageViewHolder.messageContent.text = "대화를 불러오는데 실패하였습니다."
+                        messageViewHolder.messageContent.text = "대화 상대를 불러오는데 실패하였습니다."
                     }
             }
         }
