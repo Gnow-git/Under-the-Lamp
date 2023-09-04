@@ -22,7 +22,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/user_profile_default"
+            android:src="@drawable/profile_default"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,9 +77,9 @@
         android:layout_marginTop="41dp"
         app:layout_constraintVertical_bias="0.0" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/likeBtn"
-            android:background="@drawable/like_icon"
+            android:background="@drawable/like_icon_default"
             android:layout_width="23dp"
             android:layout_height="22dp"
             app:layout_constraintTop_toBottomOf="@+id/detailImage"
@@ -91,7 +91,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="0.0"/>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/commentBtn"
             android:background="@drawable/comment_icon"
             android:layout_width="22dp"

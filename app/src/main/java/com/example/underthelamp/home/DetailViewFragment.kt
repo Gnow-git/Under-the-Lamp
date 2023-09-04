@@ -12,12 +12,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window.*
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.underthelamp.R
+import com.example.underthelamp.databinding.FragmentDetailViewBinding
 import com.example.underthelamp.model.AlarmDTO
 import com.example.underthelamp.model.ContentDTO
 import com.example.underthelamp.navigation.CommentActivity
@@ -25,27 +25,32 @@ import com.example.underthelamp.navigation.util.FcmPush
 import com.example.underthelamp.user.UserFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.fragment_detail.view.*
-import kotlinx.android.synthetic.main.fragment_user_detail.view.back
+import kotlinx.android.synthetic.main.fragment_detail_view.view.detailRecyclerView
 import kotlinx.android.synthetic.main.item_detail.view.*
 
 class DetailViewFragment : Fragment() {
-    var firestore : FirebaseFirestore? = null
-    var uid : String? = null
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = LayoutInflater.from(activity).inflate(R.layout.fragment_detail, container, false)
-        firestore = FirebaseFirestore.getInstance()
-        uid = FirebaseAuth.getInstance().currentUser?.uid
 
-        view.detailviewfragment_recyclerview.adapter = DetailViewRecyclerViewAdapter()
-        view.detailviewfragment_recyclerview.layoutManager = LinearLayoutManager(activity)
+    lateinit var binding : FragmentDetailViewBinding
+    var firestore : FirebaseFirestore? = null
+    var loginUid : String? = null
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentDetailViewBinding.inflate(inflater, container, false)
+        var view = binding.root
+
+        firestore = FirebaseFirestore.getInstance()
+        loginUid = FirebaseAuth.getInstance().currentUser?.uid
+
+        /** detailRecyclerView 에 대한 adapter 와 layoutManager 지정 */
+        view.detailRecyclerView.adapter = DetailViewRecyclerViewAdapter()
+        view.detailRecyclerView.layoutManager = LinearLayoutManager(activity)
         return view
     }
+
+    /** detailRecyclerView 에 대한 adapter */
     inner class DetailViewRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         var contentDTOs : ArrayList<ContentDTO> = arrayListOf()
         var contentUidList : ArrayList<String> = arrayListOf()
         init {
-
             firestore?.collection("images")?.orderBy("timestamp")?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 contentDTOs.clear()
                 contentUidList.clear()
@@ -72,65 +77,37 @@ class DetailViewFragment : Fragment() {
             return contentDTOs.size
         }
 
-        /**
-         * 유저의 작품을 보여주는 ViewHolder
-         */
+        /** 유저의 작품을 보여 주는 ViewHolder */
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-            var viewholder = (holder as CustomViewHolder).itemView
+            var DetailViewHolder = (holder as CustomViewHolder).itemView
 
-            // UserId
+            /** 게시물 작성한 유저의 정보 불러오기 */
+            getDetailViewUserInfo(DetailViewHolder, position)
 
-            firestore!!.collection("userinfo")
-                .document(contentDTOs!![position].userId.toString()).collection("userinfo").document("detail")
-                .get().addOnSuccessListener { document ->
-                    if (document.exists()) {
-                        val userName = document.getString("user_name")
-                        // viewholder.detailviewitem_profile_textview.text = contentDTOs!![position].userId // 이메일
-                        viewholder.detailUserName.text = userName
-                    } else {
-                        viewholder.detailUserName.text = "이름을 불러올 수 없습니다."
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    Log.d(ContentValues.TAG, "데이터 가져오기 실패: ", exception)
-                    viewholder.detailUserName.text  = "데이터를 가져오는 중에 오류가 발생하였습니다."
-                }
+            // 게시물 이미지 불러오기
+            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).into(DetailViewHolder.detailImage)
 
+            // 좋아요 개수 불러오기
+            DetailViewHolder.detailLikeCount.text = "Likes " + contentDTOs!![position].favoriteCount
 
-            // Image
-            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).into(viewholder.detailImage)
-
-            // 댓글단 유저 이름 fragment로 추가해야함
-
-            // 작성한 내용
-            // viewholder.comment_user.text = contentDTOs!![position].explain
-
-            // likes
-            viewholder.detailLikeCount.text = "Likes " + contentDTOs!![position].favoriteCount
-
-            // ProfileImage -> 나중에 프로필 이미지 불러오는 것으로 수정해야함
-            //Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).into(viewholder.detailviewitem_profile_image)
-            viewholder.detailProfileImage.background = viewholder.resources.getDrawable(R.drawable.radius, null)
-            viewholder.detailProfileImage.clipToOutline = true
-
-
-            // This code is when the button is clicked
-            viewholder.likeBtn.setOnClickListener {
-                favoriteEvent(position)
+            /** 좋아요 버튼 누를 경우 */
+            DetailViewHolder.likeBtn.setOnClickListener {
+                favoriteEvent(loginUid.toString(), position)
             }
 
-            // This code is when the page is loaded
-            if(contentDTOs!![position].favorites.containsKey(uid)){
-                // 좋아요를 누른 경우
-                val tintColor = ContextCompat.getColorStateList(requireContext(), R.color.selectColor)
-                viewholder.likeBtn.backgroundTintList = tintColor
+            if(contentDTOs!![position].favorites.containsKey(loginUid)){
+
+                // 좋아요를 한 상태인 경우
+                DetailViewHolder.likeBtn.setBackgroundResource(R.drawable.like_icon)
+
             } else{
-                // 좋아요를 안 누른 경우
-                viewholder.likeBtn.setBackgroundResource(R.drawable.like_icon)
+                // 좋아요를 안한 상태인 경우
+                DetailViewHolder.likeBtn.setBackgroundResource(R.drawable.like_icon_default)
             }
-            // This code is when the profile image is clicked
-            viewholder.detailProfileImage.setOnClickListener {
+            
+            // 게시물의 프로필 사진을 누를 경우
+            DetailViewHolder.detailProfileImage.setOnClickListener {
                 var fragment = UserFragment()
                 var bundle = Bundle()
                 bundle.putString("destinationUid", contentDTOs[position].contentUid)
@@ -138,36 +115,93 @@ class DetailViewFragment : Fragment() {
                 fragment.arguments = bundle
                 activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content, fragment)?.commit()
             }
-            viewholder.commentBtn.setOnClickListener { v ->
+
+            DetailViewHolder.commentBtn.setOnClickListener { v ->
                 var intent = Intent(v.context, CommentActivity::class.java)
                 intent.putExtra("contentUid", contentUidList[position])
                 intent.putExtra("destinationUid", contentDTOs[position].contentUid)
                 startActivity(intent)
             }
 
-            viewholder.detailMenuBtn.setOnClickListener{
+            DetailViewHolder.detailMenuBtn.setOnClickListener{
                 // 상세 메뉴 버튼을 누를 경우 하단 BottomSheet 나타나게하기
                 showModalBottomSheet()
             }
         }
 
-        fun favoriteEvent(position : Int){
-            var tsDoc = firestore?.collection("images")?.document(contentUidList[position])
-            firestore?.runTransaction { transaction ->
-                var uid = FirebaseAuth.getInstance().currentUser?.uid
-                var contentDTO = transaction.get(tsDoc!!).toObject(ContentDTO::class.java)
+        /** 게시물을 올린 사람의 정보를 불러 오는 함수 */
+        private fun getDetailViewUserInfo(DetailViewHolder: View, position: Int){
 
-                if(contentDTO!!.favorites.containsKey(uid)){
-                    // When the button is clicked
-                    contentDTO?.favoriteCount = contentDTO?.favoriteCount!! - 1
-                    contentDTO?.favorites?.remove(uid)
-                } else {
-                    // When the button is not clicked
-                    contentDTO?.favoriteCount = contentDTO?.favoriteCount!! + 1
-                    contentDTO?.favorites?.set(uid!!, true)
-                    favoriteAlarm(contentDTOs[position].contentUid!!)
+            // 게시물 작성한 유저의 프로필 이미지 불러오기
+            firestore!!.collection("profileImage")
+                .document(contentDTOs[position].userId.toString())
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    if (querySnapshot != null) {
+                        val imageUrl = querySnapshot.getString("image")
+                        Glide.with(DetailViewHolder.context).load(imageUrl).into(DetailViewHolder.detailProfileImage)
+                        DetailViewHolder.detailProfileImage.background = DetailViewHolder.resources.getDrawable(R.drawable.radius, null)
+                        DetailViewHolder.detailProfileImage.clipToOutline = true
+                    } else{
+                        // 프로필 이미지가 없는 경우, 기본 이미지로 설정
+                        Glide.with(DetailViewHolder.context).load(R.drawable.profile_default).into(DetailViewHolder.detailProfileImage)
+                        DetailViewHolder.detailProfileImage.background = DetailViewHolder.resources.getDrawable(R.drawable.radius, null)
+                        DetailViewHolder.detailProfileImage.clipToOutline = true
+                    }
+
+
+                } // 프로필 이미지 불러오지 못했을 경우
+                .addOnFailureListener { exception ->
+                    Log.d(ContentValues.TAG, "프로필 이미지 불러오기 실패: ", exception)
                 }
-                transaction.set(tsDoc, contentDTO)
+
+
+            // 게시물을 올린 사용자의 이름 불러오기
+            firestore!!.collection("userinfo")
+                .document(contentDTOs[position].userId.toString()).collection("userinfo").document("detail")
+                .get().addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        val userName = document.getString("user_name")
+                        DetailViewHolder.detailUserName.text = userName
+                    } else {
+                        DetailViewHolder.detailUserName.text = "이름을 불러올 수 없습니다."
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(ContentValues.TAG, "데이터 가져오기 실패: ", exception)
+                    DetailViewHolder.detailUserName.text  = "데이터를 가져오는 중에 오류가 발생하였습니다."
+                }
+        }
+
+        fun favoriteEvent(loginUid : String , position : Int){
+            val contentDTO = contentDTOs?.get(position)
+
+            if (contentDTO?.contentUid != null) {
+                val contentRef = firestore?.collection("images")?.document(contentDTO.contentUid!!)
+
+                firestore?.runTransaction { transaction ->
+                    val contentDoc = transaction.get(contentRef!!)
+                    
+                    if (contentDoc.exists()) {
+                        val updateContentDTO = contentDoc.toObject(ContentDTO::class.java)
+                        
+                        if (updateContentDTO != null) {
+                            if (updateContentDTO.favorites.containsKey(loginUid)) {
+                                // 하트 버튼이 눌려져 있는 경우
+                                updateContentDTO.favoriteCount = updateContentDTO.favoriteCount - 1
+                                updateContentDTO.favorites.remove(loginUid)
+                            } else {
+                                // 하트 버튼이 안눌려져 있는 경우
+                                updateContentDTO.favoriteCount = updateContentDTO.favoriteCount + 1
+                                updateContentDTO.favorites[loginUid] = true
+                                favoriteAlarm(contentDTO.contentUid!!)
+                            }
+
+                            // 변경된 내용을 Firestore 에 적용
+                            transaction.set(contentRef, updateContentDTO)
+                        }
+                    }
+                }
             }
         }
 

@@ -41,7 +41,7 @@ class UserFragment : Fragment() {
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentUserBinding.inflate(inflater, container, false)
-        userId = arguments?.getString("destinationUid")
+        userId = arguments?.getString("userId")
         firestore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
         currentUserUid = auth?.currentUser?.uid
@@ -90,9 +90,8 @@ class UserFragment : Fragment() {
             activity?.startActivityForResult(photoPickerIntent, PICK_PROFILE_FROM_ALBUM)
         }
 
-        // 오류 발생으로 잠시 주석처리
-        //getProfileImage()
-        //getFollowerAndFollowing()
+        getProfileImage()
+        getFollowerAndFollowing()
 
         return binding.root
     }

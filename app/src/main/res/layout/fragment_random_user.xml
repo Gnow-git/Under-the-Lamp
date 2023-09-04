@@ -161,7 +161,7 @@
                 android:id="@+id/userProfileImage"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:src="@drawable/user_profile_default"
+                android:src="@drawable/random_user_profile_default"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
