@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:id="@+id/chatForm">
+    android:layout_marginBottom="24dp"
+    android:id="@+id/loginChatForm">
 
     <TextView
         android:id="@+id/chatTime"
         android:layout_width="wrap_content"
         android:layout_height="22dp"
         android:text="0분전"
-        android:textSize="10dp"
+        android:textSize="10sp"
         android:textColor="@color/message_time"
         android:fontFamily="@font/pretendard_regular"
         android:letterSpacing="-0.05"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/chatContent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="0dp"
+        app:layout_constraintEnd_toStartOf="@+id/chatContent"
+        android:layout_marginEnd="10dp"
         app:layout_constraintVertical_bias="1.0"
-        app:layout_constraintHorizontal_bias="0.0"/>
+        app:layout_constraintHorizontal_bias="1.0"/>
 
     <TextView
         android:id="@+id/chatContent"
@@ -39,11 +41,13 @@
         android:paddingEnd="18dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/chatTime"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="0dp"
-        android:layout_marginStart="10dp"
-        android:background="@drawable/chat_background"/>
+        android:layout_marginEnd="0dp"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
+        android:background="@drawable/chat_user_background"/>
 
 
 

@@ -44,6 +44,9 @@ class MessageListFragment : Fragment() {
 
     inner class MessageListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+        /** 대화방에 대한 Id를 저장할 리스트 */
+        var messageIdList : ArrayList<String> = arrayListOf()
+
         /** otherUserId를 저장할 리스트 */
         var otherUserIdList: ArrayList<String> = arrayListOf()
 
@@ -53,6 +56,7 @@ class MessageListFragment : Fragment() {
                 ?.whereArrayContains("messageUser", loginUserId!!)
                 ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
 
+                    messageIdList.clear()
                     otherUserIdList.clear()
 
                     if (querySnapshot == null) return@addSnapshotListener
@@ -65,6 +69,7 @@ class MessageListFragment : Fragment() {
                         messageDTO?.messageUser?.forEach { userId ->
                             if (userId != loginUserId) {
                                 otherUserIdList.add(userId)
+                                messageIdList.add(snapshot.id)
                             }
                         }
                     }
@@ -92,7 +97,8 @@ class MessageListFragment : Fragment() {
 
                 val chatFragment = ChatFragment()
                 var args = Bundle()
-                args.putString("otherUserId", otherUserIdList[position])
+                /** 선택한 대화방의 id 전달 */
+                args.putString("messageIdList", messageIdList[position])
                 chatFragment.arguments = args
 
                 parentFragmentManager.beginTransaction()

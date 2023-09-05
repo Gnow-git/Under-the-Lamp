@@ -42,6 +42,7 @@
     <color name="message_time">#80767676</color>
     <color name="message_content">#767676</color>
 
-    <color name="chat_background">#33999999</color>
+    <color name="chat_user_background">#33999999</color>
+    <color name="chat_other_background">#4DFABE00</color>
     <color name="message_input_background">#80D9D9D9</color>
 </resources>
