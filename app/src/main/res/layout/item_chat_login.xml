@@ -30,6 +30,7 @@
         android:id="@+id/chatContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="250dp"
         android:text="이번 작업 유튜브 링크 공유해요~\nhttps://www.Utube.com/@abc"
         android:fontFamily="@font/pretendard_regular"
         android:textSize="14sp"

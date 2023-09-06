@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +15,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.item_chat_other.view.chatContent
 import kotlinx.android.synthetic.main.item_chat_other.view.chatTime
-import java.lang.IllegalArgumentException
 
 class ChatFragment : Fragment() {
     lateinit var binding : FragmentChatBinding
@@ -120,7 +118,7 @@ class ChatFragment : Fragment() {
 
         // 대화 내용이 저장될 위치 지정
         val documentRef = firestore?.collection("message")
-            ?.document()
+            ?.document(messageIdList!!)
             ?.collection("chat")
             ?.document()
 
@@ -135,6 +133,9 @@ class ChatFragment : Fragment() {
 
         // 추가된 내용들을 firestore 에 저장
         documentRef?.set(messageDTO)
+
+        // 메시지 보낸 후 EditText 초기화
+        binding.messageInput.setText("")
 
     }
 

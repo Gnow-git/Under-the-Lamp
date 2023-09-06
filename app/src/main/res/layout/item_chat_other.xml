@@ -31,6 +31,7 @@
         android:id="@+id/chatContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="250dp"
         android:text="이번에 함께 작업할 수 있어서 좋았어요 :)\n다음에 기회가 된다면 또 같이 작업해요!"
         android:fontFamily="@font/pretendard_regular"
         android:textSize="14sp"
