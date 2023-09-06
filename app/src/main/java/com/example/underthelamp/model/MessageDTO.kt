@@ -8,6 +8,7 @@ data class MessageDTO (
     data class Chat (
         var uid : String? = null,    // 메시지를 보낸 사용자의 id 정보
         var text : String? = null,   // 메시지 내용
-        var timestamp: Timestamp? = null // 메시지를 보낸 시간
+        var timestamp: Timestamp? = null, // 메시지를 보낸 시간
+        var dateLine : Boolean? = false // 날짜 구분선 표시
     )
 }
