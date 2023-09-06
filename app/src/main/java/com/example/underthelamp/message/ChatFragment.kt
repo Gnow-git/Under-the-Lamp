@@ -13,6 +13,7 @@ import com.example.underthelamp.databinding.FragmentChatBinding
 import com.example.underthelamp.model.MessageDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.type.Date
 import kotlinx.android.synthetic.main.item_chat_other.view.chatContent
 import kotlinx.android.synthetic.main.item_chat_other.view.chatTime
 import kotlinx.android.synthetic.main.item_date_line.view.dateText
@@ -26,11 +27,11 @@ class ChatFragment : Fragment() {
     var messageIdList : String? = null
     var currentDateLineSet = false  // 현재 날짜 구분선이 추가되었는지 파악하는 함수
 
-    // 메시지 보낸 사용자가 누군지 파악하기 위한 상수
+    // 메시지 보낸 사용자가 누군지 파악하기 위한 상수 & 날짜 구분선인지 메시지인지 파악하기 위한 상수
     companion object {
-        private const val VIEW_TYPE_LOGIN = 1
-        private const val VIEW_TYPE_OTHER = 2
-        private const val VIEW_TYPE_DATELINE = 3
+        private const val VIEW_TYPE_LOGIN = 1   // 로그인한 사용자 item 레이아웃 지정 상수
+        private const val VIEW_TYPE_OTHER = 2   // 상대방 사용자 item 레이아웃 지정 상수
+        private const val VIEW_TYPE_DATELINE = 3    // 날짜 구분선 item 레이아웃 지정 상수
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -49,6 +50,11 @@ class ChatFragment : Fragment() {
         binding.chatRecyclerView.adapter = ChatAdapter()
         binding.chatRecyclerView.layoutManager = LinearLayoutManager(activity)
 
+        /** 메시지 전송 */
+        binding.messageSendBtn.setOnClickListener {
+            sendMessage()
+        }
+        
         return view
     }
 
@@ -66,18 +72,36 @@ class ChatFragment : Fragment() {
                     chats.clear()
                     if(querySnapshot == null) return@addSnapshotListener
                     
+                    var lastDate: String? = null // 마지막으로 날짜 구분선을 처리한 날짜(중복 생성 방지)
+
                     for(snapshot in querySnapshot.documents!!){
-                        chats.add(snapshot.toObject(MessageDTO.Chat::class.java)!!)
+                        //chats.add(snapshot.toObject(MessageDTO.Chat::class.java)!!)
+                        val chat = snapshot.toObject(MessageDTO.Chat::class.java)
+                        if (chat != null) {
+                            val timestamp = chat.timestamp?.toDate()
+                            val currentDate = formatDate(timestamp)
+
+                            // 메시지의 날짜가 바뀌었을 때 날짜 구분선 추가
+                            if (lastDate != currentDate) {  // 날짜 구분선이 생성되어 있지 않다면
+                                val dateLineChat = MessageDTO.Chat()
+                                dateLineChat.dateLine = true    // 날짜 구분선임을 나타냄
+                                dateLineChat.timestamp = chat.timestamp // 날짜 구분선이 생긴 시간
+                                chats.add(dateLineChat)
+                                lastDate = currentDate
+                            }
+                            
+                            chats.add(chat)
+                        }
                     }
                     notifyDataSetChanged()
                 }
         }
 
-        // 메시지를 보낸 사용자가 현재 로그인한 사용자인지 아니면 상대방 사용자인지 판단하는 함수
+        // View가 현재 로그인한 사용자가 보낸 메시지인지, 상대방 사용자의 메시지인지, 날짜 구분선인지 판단하는 함수
         override fun getItemViewType(position: Int): Int {
             return if (chats[position].uid == loginUserId){   // 로그인한 사용자 일 경우
                 VIEW_TYPE_LOGIN
-            } else if (chats[position].dateLine == true ){ // dateLine 필드가 있는 경우
+            } else if (chats[position].dateLine == true ){ // 날짜 구분선인 경우
                 VIEW_TYPE_DATELINE
             } else {    // 로그인 사용자가 아닌 경우, 상대방 메시지로 처리
                 VIEW_TYPE_OTHER
@@ -85,7 +109,7 @@ class ChatFragment : Fragment() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
+            // 뷰 타입에 대해 return
             return when (viewType) {
                 VIEW_TYPE_DATELINE -> {
                     val dateView = LayoutInflater.from(parent.context).inflate(R.layout.item_date_line, parent, false)
@@ -120,12 +144,13 @@ class ChatFragment : Fragment() {
             } else {
                 // 날짜 구분선 불러오기
                 val timestamp = chats[position].timestamp?.toDate()
-                val formattedDate = timestamp?.let { formatDate(it) }
-                userChatView.dateText.text = formattedDate.toString()
+                val formattedDate = timestamp?.let { formatDate(timestamp) }
+                userChatView.dateText.text = formattedDate.toString()   // 날짜 구분선에 나타날 날짜 지정
             }
         }
 
-        private fun formatDate(date: java.util.Date): String {
+        /** 원하는 날짜 형태로 바꾸는 함수 */
+        private fun formatDate(date: java.util.Date?): String {
             val format = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
             return format.format(date)
         }
@@ -189,36 +214,8 @@ class ChatFragment : Fragment() {
                 else -> "오래 전"
             }
 
-            // 텍스트 설정
+            // 메시지 텍스트 설정
             chatView.chatTime.text = timeText
         }
     }
-
-
-
-    private fun setDateLine(currentDate: String) {
-        val timestamp = com.google.firebase.Timestamp.now()   // 현재 시간 불러오기
-
-        val messageDTO = MessageDTO.Chat()
-
-        // 대화 내용이 저장될 위치 지정
-        val documentRef = firestore?.collection("message")
-            ?.document(messageIdList!!)
-            ?.collection("chat")
-            ?.document()
-
-        // 날짜 구분선 정보 추가
-        messageDTO.dateLine = true
-
-        // 메시지 보낸 시간 추가
-        messageDTO.timestamp = timestamp
-
-        // 추가된 내용들을 firestore 에 저장
-        documentRef?.set(messageDTO)
-
-        // 현재 날짜 구분선이 추가되었음을 표시
-        currentDateLineSet = true
-
-    }
-
 }
