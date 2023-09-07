@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/settingTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:text="환경설정"
+        android:fontFamily="@font/pretendard_semibold"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:letterSpacing="-0.025"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="28dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/myAccountForm"
+        android:layout_width="340dp"
+        android:layout_height="148dp"
+        app:layout_constraintTop_toBottomOf="@+id/settingTitle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="28dp"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"  >
+
+    <TextView
+        android:id="@+id/myAccountTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="내 계정"
+        android:textSize="12sp"
+        android:fontFamily="@font/pretendard_regular"
+        android:textColor="@color/setting_font"
+        android:letterSpacing="-0.025"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <TextView
+        android:id="@+id/modifyProfileImage"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:text="프로필 수정"
+        android:textSize="16sp"
+        android:fontFamily="@font/pretendard_regular"
+        android:textColor="@color/setting_font"
+        android:letterSpacing="-0.025"
+        app:layout_constraintTop_toBottomOf="@+id/myAccountTitle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="14dp"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+        <ImageView
+            android:layout_width="340dp"
+            android:layout_height="1dp"
+            android:background="@color/line"
+            app:layout_constraintTop_toBottomOf="@+id/modifyProfileImage"
+            app:layout_constraintBottom_toTopOf="@+id/modifyEmail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="9dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0" />
+
+        <TextView
+            android:id="@+id/modifyEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:text="이메일 변경"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_regular"
+            android:textColor="@color/setting_font"
+            android:letterSpacing="-0.025"
+            app:layout_constraintTop_toBottomOf="@+id/modifyProfileImage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="18dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0" />
+
+        <ImageView
+            android:layout_width="340dp"
+            android:layout_height="1dp"
+            android:background="@color/line"
+            app:layout_constraintTop_toBottomOf="@+id/modifyEmail"
+            app:layout_constraintBottom_toTopOf="@+id/modifyPassword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="9dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0" />
+
+        <TextView
+            android:id="@+id/modifyPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:text="비밀번호 변경"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_regular"
+            android:textColor="@color/setting_font"
+            android:letterSpacing="-0.025"
+            app:layout_constraintTop_toBottomOf="@+id/modifyEmail"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="18dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0" />
+
+        <ImageView
+            android:layout_width="340dp"
+            android:layout_height="1dp"
+            android:background="@color/line"
+            app:layout_constraintTop_toBottomOf="@+id/modifyPassword"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="9dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/appSettingForm"
+        android:layout_width="340dp"
+        android:layout_height="190dp"
+        app:layout_constraintTop_toBottomOf="@+id/myAccountForm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="21dp"
+        android:layout_marginStart="28dp"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"  >
+
+        <TextView
+            android:id="@+id/appSettingTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="앱 설정"
+            android:textSize="12sp"
+            android:fontFamily="@font/pretendard_regular"
+            android:textColor="@color/setting_font"
+            android:letterSpacing="-0.025"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0" />
+
+        <TextView
+            android:id="@+id/alarmSetting"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:text="알림 설정"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_regular"
+            android:textColor="@color/setting_font"
+            android:letterSpacing="-0.025"
+            app:layout_constraintTop_toBottomOf="@+id/appSettingTitle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="14dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0" />
+
+        <ImageView
+            android:layout_width="340dp"
+            android:layout_height="1dp"
+            android:background="@color/line"
+            app:layout_constraintTop_toBottomOf="@+id/alarmSetting"
+            app:layout_constraintBottom_toTopOf="@+id/security"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="9dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0" />
+
+        <TextView
+            android:id="@+id/security"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:text="보안"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_regular"
+            android:textColor="@color/setting_font"
+            android:letterSpacing="-0.025"
+            app:layout_constraintTop_toBottomOf="@+id/alarmSetting"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="18dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0" />
+
+        <ImageView
+            android:layout_width="340dp"
+            android:layout_height="1dp"
+            android:background="@color/line"
+            app:layout_constraintTop_toBottomOf="@+id/security"
+            app:layout_constraintBottom_toTopOf="@+id/accessAccount"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="9dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0" />
+
+        <TextView
+            android:id="@+id/accessAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:text="계정 접근 권한"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_regular"
+            android:textColor="@color/setting_font"
+            android:letterSpacing="-0.025"
+            app:layout_constraintTop_toBottomOf="@+id/security"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="18dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0" />
+
+        <ImageView
+            android:layout_width="340dp"
+            android:layout_height="1dp"
+            android:background="@color/line"
+            app:layout_constraintTop_toBottomOf="@+id/accessAccount"
+            app:layout_constraintBottom_toTopOf="@+id/accessiblity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="9dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0" />
+
+        <TextView
+            android:id="@+id/accessiblity"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:text="접근성"
+            android:textSize="16sp"
+            android:fontFamily="@font/pretendard_regular"
+            android:textColor="@color/setting_font"
+            android:letterSpacing="-0.025"
+            app:layout_constraintTop_toBottomOf="@+id/accessAccount"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="18dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0" />
+
+        <ImageView
+            android:layout_width="340dp"
+            android:layout_height="1dp"
+            android:background="@color/line"
+            app:layout_constraintTop_toBottomOf="@+id/accessiblity"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="9dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

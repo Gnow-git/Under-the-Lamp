@@ -17,6 +17,7 @@ import com.example.underthelamp.information.WritingFragment
 import com.example.underthelamp.home.DetailViewFragment
 import com.example.underthelamp.message.MessageListFragment
 import com.example.underthelamp.search.SearchFragment
+import com.example.underthelamp.setting.SettingFragment
 import com.example.underthelamp.upload.UploadFragment
 import com.example.underthelamp.user.UserFragment
 import com.google.android.gms.tasks.Task
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private var fragmentPosition = 0;  // 현재 fragment 위치 파악
     private var isOpen = false
+    private var messageIcon = true // 툴바의 아이콘이 메시지 아이콘인지 파악하는 변수
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,12 +78,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         /** 상단의 메시지 버튼을 눌렀을 경우 */
         messageBtn.setOnClickListener {
 
+
             if (isOpen) closeFab()
 
             default_upload.visibility = View.GONE   // floating 버튼 안 보이게
 
-            var messageListFragment = MessageListFragment()
-            supportFragmentManager.beginTransaction().replace(R.id.main_content, messageListFragment).commit()
+            if (messageIcon){   // 상단 아이콘이 메시지라면
+                // 메시지 기능하는 화면으로 이동
+                var messageListFragment = MessageListFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.main_content, messageListFragment).commit()
+            } else {    // 상단 아이콘이 설정 아이콘이라면
+
+                // 아이콘 색상 변경
+                messageBtn.setColorFilter(ContextCompat.getColor(this, R.color.selectColor))
+
+                // 설정 기능하는 화면으로 이동
+                var settingFragment = SettingFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.main_content, settingFragment).commit()
+                
+            }
+            
         }
     }
 
@@ -99,6 +115,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 var detailViewFragment = DetailViewFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, detailViewFragment).commit()
 
+                // 상단 toolbar icon을 message_icon으로 바꿈
+                messageIcon = true
+                changeToolbarIcon()
+
                 return true
             }
 
@@ -112,6 +132,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 var searchFragment = SearchFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, searchFragment).commit()
 
+                // 상단 toolbar icon을 message_icon으로 바꿈
+                messageIcon = true
+                changeToolbarIcon()
+
                 return true
             }
 
@@ -123,6 +147,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 fragmentPosition = 2;
                 var randomUserFragment = RandomUserFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, randomUserFragment).commit()
+
+                // 상단 toolbar icon을 message_icon으로 바꿈
+                messageIcon = true
+                changeToolbarIcon()
 
                 return true
             }
@@ -137,6 +165,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 var informationFragment = InformationFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, informationFragment).commit()
 
+                // 상단 toolbar icon을 message_icon으로 바꿈
+                messageIcon = true
+                changeToolbarIcon()
+
                 return true
 
             }
@@ -145,9 +177,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 var userFragment = UserFragment()
                 var bundle = Bundle()
                 var uid = FirebaseAuth.getInstance().currentUser?.uid
-                bundle.putString("destinationUid",uid)
+                bundle.putString("userId",uid)
                 userFragment.arguments = bundle
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, userFragment).commit()
+
+                // 상단 toolbar icon을 setting_icon으로 바꿈
+                messageIcon = false
+                changeToolbarIcon()
+
                 return true
             }
         }
@@ -230,5 +267,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
     }
+    
+    private fun changeToolbarIcon() {
 
+        if(!messageIcon){
+            // 상단 아이콘을 설정 아이콘으로 변경
+            messageBtn.setImageResource(R.drawable.setting_icon)
+
+        } else {
+            // 아이콘 색상 원래대로
+            messageBtn.clearColorFilter()
+            // 상단 아이콘을 메시지 아이콘으로 변경
+            messageBtn.setImageResource(R.drawable.message_icon)
+        }
+    }
 }
