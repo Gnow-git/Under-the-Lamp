@@ -15,12 +15,10 @@ import com.example.underthelamp.databinding.FragmentChatBinding
 import com.example.underthelamp.model.MessageDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.type.Date
+import kotlinx.android.synthetic.main.fragment_chat.chatRecyclerView
 import kotlinx.android.synthetic.main.item_chat_other.view.chatContent
 import kotlinx.android.synthetic.main.item_chat_other.view.chatTime
 import kotlinx.android.synthetic.main.item_date_line.view.dateText
-import kotlinx.android.synthetic.main.item_message_list.view.messageProfile
-import kotlinx.android.synthetic.main.item_message_list.view.messageUserName
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -29,7 +27,8 @@ class ChatFragment : Fragment() {
     var firestore : FirebaseFirestore? = null
     var loginUserId : String? = null    // 로그인한 사용자에 대한 id
     var otherUserId : String? = null    // 상대방에 대한 id
-    var messageIdList : String? = null
+    var messageIdList : String? = null  // 대화방 id
+    lateinit var chatAdapter: ChatAdapter // ChatAdapter 인스턴스 지정
 
     // 메시지 보낸 사용자가 누군지 파악하기 위한 상수 & 날짜 구분선인지 메시지인지 파악하기 위한 상수
     companion object {
@@ -56,14 +55,18 @@ class ChatFragment : Fragment() {
         getUserInfo()
 
         /** chatRecyclerView에 대한 adapter와 layoutManager 지정 */
-        binding.chatRecyclerView.adapter = ChatAdapter()
+        chatAdapter = ChatAdapter()
+        binding.chatRecyclerView.adapter = chatAdapter
         binding.chatRecyclerView.layoutManager = LinearLayoutManager(activity)
 
         /** 메시지 전송 */
         binding.messageSendBtn.setOnClickListener {
             sendMessage()
         }
-        
+
+        // RecyclerView의 스크롤 위치를 마지막 아이템으로 이동
+        binding.chatRecyclerView.scrollToPosition(chatAdapter.itemCount)
+
         return view
     }
 
@@ -145,6 +148,10 @@ class ChatFragment : Fragment() {
                             }
                             
                             chats.add(chat)
+
+                            chatRecyclerView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+                                chatRecyclerView.scrollToPosition(itemCount)
+                            }
                         }
                     }
                     notifyDataSetChanged()
@@ -213,6 +220,7 @@ class ChatFragment : Fragment() {
 
     /** messageInput 에서 입력한 값을 저장하는 함수 */
     private fun sendMessage() {
+        val messageText = binding.messageInput.text.toString().trim() // 입력 값 앞뒤 공백 제거
         val timestamp = com.google.firebase.Timestamp.now()
         val messageDTO = MessageDTO.Chat()
 
@@ -222,11 +230,18 @@ class ChatFragment : Fragment() {
             ?.collection("chat")
             ?.document()
 
+        if (messageText.isEmpty()) {
+            // 입력을 안한 상태
+            Toast.makeText(activity, "메시지를 입력하세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+
         // 대화한 사용자 id 추가
         messageDTO.uid = loginUserId
 
         // 보낸 메시지 내용 추가
-        messageDTO.text = binding.messageInput.text.toString()
+        messageDTO.text = messageText
 
         // 메시지 보낸 시간 추가
         messageDTO.timestamp = timestamp
