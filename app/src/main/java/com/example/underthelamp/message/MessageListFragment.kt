@@ -99,6 +99,10 @@ class MessageListFragment : Fragment() {
                 var args = Bundle()
                 /** 선택한 대화방의 id 전달 */
                 args.putString("messageIdList", messageIdList[position])
+
+                /** 선택한 대화방의 상대 id 전달 */
+                args.putString("otherUserIdList", otherUserIdList[position])
+
                 chatFragment.arguments = args
 
                 parentFragmentManager.beginTransaction()

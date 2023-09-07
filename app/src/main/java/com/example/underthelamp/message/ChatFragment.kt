@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentChatBinding
 import com.example.underthelamp.model.MessageDTO
@@ -17,15 +19,17 @@ import com.google.type.Date
 import kotlinx.android.synthetic.main.item_chat_other.view.chatContent
 import kotlinx.android.synthetic.main.item_chat_other.view.chatTime
 import kotlinx.android.synthetic.main.item_date_line.view.dateText
+import kotlinx.android.synthetic.main.item_message_list.view.messageProfile
+import kotlinx.android.synthetic.main.item_message_list.view.messageUserName
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class ChatFragment : Fragment() {
     lateinit var binding : FragmentChatBinding
     var firestore : FirebaseFirestore? = null
-    var loginUserId : String? = null
+    var loginUserId : String? = null    // 로그인한 사용자에 대한 id
+    var otherUserId : String? = null    // 상대방에 대한 id
     var messageIdList : String? = null
-    var currentDateLineSet = false  // 현재 날짜 구분선이 추가되었는지 파악하는 함수
 
     // 메시지 보낸 사용자가 누군지 파악하기 위한 상수 & 날짜 구분선인지 메시지인지 파악하기 위한 상수
     companion object {
@@ -46,6 +50,11 @@ class ChatFragment : Fragment() {
         /** 해당 대화방 id 불러오기 */
         messageIdList = arguments?.getString("messageIdList")
 
+        /** 상대방 사용자에 대한 정보 불러오기 */
+        otherUserId = arguments?.getString("otherUserIdList")
+        /** 불러온 정보 적용 */
+        getUserInfo()
+
         /** chatRecyclerView에 대한 adapter와 layoutManager 지정 */
         binding.chatRecyclerView.adapter = ChatAdapter()
         binding.chatRecyclerView.layoutManager = LinearLayoutManager(activity)
@@ -56,6 +65,51 @@ class ChatFragment : Fragment() {
         }
         
         return view
+    }
+
+    /** 상대방의 이름 정보를 가져와 적용 하는 함수 */
+    private fun getUserInfo(){
+        // 대화 하고 있는 사람이 있을 경우
+        if (otherUserId != null && otherUserId!!.isNotEmpty()){
+
+            // 대화 상대의 프로필 이미지 불러오기
+            firestore?.collection("profileImage")
+                ?.document(otherUserId!!)
+                ?.get()
+                ?.addOnSuccessListener { querySnapshot ->
+                    if (querySnapshot != null ){
+                        val imageUrl = querySnapshot.getString("image")
+                        Glide.with(this@ChatFragment).load(imageUrl).into(binding.otherUserProfile)
+                    }
+                }
+                ?.addOnFailureListener{ exception ->
+                    Toast.makeText(activity, "상대방의 프로필을 불러오지 못했습니다.", Toast.LENGTH_SHORT).show()
+                }
+
+            // 대화 상대의 이름 불러오기
+            firestore?.collection("userinfo")
+                ?.document(otherUserId!!)
+                ?.collection("userinfo")
+                ?.document("detail")
+                ?.get()
+                ?.addOnSuccessListener { querySnapshot ->
+                    if (querySnapshot != null) {
+                        // userinfo collection 에서 user_name 필드의 값을 가져 오기
+                        val userName = querySnapshot.getString("user_name")
+
+                        // 가져온 user_name 의 값을 textView 에 적용, 채팅한 상대방 이름 표시
+                        binding.otherUserName.text = userName
+
+                    } else {
+                        // userinfo 에서 값이 존재 하지 않는 경우
+                        binding.otherUserName.text = "사용자 정보 없음"
+                    }
+                }?.addOnFailureListener { exception ->
+                    // 불러 오기 실패 시
+                    binding.otherUserName.text = "사용자 정보를 불러 오는데 실패하였습니다."
+                }
+            // 대화 하고 있는 상대방이 없는 경우
+        } else Toast.makeText(activity, "대화 상대가 없습니다.", Toast.LENGTH_SHORT).show()
     }
 
     @SuppressLint("NotifyDataSetChanged")
