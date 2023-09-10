@@ -1,24 +1,31 @@
 package com.example.underthelamp.message
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.underthelamp.MainActivity
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentChatBinding
 import com.example.underthelamp.model.MessageDTO
+import com.google.api.Distribution.BucketOptions.Linear
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_chat.chatRecyclerView
 import kotlinx.android.synthetic.main.item_chat_other.view.chatContent
 import kotlinx.android.synthetic.main.item_chat_other.view.chatTime
 import kotlinx.android.synthetic.main.item_date_line.view.dateText
+import java.lang.IllegalArgumentException
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -29,6 +36,7 @@ class ChatFragment : Fragment() {
     var otherUserId : String? = null    // 상대방에 대한 id
     var messageIdList : String? = null  // 대화방 id
     lateinit var chatAdapter: ChatAdapter // ChatAdapter 인스턴스 지정
+    lateinit var parentActivity: MainActivity
 
     // 메시지 보낸 사용자가 누군지 파악하기 위한 상수 & 날짜 구분선인지 메시지인지 파악하기 위한 상수
     companion object {
@@ -37,6 +45,16 @@ class ChatFragment : Fragment() {
         private const val VIEW_TYPE_DATELINE = 3    // 날짜 구분선 item 레이아웃 지정 상수
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is MainActivity) {
+            parentActivity = context
+        } else {
+            throw IllegalArgumentException("상위 액티비티가 필요합니다.")
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentChatBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -64,9 +82,32 @@ class ChatFragment : Fragment() {
             sendMessage()
         }
 
-        // RecyclerView의 스크롤 위치를 마지막 아이템으로 이동
-        binding.chatRecyclerView.scrollToPosition(chatAdapter.itemCount)
+        // bottomNavigation 을 숨긴 후 키보드가 올라오도록 설정 (키보드 이벤트와 click 이벤트 충돌 방지) -> 딜레이로 인해 현재는 취소
+//        binding.messageInput.setOnTouchListener { _, _ ->
+//            parentActivity.hideNavigation(visible = false)
+//            return@setOnTouchListener false
+//        }
 
+        // editText가 아닌 다른 화면을 눌렀을 경우
+        binding.root.setOnTouchListener { _, _ ->
+            //parentActivity.hideNavigation(visible = true)
+            hideKeyboard()  // 키보드를 숨기는 함수
+            true
+        }
+
+        // item 이 나타나는 recyclerView 에 대한 TouchEvent 감지
+        binding.chatRecyclerView.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                //parentActivity.hideNavigation(visible = true)
+                hideKeyboard()
+                return false    // 이벤트가 처리 되었는지 여부 나타냄
+            }
+
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
+
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
+        })
+        
         return view
     }
 
@@ -149,9 +190,7 @@ class ChatFragment : Fragment() {
                             
                             chats.add(chat)
 
-                            chatRecyclerView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
-                                chatRecyclerView.scrollToPosition(itemCount)
-                            }
+                            scrollRecyclerView(chatAdapter.itemCount)
                         }
                     }
                     notifyDataSetChanged()
@@ -193,7 +232,7 @@ class ChatFragment : Fragment() {
             return chats.size
         }
 
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, @SuppressLint("RecyclerView") position: Int) {
             var userChatView = (holder as CustomChatViewHolder).itemView
 
             if (getItemViewType(position) != VIEW_TYPE_DATELINE){
@@ -285,6 +324,20 @@ class ChatFragment : Fragment() {
 
             // 메시지 텍스트 설정
             chatView.chatTime.text = timeText
+        }
+    }
+
+    /** 키보드를 숨기는 함수 */
+    private fun hideKeyboard() {
+        if (activity != null && requireActivity().currentFocus != null) {
+            val inputManager: InputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+        }
+    }
+
+    fun scrollRecyclerView(itemCount : Int ) {
+        chatRecyclerView.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+            chatRecyclerView.scrollToPosition(itemCount)
         }
     }
 }

@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -11,10 +12,12 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.example.underthelamp.information.InformationFragment
 import com.example.underthelamp.community.RandomUserFragment
 import com.example.underthelamp.information.WritingFragment
 import com.example.underthelamp.home.DetailViewFragment
+import com.example.underthelamp.message.ChatFragment
 import com.example.underthelamp.message.MessageListFragment
 import com.example.underthelamp.search.SearchFragment
 import com.example.underthelamp.setting.SettingFragment
@@ -85,6 +88,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             if (messageIcon){   // 상단 아이콘이 메시지라면
                 // 메시지 기능하는 화면으로 이동
+                hideNavigation(visible = false)
+
                 var messageListFragment = MessageListFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, messageListFragment).commit()
             } else {    // 상단 아이콘이 설정 아이콘이라면
@@ -97,7 +102,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, settingFragment).commit()
                 
             }
-            
         }
     }
 
@@ -280,5 +284,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             // 상단 아이콘을 메시지 아이콘으로 변경
             messageBtn.setImageResource(R.drawable.message_icon)
         }
+    }
+
+    fun hideNavigation(visible : Boolean) {
+        if(visible) bottom_navigation.visibility = View.VISIBLE
+        else bottom_navigation.visibility = View.GONE
     }
 }
