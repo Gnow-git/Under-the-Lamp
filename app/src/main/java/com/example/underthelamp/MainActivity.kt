@@ -4,20 +4,19 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
+import com.bumptech.glide.Glide
 import com.example.underthelamp.information.InformationFragment
 import com.example.underthelamp.community.RandomUserFragment
 import com.example.underthelamp.information.WritingFragment
 import com.example.underthelamp.home.DetailViewFragment
-import com.example.underthelamp.message.ChatFragment
 import com.example.underthelamp.message.MessageListFragment
 import com.example.underthelamp.search.SearchFragment
 import com.example.underthelamp.setting.SettingFragment
@@ -39,10 +38,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var fragmentPosition = 0;  // 현재 fragment 위치 파악
     private var isOpen = false
     private var messageIcon = true // 툴바의 아이콘이 메시지 아이콘인지 파악하는 변수
+    private lateinit var randomUserPostImage : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        randomUserPostImage = findViewById(R.id.randomUserPostImage)
+        randomUserPostImage.setBackgroundResource(R.drawable.random_user_image_gradient)
+
         bottom_navigation.setOnItemSelectedListener(this)
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
 
@@ -107,10 +111,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     // Navigation 기능 설정
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        randomUserPostImage.visibility = View.GONE  // 커뮤니티 기능에서 켜진 imageView를 다시 숨김
+
         //setToolbarDefault()
         when(item.itemId){
 
             R.id.action_home ->{
+
                 if (isOpen) closeFab()
 
                 default_upload.visibility = View.VISIBLE   // floating 버튼 보이게
@@ -289,5 +296,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun hideNavigation(visible : Boolean) {
         if(visible) bottom_navigation.visibility = View.VISIBLE
         else bottom_navigation.visibility = View.GONE
+    }
+
+    /** 랜덤한 사용자의 게시물을 불러와 보여주는 함수 RandomUserFragment로 부터 값을 받아 옴 */
+    fun randomUserImage(imageUrl: String){
+
+        randomUserPostImage.visibility = View.VISIBLE
+
+        // 사용자가 게시해둔 이미지가 없다면 기본 이미지로 표시
+        if (imageUrl == "emptyImage") randomUserPostImage.setImageResource(R.drawable.random_user_default)
+        else Glide.with(this).load(imageUrl).into(randomUserPostImage) // 이미지 로드
     }
 }
