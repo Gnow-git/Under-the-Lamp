@@ -223,7 +223,7 @@ class DetailViewFragment : Fragment() {
         private fun showModalBottomSheet() {
             val dialog: Dialog = Dialog(requireContext())
             dialog.requestWindowFeature(FEATURE_NO_TITLE)
-            dialog.setContentView(R.layout.modal_bottom_sheet)
+            dialog.setContentView(R.layout.modal_bottom_sheet_main)
 
             //val dismissButton: Button = dialog.findViewById(R.id.followBtn)
 
