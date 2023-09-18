@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="390dp"
+    android:layout_height="359dp"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/bottom_sheet_round">
+
+    <View
+        android:layout_width="24dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/draghandle"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <View
+        android:id="@+id/artLayout"
+        android:layout_width="114dp"
+        android:layout_height="136dp"
+        android:background="@drawable/community_round"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="44dp"
+        android:layout_marginStart="23dp"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"/>
+    
+    <ImageView
+        android:id="@+id/artIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/commu_art_icon"
+        app:layout_constraintTop_toTopOf="@+id/artLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/artLayout"
+        app:layout_constraintStart_toStartOf="@+id/artLayout"
+        app:layout_constraintEnd_toEndOf="@+id/artLayout"
+        android:layout_marginTop="31dp"
+        app:layout_constraintVertical_bias="0.0"    />
+
+    <TextView
+        android:id="@+id/artText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="미술"
+        android:fontFamily="@font/pretendard_semibold"
+        android:textSize="14sp"
+        android:letterSpacing="-0.025"
+        android:textColor="@color/defaultColor"
+        app:layout_constraintTop_toBottomOf="@+id/artIcon"
+        app:layout_constraintBottom_toBottomOf="@+id/artLayout"
+        app:layout_constraintStart_toStartOf="@+id/artLayout"
+        app:layout_constraintEnd_toEndOf="@+id/artLayout"
+        android:layout_marginTop="13dp"
+        app:layout_constraintVertical_bias="0.0"    />
+
+    <View
+        android:id="@+id/publicMusicLayout"
+        android:layout_width="114dp"
+        android:layout_height="136dp"
+        android:background="@drawable/community_round"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/artLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="44dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"/>
+
+    <ImageView
+        android:id="@+id/publicMusicIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/commu_publicmusic_icon"
+        app:layout_constraintTop_toTopOf="@+id/publicMusicLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/publicMusicLayout"
+        app:layout_constraintStart_toStartOf="@+id/publicMusicLayout"
+        app:layout_constraintEnd_toEndOf="@+id/publicMusicLayout"
+        android:layout_marginTop="31dp"
+        app:layout_constraintVertical_bias="0.0"    />
+
+    <TextView
+        android:id="@+id/publicMusicText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="대중음악"
+        android:fontFamily="@font/pretendard_semibold"
+        android:textSize="14sp"
+        android:letterSpacing="-0.025"
+        android:textColor="@color/defaultColor"
+        app:layout_constraintTop_toBottomOf="@+id/publicMusicIcon"
+        app:layout_constraintBottom_toBottomOf="@+id/publicMusicLayout"
+        app:layout_constraintStart_toStartOf="@+id/publicMusicLayout"
+        app:layout_constraintEnd_toEndOf="@+id/publicMusicLayout"
+        android:layout_marginTop="13dp"
+        app:layout_constraintVertical_bias="0.0"    />
+
+    <View
+        android:id="@+id/musicLayout"
+        android:layout_width="114dp"
+        android:layout_height="136dp"
+        android:background="@drawable/community_round"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/publicMusicLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="44dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"/>
+
+    <ImageView
+        android:id="@+id/musicIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/commu_music"
+        app:layout_constraintTop_toTopOf="@+id/musicLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/musicLayout"
+        app:layout_constraintStart_toStartOf="@+id/musicLayout"
+        app:layout_constraintEnd_toEndOf="@+id/musicLayout"
+        android:layout_marginTop="31dp"
+        app:layout_constraintVertical_bias="0.0"    />
+
+    <TextView
+        android:id="@+id/msicText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="음악"
+        android:fontFamily="@font/pretendard_semibold"
+        android:textSize="14sp"
+        android:letterSpacing="-0.025"
+        android:textColor="@color/defaultColor"
+        app:layout_constraintTop_toBottomOf="@+id/musicIcon"
+        app:layout_constraintBottom_toBottomOf="@+id/musicLayout"
+        app:layout_constraintStart_toStartOf="@+id/musicLayout"
+        app:layout_constraintEnd_toEndOf="@+id/musicLayout"
+        android:layout_marginTop="13dp"
+        app:layout_constraintVertical_bias="0.0"    />
+
+    <View
+        android:id="@+id/theaterLayout"
+        android:layout_width="114dp"
+        android:layout_height="136dp"
+        android:background="@drawable/community_round"
+        app:layout_constraintTop_toBottomOf="@+id/artLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="23dp"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"/>
+
+    <ImageView
+        android:id="@+id/theaterIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/commu_theater"
+        app:layout_constraintTop_toTopOf="@+id/theaterLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/theaterLayout"
+        app:layout_constraintStart_toStartOf="@+id/theaterLayout"
+        app:layout_constraintEnd_toEndOf="@+id/theaterLayout"
+        android:layout_marginTop="31dp"
+        app:layout_constraintVertical_bias="0.0"    />
+
+    <TextView
+        android:id="@+id/theaterText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="연극"
+        android:fontFamily="@font/pretendard_semibold"
+        android:textSize="14sp"
+        android:letterSpacing="-0.025"
+        android:textColor="@color/defaultColor"
+        app:layout_constraintTop_toBottomOf="@+id/theaterIcon"
+        app:layout_constraintBottom_toBottomOf="@+id/theaterLayout"
+        app:layout_constraintStart_toStartOf="@+id/theaterLayout"
+        app:layout_constraintEnd_toEndOf="@+id/theaterLayout"
+        android:layout_marginTop="13dp"
+        app:layout_constraintVertical_bias="0.0"    />
+
+    <View
+        android:id="@+id/literatureLayout"
+        android:layout_width="114dp"
+        android:layout_height="136dp"
+        android:background="@drawable/community_round"
+        app:layout_constraintTop_toBottomOf="@+id/publicMusicLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/artLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"/>
+
+    <ImageView
+        android:id="@+id/literatureIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/commu_literature"
+        app:layout_constraintTop_toTopOf="@+id/literatureLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/literatureLayout"
+        app:layout_constraintStart_toStartOf="@+id/literatureLayout"
+        app:layout_constraintEnd_toEndOf="@+id/literatureLayout"
+        android:layout_marginTop="31dp"
+        app:layout_constraintVertical_bias="0.0"    />
+
+    <TextView
+        android:id="@+id/literatureText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="문학"
+        android:fontFamily="@font/pretendard_semibold"
+        android:textSize="14sp"
+        android:letterSpacing="-0.025"
+        android:textColor="@color/defaultColor"
+        app:layout_constraintTop_toBottomOf="@+id/literatureIcon"
+        app:layout_constraintBottom_toBottomOf="@+id/literatureLayout"
+        app:layout_constraintStart_toStartOf="@+id/literatureLayout"
+        app:layout_constraintEnd_toEndOf="@+id/literatureLayout"
+        android:layout_marginTop="13dp"
+        app:layout_constraintVertical_bias="0.0"    />
+
+    <View
+        android:id="@+id/videoLayout"
+        android:layout_width="114dp"
+        android:layout_height="136dp"
+        android:background="@drawable/community_round"
+        app:layout_constraintTop_toBottomOf="@+id/musicLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/literatureLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"/>
+
+    <ImageView
+        android:id="@+id/videoIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/commu_video"
+        app:layout_constraintTop_toTopOf="@+id/videoLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/videoLayout"
+        app:layout_constraintStart_toStartOf="@+id/videoLayout"
+        app:layout_constraintEnd_toEndOf="@+id/videoLayout"
+        android:layout_marginTop="31dp"
+        app:layout_constraintVertical_bias="0.0"    />
+
+    <TextView
+        android:id="@+id/videoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="영상"
+        android:fontFamily="@font/pretendard_semibold"
+        android:textSize="14sp"
+        android:letterSpacing="-0.025"
+        android:textColor="@color/defaultColor"
+        app:layout_constraintTop_toBottomOf="@+id/videoIcon"
+        app:layout_constraintBottom_toBottomOf="@+id/videoLayout"
+        app:layout_constraintStart_toStartOf="@+id/videoLayout"
+        app:layout_constraintEnd_toEndOf="@+id/videoLayout"
+        android:layout_marginTop="13dp"
+        app:layout_constraintVertical_bias="0.0"    />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="390dp"
     android:layout_height="265dp"
-    android:background="@drawable/bottom_seet_round">
+    android:background="@drawable/bottom_sheet_round">
 
     <View
         android:layout_width="26dp"
