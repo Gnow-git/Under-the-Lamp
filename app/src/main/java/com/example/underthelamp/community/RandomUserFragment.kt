@@ -1,16 +1,20 @@
 package com.example.underthelamp.community
 
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Toast
 import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
@@ -66,6 +70,11 @@ class RandomUserFragment: Fragment() {
         /** 주사위 버튼을 눌렀을 경우 */
         binding.randomDice.setOnClickListener {
             loadRandomUser()
+        }
+
+        /** 카테고리 선택 버튼을 눌렀을 경우 */
+        binding.selectCategory.setOnClickListener {
+            showModalBottomSheet()
         }
     }
 
@@ -175,5 +184,26 @@ class RandomUserFragment: Fragment() {
                     }
                 }
         }
+    }
+
+    // 하단 BottomSheet 나오게하는 함수
+    private fun showModalBottomSheet() {
+        val dialog: Dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.modal_bottom_sheet_community)
+
+        // Modal BottomSheet 크기
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        // Modal BottomSheet 의 background를 제외한 부분은 투명
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog.window?.setGravity(Gravity.BOTTOM)
+
+        // Modal BottomSheet 표시
+        dialog.show()
     }
 }

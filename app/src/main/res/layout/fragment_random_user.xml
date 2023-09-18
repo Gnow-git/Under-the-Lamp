@@ -170,7 +170,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
         
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/select_category"
+            android:id="@+id/selectCategory"
             android:layout_width="44.88dp"
             android:layout_height="44dp"
             android:background="@drawable/select_category_background"
