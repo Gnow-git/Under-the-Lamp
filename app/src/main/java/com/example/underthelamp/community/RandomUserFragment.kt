@@ -15,7 +15,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
 import com.example.underthelamp.databinding.FragmentRandomUserBinding
@@ -26,8 +29,15 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.underthelamp.MainActivity
 import com.example.underthelamp.R
+import kotlinx.android.synthetic.main.activity_main.messageBtn
 import kotlinx.android.synthetic.main.fragment_random_user.randomUserFrame
 import kotlinx.android.synthetic.main.fragment_user_detail.view.back
+import kotlinx.android.synthetic.main.modal_bottom_sheet_community.artLayout
+import kotlinx.android.synthetic.main.modal_bottom_sheet_community.literatureLayout
+import kotlinx.android.synthetic.main.modal_bottom_sheet_community.musicLayout
+import kotlinx.android.synthetic.main.modal_bottom_sheet_community.publicMusicLayout
+import kotlinx.android.synthetic.main.modal_bottom_sheet_community.theaterLayout
+import kotlinx.android.synthetic.main.modal_bottom_sheet_community.videoLayout
 import java.lang.IllegalArgumentException
 
 class RandomUserFragment: Fragment() {
@@ -35,6 +45,7 @@ class RandomUserFragment: Fragment() {
     lateinit var binding : FragmentRandomUserBinding
     var firestore : FirebaseFirestore? = null
     lateinit var parentActivity: MainActivity   // Activity 지정
+    val selectCategory = mutableMapOf<Int, Boolean>()    // 카테고리 선택 여부 판단
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -134,47 +145,6 @@ class RandomUserFragment: Fragment() {
                         val imageUrl = document.getString("imageUrl")
                         if (imageUrl != null) {
                             parentActivity.randomUserImage(imageUrl = imageUrl) // 불러온 imageUrl 전달
-                            //Glide.with(this).load(imageUrl).into(binding.userPostImage)
-
-//                            val randomUserFrame = binding.randomUserFrame
-
-//                            Glide.with(this).asBitmap().load(imageUrl).into(object : CustomTarget<Bitmap>() {
-//                                override fun onResourceReady(
-//                                    resource: Bitmap,
-//                                    transition: Transition<in Bitmap>?
-//                                ) {
-//                                    Palette.from(resource).generate { palette ->
-//                                        val dominantColor =
-//                                            palette?.getDominantColor(Color.WHITE) ?: Color.WHITE
-//                                        val shadowColors = arrayOf(
-//                                            ColorUtils.setAlphaComponent(dominantColor, 10),
-//                                            ColorUtils.setAlphaComponent(dominantColor, 9),
-//                                            ColorUtils.setAlphaComponent(dominantColor, 8),
-//                                            ColorUtils.setAlphaComponent(dominantColor, 7),
-//                                            ColorUtils.setAlphaComponent(dominantColor, 6),
-//                                            ColorUtils.setAlphaComponent(dominantColor, 5),
-//                                            ColorUtils.setAlphaComponent(dominantColor, 4),
-//                                            ColorUtils.setAlphaComponent(dominantColor, 3),
-//                                            ColorUtils.setAlphaComponent(dominantColor, 2),
-//                                            ColorUtils.setAlphaComponent(dominantColor, 1)
-//                                        )
-//                                        // 그림자의 색상을 변경
-//                                        val layerDrawable =
-//                                            randomUserFrame.background as? LayerDrawable
-//                                        if (layerDrawable != null && layerDrawable.numberOfLayers >= 10) {
-//                                            for (i in 0 until 10) {
-//                                                val shapeDrawable =
-//                                                    layerDrawable.getDrawable(i) as? GradientDrawable
-//                                                shapeDrawable?.setColor(shadowColors[i])
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//
-//                                override fun onLoadCleared(placeholder: Drawable?) {
-//                                    // 작업 미수행
-//                                }
-//                            })
                         }
                     } else {
                         // 사용자가 올린 게시물이 없을 경우 기본 이미지로 설정
@@ -203,7 +173,71 @@ class RandomUserFragment: Fragment() {
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         dialog.window?.setGravity(Gravity.BOTTOM)
 
+        // 각 View 에 대한 매핑 [Layout(View), Icon(ImageView), Text(TextView)]
+        val categoryIdToResourceMap = mapOf(
+            R.id.artLayout to Triple(R.id.artLayout, R.id.artIcon, R.id.artText),
+            R.id.publicMusicLayout to Triple(R.id.publicMusicLayout, R.id.publicMusicIcon, R.id.publicMusicText),
+            R.id.musicLayout to Triple(R.id.musicLayout, R.id.musicIcon, R.id.musicText),
+            R.id.theaterLayout to Triple(R.id.theaterLayout, R.id.theaterIcon, R.id.theaterText),
+            R.id.literatureLayout to Triple(R.id.literatureLayout, R.id.literatureIcon, R.id.literatureText),
+            R.id.videoLayout to Triple(R.id.videoLayout, R.id.videoIcon, R.id.videoText),
+            )
+
+        // 선택된 View 에 대한 id array 지정
+        val categoryIds = arrayOf(
+            R.id.artLayout, R.id.publicMusicLayout, R.id.musicLayout,
+            R.id.theaterLayout, R.id.literatureLayout, R.id.videoLayout
+        )
+
+        // categoryIds 배열 순회
+        for (categoryId in categoryIds) {
+            val categoryLayout = dialog.findViewById<View>(categoryId)
+
+            // 누른 카테고리 뷰를 판단하여 색상 변경 및 이벤트 처리
+            categoryLayout.setOnClickListener { view ->
+
+                val resourceIds = categoryIdToResourceMap[categoryId]
+
+                if (resourceIds != null) {
+                    val (layoutId, iconId, textId) = resourceIds
+                    val layout = dialog.findViewById<View>(layoutId)
+                    val icon = dialog.findViewById<ImageView>(iconId)
+                    val text = dialog.findViewById<TextView>(textId)
+
+                    // 카테고리가 선택된 상태인지 확인
+                    val isSelect = selectCategory[categoryId] ?: false
+
+                    if (isSelect) {
+                        // 선택된 상태라면, 원래 색상으로 설정
+                        restoreCategoryColor(layout, icon, text)
+                        selectCategory[categoryId] = false
+                    } else {
+                        // 선택 안된 상태라면, 지정한 색상으로 설정
+                        changeCategoryColor(layout, icon, text)
+                        selectCategory[categoryId] = true
+                    }
+                }
+            }
+        }
+
         // Modal BottomSheet 표시
         dialog.show()
+    }
+
+    /** 지정한 색상으로 바꾸는 함수 */
+    private fun changeCategoryColor(layout: View, icon : ImageView, text: TextView) {
+        layout.setBackgroundResource(R.drawable.community_round_select)
+        icon.setColorFilter(ContextCompat.getColor(requireContext(), R.color.white))
+        text.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+
+    }
+
+    /** 원래 색상으로 바꾸는 함수 */
+    private fun restoreCategoryColor(layout: View, icon : ImageView, text: TextView) {
+
+        layout.setBackgroundResource(R.drawable.community_round)
+        icon.clearColorFilter()
+        text.setTextColor(ContextCompat.getColor(requireContext(), R.color.defaultColor))
+
     }
 }
