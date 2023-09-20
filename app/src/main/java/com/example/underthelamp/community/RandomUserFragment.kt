@@ -45,7 +45,17 @@ class RandomUserFragment: Fragment() {
     lateinit var binding : FragmentRandomUserBinding
     var firestore : FirebaseFirestore? = null
     lateinit var parentActivity: MainActivity   // Activity 지정
-    val selectCategory = mutableMapOf<Int, Boolean>()    // 카테고리 선택 여부 판단
+
+    // 카테고리 선택 여부 판단 및 상태 유지
+    val selectCategory = mutableMapOf<Int, Boolean>(
+        R.id.artLayout to false,
+        R.id.publicMusicLayout to false,
+        R.id.musicLayout to false,
+        R.id.theaterLayout to false,
+        R.id.literatureLayout to false,
+        R.id.videoLayout to false
+        
+    )
     private val categoryFilter = ArrayList<String>()    // 선택한 카테고리가 저장될 리스트
 
     override fun onAttach(context: Context) {
@@ -69,10 +79,6 @@ class RandomUserFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //var userPostImage = binding.userPostImage
         var userProfileImage = binding.userProfileImage
-
-//        /** ImageView 의 round 적용이 안되어 적용 하기 위한 코드 */
-//        userPostImage.background = resources.getDrawable(R.drawable.layout_round, null)
-//        userPostImage.clipToOutline = true
 
         userProfileImage.background = resources.getDrawable(R.drawable.radius, null)
         userProfileImage.clipToOutline = true
@@ -162,7 +168,7 @@ class RandomUserFragment: Fragment() {
                                 } else
                                     Toast.makeText(activity, "저장된 정보가 없습니다.", Toast.LENGTH_SHORT).show()
                             }
-                            ?.addOnFailureListener { exception ->
+                            .addOnFailureListener { exception ->
                                 // 예외 시
                                 Toast.makeText(activity, "유저 정보를 불러오는데 실패했습니다",Toast.LENGTH_SHORT).show()
                             }
@@ -196,7 +202,7 @@ class RandomUserFragment: Fragment() {
                 }
         }
     }
-
+    
     /** 카테고리 필터 선택 BottomSheet 를 나오게 하는 함수 */
     private fun showModalBottomSheet() {
         val dialog: Dialog = Dialog(requireContext())
@@ -234,7 +240,22 @@ class RandomUserFragment: Fragment() {
         for (categoryId in categoryIds) {
             val categoryLayout = dialog.findViewById<View>(categoryId)
 
-            // 누른 카테고리 뷰를 판단하여 색상 변경 및 이벤트 처리
+            // 카테고리 선택 상태를 반영
+            val isSelect = selectCategory[categoryId] ?: false
+            if (isSelect){
+                val resourceIds = categoryIdToResourceMap[categoryId]
+                if (resourceIds != null) {
+                    val (layoutId, iconId, textId) = resourceIds
+                    val layout = dialog.findViewById<View>(layoutId)
+                    val icon = dialog.findViewById<ImageView>(iconId)
+                    val text = dialog.findViewById<TextView>(textId)
+
+                    // 선택한 상태로 변경
+                    changeCategoryColor(layout, icon, text)
+                }
+            }
+
+            /** 카테고리 View 를 누를 경우 색상 변경 및 이벤트 처리 */
             categoryLayout.setOnClickListener { view ->
 
                 val resourceIds = categoryIdToResourceMap[categoryId]
@@ -263,6 +284,7 @@ class RandomUserFragment: Fragment() {
                         // 필터링 적용, textView 의 text 불러와서 리스트에 저장 
                         categoryFilter.add(text.text.toString())
                     }
+
                 }
             }
         }

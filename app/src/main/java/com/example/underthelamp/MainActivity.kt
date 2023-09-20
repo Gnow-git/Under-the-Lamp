@@ -90,6 +90,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             default_upload.visibility = View.GONE   // floating 버튼 안 보이게
 
+            // 상단 툴바 타이틀 글자 색상 원래 대로 변경
+            toolbar_title.clearColorFilter()
+
             if (messageIcon){   // 상단 아이콘이 메시지라면
                 // 메시지 기능하는 화면으로 이동
                 hideNavigation(visible = false)
@@ -106,6 +109,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, settingFragment).commit()
                 
             }
+        }
+
+        /** 상단 타이틀 텍스트를 누를 경우 */
+        toolbar_title.setOnClickListener{
+
+            randomUserPostImage.visibility = View.GONE  // 커뮤니티 기능에서 켜진 imageView를 다시 숨김
+
+            if (isOpen) closeFab()
+
+            default_upload.visibility = View.VISIBLE   // floating 버튼 보이게
+
+            fragmentPosition = 0;
+            var detailViewFragment = DetailViewFragment()
+            supportFragmentManager.beginTransaction().replace(R.id.main_content, detailViewFragment).commit()
+
+            // 상단 툴바 타이틀 글자 색상 원래 대로 변경
+            toolbar_title.clearColorFilter()
+
+            // 상단 toolbar icon을 message_icon으로 바꿈
+            messageIcon = true
+            changeToolbarIcon()
         }
     }
 
@@ -126,6 +150,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 var detailViewFragment = DetailViewFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, detailViewFragment).commit()
 
+                // 상단 툴바 타이틀 글자 색상 원래 대로 변경
+                toolbar_title.clearColorFilter()
+
                 // 상단 toolbar icon을 message_icon으로 바꿈
                 messageIcon = true
                 changeToolbarIcon()
@@ -143,6 +170,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 var searchFragment = SearchFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, searchFragment).commit()
 
+                // 상단 툴바 타이틀 글자 색상 원래 대로 변경
+                toolbar_title.clearColorFilter()
+
                 // 상단 toolbar icon을 message_icon으로 바꿈
                 messageIcon = true
                 changeToolbarIcon()
@@ -150,6 +180,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 return true
             }
 
+            /** 커뮤니티 게시글 */
             R.id.action_community-> {
                 if (isOpen) closeFab()
 
@@ -158,6 +189,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 fragmentPosition = 2;
                 var randomUserFragment = RandomUserFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, randomUserFragment).commit()
+
+                // 상단 툴바 타이틀 글자 색상 변경
+                toolbar_title.setColorFilter(resources.getColor(R.color.fontColor))
 
                 // 상단 toolbar icon을 message_icon으로 바꿈
                 messageIcon = true
@@ -176,6 +210,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 var informationFragment = InformationFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, informationFragment).commit()
 
+                // 상단 툴바 타이틀 글자 색상 원래 대로 변경
+                toolbar_title.clearColorFilter()
+
                 // 상단 toolbar icon을 message_icon으로 바꿈
                 messageIcon = true
                 changeToolbarIcon()
@@ -191,6 +228,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 bundle.putString("userId",uid)
                 userFragment.arguments = bundle
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, userFragment).commit()
+
+                // 상단 툴바 타이틀 글자 색상 원래 대로 변경
+                toolbar_title.clearColorFilter()
 
                 // 상단 toolbar icon을 setting_icon으로 바꿈
                 messageIcon = false
