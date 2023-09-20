@@ -46,6 +46,7 @@ class RandomUserFragment: Fragment() {
     var firestore : FirebaseFirestore? = null
     lateinit var parentActivity: MainActivity   // Activity 지정
     val selectCategory = mutableMapOf<Int, Boolean>()    // 카테고리 선택 여부 판단
+    private val categoryFilter = ArrayList<String>()    // 선택한 카테고리가 저장될 리스트
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -93,42 +94,82 @@ class RandomUserFragment: Fragment() {
     private fun loadRandomUser() {
         val userNameTextView = binding.userName
 
-        // 현재는 테스트 용으로 email 정보를 불러 오도록 임시 작성, 추후 DB 수정 후 name 으로 불러 오도록 수정 예정
         firestore?.collection("userinfo")
             ?.get()
-            ?.addOnSuccessListener { querySnapshot ->
-                if (!querySnapshot.isEmpty) {
-                    val randomIndex = (0 until querySnapshot.size()).random()
-                    val document = querySnapshot.documents[randomIndex]
+            ?.addOnSuccessListener { mainCollectionSnapshot ->
 
-                    /** email 필드 에서 도메인 주소를 제외한 local-parts만 출력 현재는 미사용 */
-//                    val email = document.getString("email") ?: ""
-//                    val emailLocal = email.substringBefore('@')
+                for (documentSnapshot in mainCollectionSnapshot) {
 
-                    val uid = document.getString("uid")
-                    if (uid != null) {
+                    val subCollection = documentSnapshot.reference.collection("userinfo")
+
+                    if (categoryFilter.isEmpty()){
+
                         firestore?.collection("userinfo")
-                            ?.document(uid)
-                            ?.collection("userinfo")
-                            ?.document("detail")
                             ?.get()
-                            ?.addOnSuccessListener { detailDocumentSnapshot ->
+                            ?.addOnSuccessListener { querySnapshot ->
+                                if (!querySnapshot.isEmpty) {
+                                    val randomIndex = (0 until querySnapshot.size()).random()
+                                    val document = querySnapshot.documents[randomIndex]
 
-                                /** 유저의 이름을 출력 데이터가 없을 경우 기본 값 사용*/
-                                val username = detailDocumentSnapshot
-                                    .getString("user_name") ?: "Unkown"
-                                userNameTextView.text = username
+                                    val uid = document.getString("uid")
+                                    if (uid != null) {
+                                        firestore?.collection("userinfo")
+                                            ?.document(uid)
+                                            ?.collection("userinfo")
+                                            ?.document("detail")
+                                            ?.get()
+                                            ?.addOnSuccessListener { detailDocumentSnapshot ->
 
-                                /** 랜덤으로 불러온 유저의 이미지를 불러 오기 위한 함수 */
-                                loadRandomUserImage(uid)
+                                                /** 유저의 이름을 출력 데이터가 없을 경우 기본 값 사용*/
+                                                val username = detailDocumentSnapshot
+                                                    .getString("user_name") ?: "Unkown"
+                                                userNameTextView.text = username
+
+                                                /** 랜덤으로 불러온 유저의 이미지를 불러 오기 위한 함수 */
+                                                loadRandomUserImage(uid)
+                                            }
+                                    }
+                                }
+                            }
+                            ?.addOnFailureListener { exception ->
+                                // 예외 시
+                                Toast.makeText(activity, "유저 정보를 불러오는데 실패했습니다",Toast.LENGTH_SHORT).show()
+                            }
+
+                    }else{
+                        subCollection
+                            .whereIn("user_category", categoryFilter)
+                            .get()
+                            .addOnSuccessListener { querySnapshot ->
+                                if (!querySnapshot.isEmpty) {
+                                    val randomIndex = (0 until querySnapshot.size()).random()
+                                    val selectedUid = documentSnapshot.getString("uid")
+
+                                    if (selectedUid != null) {
+                                        firestore?.collection("userinfo")
+                                            ?.document(selectedUid)
+                                            ?.collection("userinfo")
+                                            ?.document("detail")
+                                            ?.get()
+                                            ?.addOnSuccessListener { detailDocumentSnapshot ->
+                                                val username = detailDocumentSnapshot.getString("user_name")
+                                                userNameTextView.text = username
+
+                                                loadRandomUserImage(selectedUid)
+                                            }
+                                    }
+
+                                } else
+                                    Toast.makeText(activity, "저장된 정보가 없습니다.", Toast.LENGTH_SHORT).show()
+                            }
+                            ?.addOnFailureListener { exception ->
+                                // 예외 시
+                                Toast.makeText(activity, "유저 정보를 불러오는데 실패했습니다",Toast.LENGTH_SHORT).show()
                             }
                     }
                 }
             }
-            ?.addOnFailureListener { exception ->
-                // 예외 시
-                Toast.makeText(activity, "유저 정보를 불러오는데 실패했습니다",Toast.LENGTH_SHORT).show()
-            }
+
     }
 
     private fun loadRandomUserImage(uid: String?) {
@@ -156,7 +197,7 @@ class RandomUserFragment: Fragment() {
         }
     }
 
-    // 하단 BottomSheet 나오게하는 함수
+    /** 카테고리 필터 선택 BottomSheet 를 나오게 하는 함수 */
     private fun showModalBottomSheet() {
         val dialog: Dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -211,10 +252,16 @@ class RandomUserFragment: Fragment() {
                         // 선택된 상태라면, 원래 색상으로 설정
                         restoreCategoryColor(layout, icon, text)
                         selectCategory[categoryId] = false
+
+                        // 필터링 해제, textView 의 text 불러와서 리스트에 저장
+                        categoryFilter.remove(text.text.toString())
                     } else {
                         // 선택 안된 상태라면, 지정한 색상으로 설정
                         changeCategoryColor(layout, icon, text)
                         selectCategory[categoryId] = true
+                        
+                        // 필터링 적용, textView 의 text 불러와서 리스트에 저장 
+                        categoryFilter.add(text.text.toString())
                     }
                 }
             }
@@ -226,6 +273,7 @@ class RandomUserFragment: Fragment() {
 
     /** 지정한 색상으로 바꾸는 함수 */
     private fun changeCategoryColor(layout: View, icon : ImageView, text: TextView) {
+
         layout.setBackgroundResource(R.drawable.community_round_select)
         icon.setColorFilter(ContextCompat.getColor(requireContext(), R.color.white))
         text.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
