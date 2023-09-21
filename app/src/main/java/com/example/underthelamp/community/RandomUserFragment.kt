@@ -32,6 +32,7 @@ import com.example.underthelamp.R
 import kotlinx.android.synthetic.main.activity_main.messageBtn
 import kotlinx.android.synthetic.main.fragment_random_user.randomUserFrame
 import kotlinx.android.synthetic.main.fragment_user_detail.view.back
+import kotlinx.android.synthetic.main.item_detail.view.detailProfileImage
 import kotlinx.android.synthetic.main.modal_bottom_sheet_community.artLayout
 import kotlinx.android.synthetic.main.modal_bottom_sheet_community.literatureLayout
 import kotlinx.android.synthetic.main.modal_bottom_sheet_community.musicLayout
@@ -127,12 +128,34 @@ class RandomUserFragment: Fragment() {
                                             ?.addOnSuccessListener { detailDocumentSnapshot ->
 
                                                 /** 유저의 이름을 출력 데이터가 없을 경우 기본 값 사용*/
-                                                val username = detailDocumentSnapshot
-                                                    .getString("user_name") ?: "Unkown"
-                                                userNameTextView.text = username
+                                                val userName = detailDocumentSnapshot.getString("user_name")
+                                                userNameTextView.text = userName
 
                                                 /** 랜덤으로 불러온 유저의 이미지를 불러 오기 위한 함수 */
                                                 loadRandomUserImage(uid)
+                                            }
+
+                                        /** 랜덤 유저의 카테고리 출력 */
+                                        firestore?.collection("userinfo")
+                                            ?.document(uid)
+                                            ?.collection("userinfo")
+                                            ?.document("category")
+                                            ?.get()
+                                            ?.addOnSuccessListener { categorySnapshot ->
+
+                                                /** 사용자의 카테고리 출력 */
+                                                val userCategory = categorySnapshot.getString("user_category")
+                                                if(!userCategory.isNullOrEmpty()){
+                                                    binding.userCategory.text = "#$userCategory"
+                                                } else binding.userCategory.text = ""
+                                            }
+
+                                        /** 랜던 유저의 프로필 사진 출력 */
+                                        firestore?.collection("profileImage")
+                                            ?.document(uid)
+                                            ?.get()
+                                            ?.addOnSuccessListener { profileImageSnapshot ->
+
                                             }
                                     }
                                 }
@@ -158,8 +181,8 @@ class RandomUserFragment: Fragment() {
                                             ?.document("detail")
                                             ?.get()
                                             ?.addOnSuccessListener { detailDocumentSnapshot ->
-                                                val username = detailDocumentSnapshot.getString("user_name")
-                                                userNameTextView.text = username
+                                                val userName = detailDocumentSnapshot.getString("user_name")
+                                                userNameTextView.text = userName
 
                                                 loadRandomUserImage(selectedUid)
                                             }

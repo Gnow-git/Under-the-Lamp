@@ -73,4 +73,8 @@
     <string name="default_name">홍길동</string>
     <string name="default_time">0분전</string>
 
+    <!-- RandomUserFragment -->
+    <string name="randomUserName"> </string>
+    <string name="randomUserHashTag"> </string>
+
 </resources>
