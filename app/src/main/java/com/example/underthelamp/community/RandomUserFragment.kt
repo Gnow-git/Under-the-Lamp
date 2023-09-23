@@ -109,7 +109,7 @@ class RandomUserFragment: Fragment() {
 
                     val subCollection = documentSnapshot.reference.collection("userinfo")
 
-                    if (categoryFilter.isEmpty()){
+                    if (categoryFilter.isEmpty()){  // 필터링이 안되어 있는 경우 즉, 카테고리를 선택하지 않은 상태
 
                         firestore?.collection("userinfo")
                             ?.get()
@@ -165,7 +165,7 @@ class RandomUserFragment: Fragment() {
                                 Toast.makeText(activity, "유저 정보를 불러오는데 실패했습니다",Toast.LENGTH_SHORT).show()
                             }
 
-                    }else{
+                    }else{  // 필터링이 되어 있는 경우 즉, 카테고리를 선택한 상태
                         subCollection
                             .whereIn("user_category", categoryFilter)
                             .get()
@@ -186,6 +186,30 @@ class RandomUserFragment: Fragment() {
 
                                                 loadRandomUserImage(selectedUid)
                                             }
+
+                                        /** 랜덤 유저의 카테고리 출력 */
+                                        firestore?.collection("userinfo")
+                                            ?.document(selectedUid)
+                                            ?.collection("userinfo")
+                                            ?.document("category")
+                                            ?.get()
+                                            ?.addOnSuccessListener { categorySnapshot ->
+
+                                                /** 사용자의 카테고리 출력 */
+                                                val userCategory = categorySnapshot.getString("user_category")
+                                                if(!userCategory.isNullOrEmpty()){
+                                                    binding.userCategory.text = "#$userCategory"
+                                                } else binding.userCategory.text = ""
+                                            }
+
+                                        /** 랜던 유저의 프로필 사진 출력 */
+                                        firestore?.collection("profileImage")
+                                            ?.document(selectedUid)
+                                            ?.get()
+                                            ?.addOnSuccessListener { profileImageSnapshot ->
+
+                                            }
+
                                     }
 
                                 } else
