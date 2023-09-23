@@ -73,6 +73,18 @@
     <string name="default_name">홍길동</string>
     <string name="default_time">0분전</string>
 
+    <!-- Search -->
+
+        <!-- SearchCategoryFragment -->
+        <string name="searchCategoryTitle">분야별 검색</string>
+        <string name="searchArt">미술</string>
+        <string name="searchLiterature">문학</string>
+        <string name="searchPublicMusic">대중음악</string>
+        <string name="searchMusic">음악</string>
+        <string name="searchTheater">연극</string>
+        <string name="searchVideo">영상</string>
+
+
     <!-- RandomUserFragment -->
     <string name="randomUserName"> </string>
     <string name="randomUserHashTag"> </string>
