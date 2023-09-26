@@ -35,7 +35,7 @@ class UserFragment : Fragment() {
     var firestore : FirebaseFirestore? = null
     var userId : String? = null
     var auth : FirebaseAuth? = null
-    var currentUserUid : String? = null // 상대방의 계정
+    var currentUserUid : String? = null // 현재 계정
     companion object {
         var PICK_PROFILE_FROM_ALBUM = 10
     }
@@ -47,14 +47,15 @@ class UserFragment : Fragment() {
         currentUserUid = auth?.currentUser?.uid
 
         if(userId == currentUserUid){
+            // SettingFragment로 이동
             // MyPage
-            binding.accountBtnFollowSignout.text = getString(R.string.signout)
-
-            binding.accountBtnFollowSignout.setOnClickListener {
-                activity?.finish()
-                startActivity(Intent(activity, LoginActivity::class.java))
-                auth?.signOut()
-            }
+//            binding.accountBtnFollowSignout.text = getString(R.string.signout)
+//
+//            binding.accountBtnFollowSignout.setOnClickListener {
+//                activity?.finish()
+//                startActivity(Intent(activity, LoginActivity::class.java))
+//                auth?.signOut()
+//            }
         } else {
             // OtherUserPage
             binding.accountBtnFollowSignout.text = "Follow"
