@@ -15,7 +15,6 @@ import com.example.underthelamp.model.ContestDTO
 import com.example.underthelamp.navigation.util.FcmPush
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_comment.comment_edit_message
 import kotlinx.android.synthetic.main.item_contest_comment.view.commentviewitem_textview_comment
 import kotlinx.android.synthetic.main.item_contest_comment.view.commentviewitem_textview_profile
 import java.text.SimpleDateFormat
@@ -94,12 +93,12 @@ class ContestDetailFragment : Fragment() {
             var comment = ContestDTO.ContestComment()
             comment.userId = FirebaseAuth.getInstance().currentUser?.email
             comment.uid = FirebaseAuth.getInstance().currentUser?.uid
-            comment.comment = comment_edit_message.text.toString()
+            comment.comment = binding.commentEditMessage.text.toString()
             //comment.timestamp = System.currentTimeMillis()
 
             FirebaseFirestore.getInstance().collection("contest").document(contestUid!!).collection("comments").document().set(comment)
             //commentAlarm(destinationUid!!, comment_edit_message.text.toString())
-            comment_edit_message.setText("")
+            binding.commentEditMessage.setText("")
         }
         return view
     }

@@ -49,4 +49,8 @@
     <color name="date_line">#80767676</color>
 
     <color name="setting_font">#FF767676</color>
+
+    <!-- comment -->
+    <color name="commentColor">#FF999999</color>
+    <color name="commentFont">#FF767676</color>
 </resources>

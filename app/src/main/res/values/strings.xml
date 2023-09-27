@@ -102,5 +102,11 @@
     <string name="accessibility">접근성</string>
     <string name="logoutBnt">로그아웃</string>
 
+    <!-- Comment -->
+    <string name="commentTitle">댓글</string>
+    <string name="commentHint">댓글 달기</string>
 
+    <!-- item_comment -->
+    <string name="commentUserId">\@lalala 365</string>
+    <string name="commentMessage">Oh! Love this &lt;3</string>
 </resources>

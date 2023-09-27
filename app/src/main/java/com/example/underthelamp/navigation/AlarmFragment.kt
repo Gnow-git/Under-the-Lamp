@@ -12,7 +12,7 @@ import com.example.underthelamp.model.AlarmDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_alarm.view.*
-import kotlinx.android.synthetic.main.item_comment.view.*
+import kotlinx.android.synthetic.main.item_main_comment.view.*
 
 class AlarmFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -38,7 +38,7 @@ class AlarmFragment : Fragment() {
             }
         }
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            var view = LayoutInflater.from(parent.context).inflate(R.layout.item_comment, parent, false)
+            var view = LayoutInflater.from(parent.context).inflate(R.layout.item_main_comment, parent, false)
 
             return CustomViewHolder(view)
         }
@@ -47,17 +47,13 @@ class AlarmFragment : Fragment() {
             var view = holder.itemView
 
             when(alarmDTOList[position].kind){
-                0 -> {
-                    val str_0 = alarmDTOList[position].userId + getString(R.string.alarm_favorite)
-                    view.commentviewitem_textview_profile.text = str_0
-                }
                 1 -> {
                     val str_0 = alarmDTOList[position].userId + " " + getString(R.string.alarm_comment) + " of " + alarmDTOList[position].message
-                    view.commentviewitem_textview_profile.text = str_0
+                    view.commentUserId.text = str_0
                 }
                 2 -> {
                     val str_0 = alarmDTOList[position].userId + " " + getString(R.string.alarm_follow)
-                    view.commentviewitem_textview_profile.text = str_0
+                    view.commentMessage.text = str_0
                 }
             }
         }

@@ -1,8 +1,8 @@
 package com.example.underthelamp.home
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.ContentValues
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -20,19 +20,26 @@ import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentDetailViewBinding
 import com.example.underthelamp.model.AlarmDTO
 import com.example.underthelamp.model.ContentDTO
-import com.example.underthelamp.navigation.CommentActivity
 import com.example.underthelamp.navigation.util.FcmPush
 import com.example.underthelamp.user.UserFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_detail_view.view.detailRecyclerView
+import kotlinx.android.synthetic.main.item_main_comment.view.commentMessage
+import kotlinx.android.synthetic.main.item_main_comment.view.commentUserId
 import kotlinx.android.synthetic.main.item_detail.view.*
+import kotlinx.android.synthetic.main.modal_bottom_sheet_comment.mainCommentRecyclerview
 
 class DetailViewFragment : Fragment() {
 
     lateinit var binding : FragmentDetailViewBinding
     var firestore : FirebaseFirestore? = null
     var loginUid : String? = null
+
+    // 댓글 관련 변수
+    var contentUid : String? = null
+    var destinationUid : String? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentDetailViewBinding.inflate(inflater, container, false)
         var view = binding.root
@@ -40,13 +47,14 @@ class DetailViewFragment : Fragment() {
         firestore = FirebaseFirestore.getInstance()
         loginUid = FirebaseAuth.getInstance().currentUser?.uid
 
-        /** detailRecyclerView 에 대한 adapter 와 layoutManager 지정 */
+        // detailRecyclerView 에 대한 adapter 와 layoutManager 지정
         view.detailRecyclerView.adapter = DetailViewRecyclerViewAdapter()
         view.detailRecyclerView.layoutManager = LinearLayoutManager(activity)
         return view
     }
 
     /** detailRecyclerView 에 대한 adapter */
+    @SuppressLint("NotifyDataSetChanged")
     inner class DetailViewRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         var contentDTOs : ArrayList<ContentDTO> = arrayListOf()
         var contentUidList : ArrayList<String> = arrayListOf()
@@ -78,6 +86,7 @@ class DetailViewFragment : Fragment() {
         }
 
         /** 유저의 작품을 보여 주는 ViewHolder */
+        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
             var DetailViewHolder = (holder as CustomViewHolder).itemView
@@ -116,16 +125,15 @@ class DetailViewFragment : Fragment() {
                 activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content, fragment)?.commit()
             }
 
-            DetailViewHolder.commentBtn.setOnClickListener { v ->
-                var intent = Intent(v.context, CommentActivity::class.java)
-                intent.putExtra("contentUid", contentUidList[position])
-                intent.putExtra("destinationUid", contentDTOs[position].contentUid)
-                startActivity(intent)
+            // 상세 메뉴 버튼을 누를 경우 하단 BottomSheet 나타나게하기
+            DetailViewHolder.detailMenuBtn.setOnClickListener{
+                showModalBottomSheet()
             }
 
-            DetailViewHolder.detailMenuBtn.setOnClickListener{
-                // 상세 메뉴 버튼을 누를 경우 하단 BottomSheet 나타나게하기
-                showModalBottomSheet()
+            // 댓글 버튼을 누를 경우 댓글 표시
+            DetailViewHolder.commentBtn.setOnClickListener {
+                contentUid = contentDTOs[position].contentUid
+                showModalBottomSheetComment(contentUid!!)
             }
         }
 
@@ -173,7 +181,7 @@ class DetailViewFragment : Fragment() {
                 }
         }
 
-        fun favoriteEvent(loginUid : String , position : Int){
+        private fun favoriteEvent(loginUid : String, position : Int){
             val contentDTO = contentDTOs?.get(position)
 
             if (contentDTO?.contentUid != null) {
@@ -205,7 +213,7 @@ class DetailViewFragment : Fragment() {
             }
         }
 
-        fun favoriteAlarm(destinationUid : String){
+        private fun favoriteAlarm(destinationUid : String){
             var alarmDTO = AlarmDTO()
             alarmDTO.destinationUid = destinationUid    // 상대방 uid
             alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
@@ -225,18 +233,33 @@ class DetailViewFragment : Fragment() {
             dialog.requestWindowFeature(FEATURE_NO_TITLE)
             dialog.setContentView(R.layout.modal_bottom_sheet_main)
 
-            //val dismissButton: Button = dialog.findViewById(R.id.followBtn)
-
-//            dismissButton.setOnClickListener {
-//                dialog.dismiss()
-//            }
-//
             // Modal BottomSheet 크기
             dialog.window?.setLayout(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
             
+            // Modal BottomSheet 의 background 를 제외한 부분은 투명
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+            dialog.window?.setGravity(Gravity.BOTTOM)
+
+            // Modal BottomSheet 표시
+            dialog.show()
+        }
+
+        /** 댓글을 표시할 BottomSheet 나오게 하는 함수 */
+        private fun showModalBottomSheetComment(contentUid : String) {
+            val dialog: Dialog = Dialog(requireContext())
+            dialog.requestWindowFeature(FEATURE_NO_TITLE)
+            dialog.setContentView(R.layout.modal_bottom_sheet_comment)
+
+            // Modal BottomSheet 크기
+            dialog.window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+
             // Modal BottomSheet 의 background를 제외한 부분은 투명
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
@@ -244,6 +267,52 @@ class DetailViewFragment : Fragment() {
 
             // Modal BottomSheet 표시
             dialog.show()
+
+            // 댓글을 보일 RecyclerView 의 adapter 및 layoutManager 설정
+            dialog.mainCommentRecyclerview.adapter = MainCommentRecyclerViewAdapter(contentUid)
+            dialog.mainCommentRecyclerview.layoutManager = LinearLayoutManager(activity)
+        }
+
+        @SuppressLint("NotifyDataSetChanged")
+        inner class MainCommentRecyclerViewAdapter(contentUid : String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+            var comments : ArrayList<ContentDTO.Comment> = arrayListOf()
+            init {
+                FirebaseFirestore.getInstance()
+                    .collection("images")
+                    .document(contentUid!!)
+                    .collection("comments")
+                    .orderBy("timestamp")
+                    .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                        comments.clear()
+
+                        if(querySnapshot == null) return@addSnapshotListener
+
+                        for(snapshot in querySnapshot.documents){
+                            comments.add(snapshot.toObject(ContentDTO.Comment::class.java)!!)
+                        }
+                        notifyDataSetChanged()
+                    }
+            }
+
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+                var view = LayoutInflater.from(parent.context).inflate(R.layout.item_main_comment, parent, false)
+                return CustomCommentViewHolder(view)
+            }
+
+            private inner class CustomCommentViewHolder(view: View) : RecyclerView.ViewHolder(view)
+
+            override fun getItemCount(): Int {
+                return comments.size
+            }
+
+            override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+                var view = holder.itemView
+
+                view.commentUserId.text = comments[position].userId
+                view.commentMessage.text = comments[position].comment
+
+            }
+
         }
 
     }
