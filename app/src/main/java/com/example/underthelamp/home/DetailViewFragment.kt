@@ -28,8 +28,9 @@ import kotlinx.android.synthetic.main.fragment_detail_view.view.detailRecyclerVi
 import kotlinx.android.synthetic.main.item_main_comment.view.commentMessage
 import kotlinx.android.synthetic.main.item_main_comment.view.commentUserId
 import kotlinx.android.synthetic.main.item_detail.view.*
+import kotlinx.android.synthetic.main.modal_bottom_sheet_comment.commentInput
+import kotlinx.android.synthetic.main.modal_bottom_sheet_comment.commentSendBtn
 import kotlinx.android.synthetic.main.modal_bottom_sheet_comment.mainCommentRecyclerview
-
 class DetailViewFragment : Fragment() {
 
     lateinit var binding : FragmentDetailViewBinding
@@ -133,6 +134,7 @@ class DetailViewFragment : Fragment() {
             // 댓글 버튼을 누를 경우 댓글 표시
             DetailViewHolder.commentBtn.setOnClickListener {
                 contentUid = contentDTOs[position].contentUid
+                destinationUid = contentDTOs[position].userId
                 showModalBottomSheetComment(contentUid!!)
             }
         }
@@ -219,7 +221,7 @@ class DetailViewFragment : Fragment() {
             alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
             alarmDTO.uid = FirebaseAuth.getInstance().currentUser?.uid
             alarmDTO.kind = 0
-            alarmDTO.timestamp = System.currentTimeMillis()
+            alarmDTO.timestamp = com.google.firebase.Timestamp.now()
             FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
 
             // favorite push alarm
@@ -271,6 +273,35 @@ class DetailViewFragment : Fragment() {
             // 댓글을 보일 RecyclerView 의 adapter 및 layoutManager 설정
             dialog.mainCommentRecyclerview.adapter = MainCommentRecyclerViewAdapter(contentUid)
             dialog.mainCommentRecyclerview.layoutManager = LinearLayoutManager(activity)
+
+            // 댓글 입력 처리
+            dialog.commentSendBtn.setOnClickListener {
+                var comment = ContentDTO.Comment()
+                var commentInput = dialog.commentInput
+
+                comment.userId = FirebaseAuth.getInstance().currentUser?.email
+                comment.uid = FirebaseAuth.getInstance().currentUser?.uid
+                comment.comment = dialog.commentInput.text.toString()
+                comment.timestamp = com.google.firebase.Timestamp.now()
+
+                FirebaseFirestore.getInstance().collection("images").document(contentUid!!).collection("comments").document().set(comment)
+                commentAlarm(destinationUid!! , commentInput.text.toString())
+                commentInput.setText("")    // 댓글 입력 초기화
+            }
+        }
+
+        private fun commentAlarm(destinationUid: String, message: String){
+            var alarmDTO = AlarmDTO()
+            alarmDTO.destinationUid = destinationUid
+            alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
+            alarmDTO.kind = 1
+            alarmDTO.uid = FirebaseAuth.getInstance().currentUser?.uid
+            alarmDTO.timestamp = com.google.firebase.Timestamp.now()
+            alarmDTO.message = message
+            FirebaseFirestore.getInstance().collection("alarm").document().set(alarmDTO)
+
+            var msg = FirebaseAuth.getInstance().currentUser?.email + " " + getString(R.string.alarm_comment) + " of " + message
+            FcmPush.instance.sendMessage(destinationUid, "Under_the_Lamp", msg)
         }
 
         @SuppressLint("NotifyDataSetChanged")
@@ -288,7 +319,10 @@ class DetailViewFragment : Fragment() {
                         if(querySnapshot == null) return@addSnapshotListener
 
                         for(snapshot in querySnapshot.documents){
-                            comments.add(snapshot.toObject(ContentDTO.Comment::class.java)!!)
+                            val comment = snapshot.toObject(ContentDTO.Comment::class.java)
+                            if (comment != null){
+                              comments.add(comment)
+                            }
                         }
                         notifyDataSetChanged()
                     }
@@ -308,7 +342,21 @@ class DetailViewFragment : Fragment() {
             override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
                 var view = holder.itemView
 
-                view.commentUserId.text = comments[position].userId
+                val uid = comments[position].uid
+
+                // 댓글 단 사람의 이름 출력
+                if (uid != null ){
+                    firestore?.collection("userinfo")
+                        ?.document(uid)
+                        ?.collection("userinfo")
+                        ?.document("detail")
+                        ?.get()
+                        ?.addOnSuccessListener { commentSnapshot ->
+                            val userName = commentSnapshot.getString("user_name")
+                            view.commentUserId.text = "@$userName"
+                        }
+                }
+                // 댓글 내용 출력
                 view.commentMessage.text = comments[position].comment
 
             }

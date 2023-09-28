@@ -109,7 +109,7 @@ class ContestDetailFragment : Fragment() {
         alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
         alarmDTO.kind = 1
         alarmDTO.uid = FirebaseAuth.getInstance().currentUser?.uid
-        alarmDTO.timestamp = System.currentTimeMillis()
+        alarmDTO.timestamp = com.google.firebase.Timestamp.now()
         alarmDTO.message = message
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
 

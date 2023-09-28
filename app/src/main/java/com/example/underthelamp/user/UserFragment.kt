@@ -184,7 +184,7 @@ class UserFragment : Fragment() {
         alarmDTO.userId = auth?.currentUser?.email
         alarmDTO.uid = auth?.currentUser?.uid
         alarmDTO.kind = 2
-        alarmDTO.timestamp = System.currentTimeMillis()
+        alarmDTO.timestamp = com.google.firebase.Timestamp.now()
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
 
         // follow push alarm
