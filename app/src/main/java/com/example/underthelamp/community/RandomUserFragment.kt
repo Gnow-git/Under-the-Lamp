@@ -127,7 +127,7 @@ class RandomUserFragment: Fragment() {
                                             ?.get()
                                             ?.addOnSuccessListener { detailDocumentSnapshot ->
 
-                                                /** 유저의 이름을 출력 데이터가 없을 경우 기본 값 사용*/
+                                                /** 유저의 이름을 출력 */
                                                 val userName = detailDocumentSnapshot.getString("user_name")
                                                 userNameTextView.text = userName
 
