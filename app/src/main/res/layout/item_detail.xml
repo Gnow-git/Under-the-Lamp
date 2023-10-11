@@ -49,6 +49,25 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="0.0"/>
 
+        <TextView
+            android:id="@+id/detailFollowBtn"
+            android:layout_width="48dp"
+            android:layout_height="18dp"
+            android:text="Follow"
+            android:fontFamily="@font/pretendard_semibold"
+            android:textSize="12sp"
+            android:letterSpacing="-0.025"
+            android:includeFontPadding="false"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@drawable/main_follow_btn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/detailUserName"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="11dp"
+            app:layout_constraintHorizontal_bias="0.0"/>
+
         <ImageView
             android:id="@+id/detailMenuBtn"
             android:layout_width="13dp"
