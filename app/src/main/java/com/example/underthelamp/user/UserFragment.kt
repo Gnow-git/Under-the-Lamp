@@ -47,18 +47,24 @@ class UserFragment : Fragment() {
         currentUserUid = auth?.currentUser?.uid
 
         if(userId == currentUserUid){
-            // SettingFragment로 이동
-            // MyPage
-//            binding.accountBtnFollowSignout.text = getString(R.string.signout)
-//
-//            binding.accountBtnFollowSignout.setOnClickListener {
-//                activity?.finish()
-//                startActivity(Intent(activity, LoginActivity::class.java))
-//                auth?.signOut()
-//            }
+
+            firestore!!.collection("userinfo")
+                .document(userId.toString()).collection("userinfo").document("detail")
+                .get().addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        val userName = document.getString("user_name")
+                        binding.userName.text = userName
+                    } else {
+                        binding.userName.text = "이름을 불러올 수 없습니다."
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "데이터 가져오기 실패: ", exception)
+                    binding.userName.text  = "데이터를 가져오는 중에 오류가 발생하였습니다."
+                }
         } else {
             // OtherUserPage
-            binding.accountBtnFollowSignout.text = "Follow"
+            //binding.accountBtnFollowSignout.text = "Follow"
             var mainActivity = (activity as MainActivity)
 
             firestore!!.collection("userinfo")
@@ -76,9 +82,9 @@ class UserFragment : Fragment() {
                     binding.userName.text  = "데이터를 가져오는 중에 오류가 발생하였습니다."
                 }
 
-            binding.accountBtnFollowSignout.setOnClickListener{
-                requestFollow()
-            }
+//            binding.accountBtnFollowSignout.setOnClickListener{
+//                requestFollow()
+//            }
         }
 
         binding.accountRecyclerview.adapter = UserFragmentRecyclerViewAdapter()
@@ -110,14 +116,14 @@ class UserFragment : Fragment() {
 
                 // 팔로우하고 있는 경우 버튼 취소로
                 if (followDTO?.followers?.containsKey(currentUserUid!!) == true){
-                    binding.accountBtnFollowSignout.text = context.getString(R.string.follow_cancel)
+                   // binding.accountBtnFollowSignout.text = context.getString(R.string.follow_cancel)
                     if(isAdded()){  // UserFragment가 Activity에 연결되어 있는지 확인
-                        binding.accountBtnFollowSignout.background.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.colorLightGray), PorterDuff.Mode.MULTIPLY)
+                 //       binding.accountBtnFollowSignout.background.setColorFilter(ContextCompat.getColor(requireActivity(), R.color.colorLightGray), PorterDuff.Mode.MULTIPLY)
                     }
                 } else {    // 팔로우 안하고 있는 경우 버튼 팔로우로
                     if(userId != currentUserUid){
-                        binding.accountBtnFollowSignout.text = context.getString(R.string.follow)
-                        binding.accountBtnFollowSignout.background.colorFilter = null
+//                        binding.accountBtnFollowSignout.text = context.getString(R.string.follow)
+//                        binding.accountBtnFollowSignout.background.colorFilter = null
                     }
                 }
 

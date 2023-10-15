@@ -200,25 +200,26 @@
         android:layout_marginStart="28dp"
         android:layout_marginEnd="28dp"
         app:layout_constraintVertical_bias="1.0"
-        app:layout_constraintHorizontal_bias="0.0">
+        app:layout_constraintHorizontal_bias="0.0"
+        android:visibility="gone">
 
-    <EditText
-        android:id="@+id/commentEditMessage"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:hint="댓글을 입력해 주세요"
-        android:textSize="14sp"
-        android:textColor="@color/fontColor"
-        android:fontFamily="@font/pretendard_regular"
-        android:includeFontPadding="false"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="0dp"
-        app:layout_constraintHorizontal_bias="0.0" />
+        <EditText
+            android:id="@+id/commentEditMessage"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_regular"
+            android:hint="댓글을 입력해 주세요"
+            android:includeFontPadding="false"
+            android:textColor="@color/fontColor"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.666" />
 
-    <Button
+        <Button
         android:id="@+id/commentSendBtn"
         android:layout_width="80dp"
         android:layout_height="40dp"

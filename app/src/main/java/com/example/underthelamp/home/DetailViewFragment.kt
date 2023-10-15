@@ -3,7 +3,9 @@ package com.example.underthelamp.home
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.ContentValues
+import android.content.Context
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
@@ -12,18 +14,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.underthelamp.MainActivity
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentDetailViewBinding
 import com.example.underthelamp.model.AlarmDTO
 import com.example.underthelamp.model.ContentDTO
+import com.example.underthelamp.model.FollowDTO
 import com.example.underthelamp.navigation.util.FcmPush
 import com.example.underthelamp.user.UserFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_main.randomUserPostImage
 import kotlinx.android.synthetic.main.fragment_detail_view.view.detailRecyclerView
 import kotlinx.android.synthetic.main.item_main_comment.view.commentMessage
 import kotlinx.android.synthetic.main.item_main_comment.view.commentUserId
@@ -31,20 +37,35 @@ import kotlinx.android.synthetic.main.item_detail.view.*
 import kotlinx.android.synthetic.main.modal_bottom_sheet_comment.commentInput
 import kotlinx.android.synthetic.main.modal_bottom_sheet_comment.commentSendBtn
 import kotlinx.android.synthetic.main.modal_bottom_sheet_comment.mainCommentRecyclerview
+import java.lang.IllegalArgumentException
+
 class DetailViewFragment : Fragment() {
 
     lateinit var binding : FragmentDetailViewBinding
     var firestore : FirebaseFirestore? = null
     var loginUid : String? = null
+    lateinit var parentActivity: MainActivity   // Activity 지정
+    var currentUserUid : String? = null // 현재 계정
+    var auth : FirebaseAuth? = null
 
     // 댓글 관련 변수
     var contentUid : String? = null
     var destinationUid : String? = null
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is MainActivity) {
+            parentActivity = context    // Activity 초기화
+        } else {
+            throw IllegalArgumentException("상위 액티비티가 필요합니다.")
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentDetailViewBinding.inflate(inflater, container, false)
         var view = binding.root
-
+        auth = FirebaseAuth.getInstance()
+        currentUserUid = auth?.currentUser?.uid
         firestore = FirebaseFirestore.getInstance()
         loginUid = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -103,8 +124,11 @@ class DetailViewFragment : Fragment() {
 
             /** 좋아요 버튼 누를 경우 */
             DetailViewHolder.likeBtn.setOnClickListener {
+                parentActivity.randomUserPostImage.visibility = View.GONE  // 커뮤니티 기능에서 켜진 imageView를 다시 숨김
                 favoriteEvent(loginUid.toString(), position)
             }
+
+
 
             if(contentDTOs!![position].favorites.containsKey(loginUid)){
 
@@ -181,6 +205,13 @@ class DetailViewFragment : Fragment() {
                     Log.d(ContentValues.TAG, "데이터 가져오기 실패: ", exception)
                     DetailViewHolder.detailUserName.text  = "데이터를 가져오는 중에 오류가 발생하였습니다."
                 }
+
+            // 표시될 게시물을 올린 사용자가 현재 로그인한 사람과 같지 않다면 팔로우 버튼 표시
+
+            if(currentUserUid != contentDTOs[position].userId.toString()){
+                DetailViewHolder.detailFollowBtn.visibility = View.VISIBLE
+            } else DetailViewHolder.detailFollowBtn.visibility = View.GONE
+
         }
 
         private fun favoriteEvent(loginUid : String, position : Int){

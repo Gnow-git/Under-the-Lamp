@@ -1,5 +1,6 @@
 package com.example.underthelamp.message
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.underthelamp.MainActivity
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentMessageBinding
 import com.example.underthelamp.model.MessageDTO
@@ -40,6 +42,13 @@ class MessageListFragment : Fragment() {
         binding.messageList.layoutManager = LinearLayoutManager(activity)
 
         return view
+    }
+
+    fun onBackPressed() {
+        // MainActivity로 이동
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish() // 현재 화면 종료
     }
 
     inner class MessageListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

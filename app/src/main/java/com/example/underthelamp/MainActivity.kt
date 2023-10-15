@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
 
         randomUserPostImage = findViewById(R.id.randomUserPostImage)
-        randomUserPostImage.setBackgroundResource(R.drawable.random_user_image_gradient)
+        //randomUserPostImage.setBackgroundResource(R.drawable.random_user_image_gradient)
 
         bottom_navigation.setOnItemSelectedListener(this)
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
@@ -85,6 +85,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         /** 상단의 메시지 버튼을 눌렀을 경우 */
         messageBtn.setOnClickListener {
 
+            randomUserPostImage.visibility = View.GONE  // 커뮤니티 기능에서 켜진 imageView를 다시 숨김
 
             if (isOpen) closeFab()
 
@@ -182,6 +183,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             /** 커뮤니티 게시글 */
             R.id.action_community-> {
+                randomUserPostImage.visibility = View.VISIBLE
+
                 if (isOpen) closeFab()
 
                 default_upload.visibility = View.GONE   // floating 버튼 안 보이게
@@ -340,8 +343,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     /** 랜덤한 사용자의 게시물을 불러와 보여주는 함수 RandomUserFragment로 부터 값을 받아 옴 */
     fun randomUserImage(imageUrl: String){
-
-        randomUserPostImage.visibility = View.VISIBLE
 
         // 사용자가 게시해둔 이미지가 없다면 기본 이미지로 표시
         if (imageUrl == "emptyImage") randomUserPostImage.setImageResource(R.drawable.random_user_default)
