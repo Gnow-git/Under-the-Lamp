@@ -22,6 +22,7 @@ class SearchGridFragment : Fragment() {
     var firestore : FirebaseFirestore? = null
     var fragmentView : View? = null
     var contentDTOs : ArrayList<ContentDTO> = arrayListOf()
+    var explain : String? = null
 
      companion object {
         private const val ARG_CATEGORY = "category"
@@ -49,6 +50,9 @@ class SearchGridFragment : Fragment() {
         fragmentView?.gridfragment_recyclerview?.adapter = UserFragmentRecyclerViewAdapter()
         fragmentView?.gridfragment_recyclerview?.layoutManager = GridLayoutManager(activity,3)
 
+        explain = arguments?.getString("explain")
+
+
         return fragmentView
     }
 
@@ -72,22 +76,19 @@ class SearchGridFragment : Fragment() {
                         notifyDataSetChanged()
                     }
             }else{
-                Toast.makeText(activity, "게시물이 없습니다.", Toast.LENGTH_SHORT).show()
+                firestore?.collection("images")
+                    ?.whereEqualTo("explain", explain)
+                    ?.addSnapshotListener { querySnapshots, firebaseFirestoreException ->
+
+                        if (querySnapshots == null) return@addSnapshotListener
+
+                        for (snapshot in querySnapshots.documents) {
+                            contentDTOs.add(snapshot.toObject(ContentDTO::class.java)!!)
+                        }
+                        notifyDataSetChanged()
+                    }
             }
         }
-
-//        init {
-//            firestore?.collection("images")?.addSnapshotListener { querySnapshots, firebaseFirestoreException ->
-//
-//                if (querySnapshots == null) return@addSnapshotListener
-//
-//                for (snapshot in querySnapshots.documents) {
-//                    contentDTOs.add(snapshot.toObject(ContentDTO::class.java)!!)
-//                }
-//                notifyDataSetChanged()
-//            }
-//
-//        }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
