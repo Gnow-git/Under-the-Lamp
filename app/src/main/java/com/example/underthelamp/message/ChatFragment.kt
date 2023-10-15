@@ -2,6 +2,7 @@ package com.example.underthelamp.message
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -110,6 +111,14 @@ class ChatFragment : Fragment() {
         
         return view
     }
+
+    // 뒤로가기(백 버튼)를 처리하기 위한 메서드
+    fun onBackPressed() {
+        // MainActivity로 돌아가도록 인텐트를 생성
+        val intent = Intent(activity, MainActivity::class.java)
+        startActivity(intent)
+    }
+
 
     /** 상대방의 이름 정보를 가져와 적용 하는 함수 */
     private fun getUserInfo(){

@@ -1,9 +1,11 @@
 package com.example.underthelamp.search
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.LinearLayoutCompat
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.underthelamp.MainActivity
 import com.example.underthelamp.R
 import com.example.underthelamp.model.ContentDTO
 import com.google.firebase.firestore.FirebaseFirestore
@@ -56,6 +59,14 @@ class SearchGridFragment : Fragment() {
         return fragmentView
     }
 
+    // 뒤로가기(백 버튼)를 처리하기 위한 메서드
+    fun onBackPressed() {
+        // MainActivity로 돌아가도록 인텐트를 생성
+        val intent = Intent(activity, MainActivity::class.java)
+        startActivity(intent)
+    }
+
+
     inner class UserFragmentRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         val category = arguments?.getString(ARG_CATEGORY)
@@ -92,8 +103,20 @@ class SearchGridFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
+            val dpValue = 310 // 설정하려는 DP 값
+            val density = resources.displayMetrics.density
+            val pixelValue = (dpValue * density).toInt()
+
+            var width = pixelValue / 3
+
             var imageview = ImageView(parent.context)
-            imageview.layoutParams = LinearLayoutCompat.LayoutParams(105, 105)
+
+            val marginDp = 5 // 설정하려는 DP 마진 값
+            val marginPixel = (marginDp * density).toInt()
+
+            val layoutParams = MarginLayoutParams(width, width)
+            layoutParams.setMargins(marginPixel, 0, marginPixel, marginPixel*2)
+            imageview.layoutParams = layoutParams
             return CustomViewHolder(imageview)
         }
 

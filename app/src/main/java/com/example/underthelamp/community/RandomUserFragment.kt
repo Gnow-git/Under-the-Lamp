@@ -2,6 +2,7 @@ package com.example.underthelamp.community
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
@@ -18,6 +19,7 @@ import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
@@ -356,5 +358,20 @@ class RandomUserFragment: Fragment() {
         icon.clearColorFilter()
         text.setTextColor(ContextCompat.getColor(requireContext(), R.color.defaultColor))
 
+    }
+
+    // 뒤로가기 버튼 제어
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // MainActivity로 이동하려면 Intent를 사용합니다.
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 }

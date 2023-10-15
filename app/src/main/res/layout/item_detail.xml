@@ -35,7 +35,7 @@
             android:id="@+id/detailUserName"
             android:layout_width="wrap_content"
             android:layout_height="22dp"
-            android:text="name"
+            android:text=""
             android:textSize="14sp"
             android:textColor="@color/defaultFontColor"
             android:fontFamily="@font/pretendard_semibold"

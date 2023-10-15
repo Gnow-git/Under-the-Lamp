@@ -198,12 +198,15 @@ class UserFragment : Fragment() {
         FcmPush.instance.sendMessage(destinationUid, "Under_the_Lamp", message)
     }
     fun getProfileImage(){  // ProfileImage 받아옴
-        firestore?.collection("profileImage")?.document(userId!!)?.addSnapshotListener{ documentSnapshot, firebaseFirestoreException ->
-            if(documentSnapshot == null) return@addSnapshotListener
-            if(documentSnapshot.data != null){
-                // null이 아닐 경우 이미지 주소를 받아옴
-                var url = documentSnapshot?.data!!["image"]
-                Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop()).into(binding.userProfileImage!!)
+        if (isAdded && activity != null) {
+            firestore?.collection("profileImage")?.document(userId!!)?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+                if (documentSnapshot == null) return@addSnapshotListener
+                if (documentSnapshot.data != null) {
+                    // null이 아닐 경우 이미지 주소를 받아옴
+                    var url = documentSnapshot.data!!["image"]
+                    /** 튕기는 현상 발생 */
+                    Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop()).into(binding.userProfileImage)
+                }
             }
         }
     }
@@ -223,8 +226,24 @@ class UserFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
+//            var width = resources.displayMetrics.widthPixels / 3
+//
+//            var imageview = ImageView(parent.context)
+//            imageview.layoutParams = LinearLayoutCompat.LayoutParams(width, width)
+            val dpValue = 310 // 설정하려는 DP 값
+            val density = resources.displayMetrics.density
+            val pixelValue = (dpValue * density).toInt()
+
+            var width = pixelValue / 3
+
             var imageview = ImageView(parent.context)
-            imageview.layoutParams = LinearLayoutCompat.LayoutParams(105, 105)
+
+            val marginDp = 5 // 설정하려는 DP 마진 값
+            val marginPixel = (marginDp * density).toInt()
+
+            val layoutParams = ViewGroup.MarginLayoutParams(width, width)
+            layoutParams.setMargins(marginPixel, 0, marginPixel, marginPixel*2)
+            imageview.layoutParams = layoutParams
             return CustomViewHolder(imageview)
         }
 

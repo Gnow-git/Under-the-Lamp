@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -42,13 +43,6 @@ class MessageListFragment : Fragment() {
         binding.messageList.layoutManager = LinearLayoutManager(activity)
 
         return view
-    }
-
-    fun onBackPressed() {
-        // MainActivity로 이동
-        val intent = Intent(requireContext(), MainActivity::class.java)
-        startActivity(intent)
-        requireActivity().finish() // 현재 화면 종료
     }
 
     inner class MessageListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -254,5 +248,20 @@ class MessageListFragment : Fragment() {
             messageViewHolder.messageTime.text = timeText
         }
 
+    }
+
+    // 뒤로가기 버튼 제어
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // MainActivity로 이동하려면 Intent를 사용합니다.
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 }
