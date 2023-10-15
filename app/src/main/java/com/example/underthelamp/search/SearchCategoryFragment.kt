@@ -10,7 +10,7 @@ import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentSearchCategoryBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
-class SearchCategoryFragment : Fragment(), View.OnClickListener {
+class SearchCategoryFragment(private val listener: SearchFragmentListener) : Fragment(), View.OnClickListener {
 
     lateinit var binding: FragmentSearchCategoryBinding
     var firestore: FirebaseFirestore? = null
@@ -55,10 +55,12 @@ class SearchCategoryFragment : Fragment(), View.OnClickListener {
 
         val category = categoryMap[viewId]
         if (category != null) {
+            // SearchFragment 의 categoryForm 에 표시하도록 설정
+            listener?.viewCategory(category)
+
             searchFirebase(category)
         }
     }
-
     /** 카테고리와 동일한 유저의 게시물을 보여주는 함수 */
     private fun searchFirebase(category: String) {
 
