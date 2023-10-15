@@ -6,16 +6,29 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.underthelamp.R
 import com.example.underthelamp.databinding.FragmentSearchBinding
+import com.example.underthelamp.model.HistoryDTO
 import com.example.underthelamp.navigation.GridFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.fragment_search.view.searchHistory
+import kotlinx.android.synthetic.main.item_history.view.historyText
 
 class SearchFragment : Fragment() {
 
     lateinit var binding : FragmentSearchBinding
+    var firestore : FirebaseFirestore? = null
+    var loginUid : String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, searchInstanceState: Bundle?): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
+        firestore = FirebaseFirestore.getInstance()
+        loginUid = FirebaseAuth.getInstance().currentUser?.uid
         val view = binding.root
 
         // framelayout 에 category 표시
@@ -25,10 +38,77 @@ class SearchFragment : Fragment() {
         transaction.commit()
 
         binding.searchBtn.setOnClickListener { // 검색버튼을 누를 경우
-            showSearchGridFragment()
+            historyUpload()
+            // 잠시 주석 처리 추후 처리
+            //showSearchGridFragment()
         }
 
+        // 검색 기록에 대한 adapter와 layoutManager 지정
+        view.searchHistory.adapter = HistoryAdapter()
+
+        // 가로로 설정
+        view.searchHistory.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
+
         return view
+    }
+
+    private fun historyUpload() {
+        var searchInput = binding.searchInput
+        var historyDTO = HistoryDTO()
+
+        historyDTO.history = searchInput.text.toString()
+        historyDTO.timestamp = com.google.firebase.Timestamp.now()
+
+        FirebaseFirestore.getInstance()
+            .collection("history")
+            .document(loginUid!!)
+            .collection("list")
+            .document()
+            .set(historyDTO)
+
+        searchInput.setText("") // 검색 초기화
+
+    }
+    // adapter
+    inner class HistoryAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+        var historyDTOS : ArrayList<HistoryDTO> = arrayListOf()
+
+        init {
+            firestore?.collection("history")
+                ?.document(loginUid!!)
+                ?.collection("list")
+                ?.orderBy("timestamp")
+                ?.addSnapshotListener { searchQuerySnapshot, firebaseFireException ->
+                historyDTOS.clear()
+                if(searchQuerySnapshot == null) return@addSnapshotListener
+
+                for (snapshot in searchQuerySnapshot!!.documents) {
+                    var item = snapshot.toObject(HistoryDTO::class.java)
+                    historyDTOS.add(item!!)
+                }
+                notifyDataSetChanged()
+            }
+        }
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+            var view = LayoutInflater.from(parent.context).inflate(R.layout.item_history, parent, false)
+            return CustomHistoryViewHolder(view)
+        }
+
+        inner class CustomHistoryViewHolder(view: View) : RecyclerView.ViewHolder(view)
+
+        override fun getItemCount(): Int {
+            return historyDTOS.size
+        }
+
+        // 검색 기록 표시
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            var historyViewHolder = (holder as CustomHistoryViewHolder).itemView
+
+            // 저장된 검색 기록 불러 오기
+            historyViewHolder.historyText.text = historyDTOS[position].history.toString()
+
+        }
+
     }
 // 검색 버튼을 누를 경우 검색한 내용의 이미지들이 Grid 형태로 표시
     private fun showSearchGridFragment() {
